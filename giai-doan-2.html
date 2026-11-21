@@ -1,0 +1,1197 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Giai đoạn 2 (1945–1954) — Kháng chiến chống thực dân Pháp</title>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollToPlugin.min.js"></script>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,600;0,700;0,800;0,900;1,400;1,600&family=Inter:wght@300;400;500;600;700&family=Noto+Serif:ital,wght@0,400;0,600;0,700;1,400&display=swap" rel="stylesheet">
+<style>
+*, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+
+:root {
+  --red-deep: #8B0000;
+  --red-primary: #C41E3A;
+  --red-bright: #E63946;
+  --gold-primary: #D4AF37;
+  --gold-light: #F0D060;
+  --gold-dark: #B8960C;
+  --cream: #FDFBF7;
+  --cream-dark: #F5F0E6;
+  --ink: #1A1A1A;
+  --ink-light: #3A3A3A;
+  --ink-muted: #6B6B6B;
+  --bamboo-green: #2D6A4F;
+  --bamboo-light: #74C69D;
+  --sky: #457B9D;
+  --transition-smooth: cubic-bezier(0.22, 1, 0.36, 1);
+  --transition-bounce: cubic-bezier(0.34, 1.56, 0.64, 1);
+}
+
+html {
+  scroll-behavior: smooth;
+  scrollbar-width: thin;
+  scrollbar-color: var(--gold-primary) var(--cream-dark);
+}
+
+body {
+  font-family: 'Inter', system-ui, sans-serif;
+  background: var(--cream);
+  color: var(--ink);
+  overflow-x: hidden;
+  line-height: 1.7;
+  -webkit-font-smoothing: antialiased;
+}
+
+::selection {
+  background: var(--gold-primary);
+  color: var(--ink);
+}
+
+#particle-canvas {
+  position: fixed;
+  top: 0; left: 0;
+  width: 100vw; height: 100vh;
+  z-index: 0;
+  pointer-events: none;
+  opacity: 0.35;
+}
+
+/* NAVBAR */
+nav {
+  position: fixed;
+  top: 0; left: 0; right: 0;
+  z-index: 1000;
+  padding: 0 2rem;
+  height: 64px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  background: rgba(253, 251, 247, 0.88);
+  backdrop-filter: blur(20px) saturate(1.8);
+  -webkit-backdrop-filter: blur(20px) saturate(1.8);
+  border-bottom: 1px solid rgba(212, 175, 55, 0.18);
+  transition: all 0.4s var(--transition-smooth);
+}
+
+nav.scrolled {
+  background: rgba(253, 251, 247, 0.96);
+  box-shadow: 0 4px 30px rgba(139, 0, 0, 0.08);
+  height: 56px;
+}
+
+.nav-brand {
+  font-family: 'Playfair Display', serif;
+  font-weight: 800;
+  font-size: 1.15rem;
+  color: var(--red-deep);
+  display: flex;
+  align-items: center;
+  gap: 0.6rem;
+  text-decoration: none;
+}
+
+.nav-brand .brand-icon {
+  width: 30px;
+  height: 30px;
+  background: var(--red-deep);
+  border-radius: 8px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--gold-primary);
+  font-size: 0.85rem;
+  font-weight: 900;
+}
+
+.nav-links {
+  display: flex;
+  gap: 0.35rem;
+  list-style: none;
+}
+
+.nav-links a {
+  font-size: 0.84rem;
+  font-weight: 500;
+  color: var(--ink-muted);
+  text-decoration: none;
+  padding: 0.45rem 0.85rem;
+  border-radius: 8px;
+  transition: all 0.3s var(--transition-smooth);
+  position: relative;
+}
+
+.nav-links a:hover,
+.nav-links a.active {
+  color: var(--red-deep);
+  background: rgba(139, 0, 0, 0.06);
+}
+
+.nav-links a.active::after {
+  content: '';
+  position: absolute;
+  bottom: 2px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 20px;
+  height: 2px;
+  background: var(--gold-primary);
+  border-radius: 2px;
+}
+
+.nav-progress {
+  position: absolute;
+  bottom: 0; left: 0;
+  height: 2.5px;
+  background: linear-gradient(90deg, var(--red-deep), var(--gold-primary), var(--red-bright));
+  width: 0%;
+  transition: width 0.15s linear;
+}
+
+.nav-toggle {
+  display: none;
+  background: none;
+  border: none;
+  cursor: pointer;
+  padding: 0.5rem;
+  color: var(--ink);
+}
+
+/* HERO */
+.hero {
+  position: relative;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+  background: linear-gradient(165deg, #0E1A2B 0%, #172B45 35%, #241A28 75%, #0B0F19 100%);
+  padding: 4rem 1.5rem;
+}
+
+.hero-bg-pattern {
+  position: absolute;
+  inset: 0;
+  opacity: 0.06;
+  background-image:
+    radial-gradient(circle at 20% 50%, var(--gold-primary) 1.2px, transparent 1.2px),
+    radial-gradient(circle at 80% 25%, var(--sky) 1.2px, transparent 1.2px);
+  background-size: 50px 50px, 70px 70px;
+  animation: drift 75s linear infinite;
+}
+
+@keyframes drift {
+  0% { transform: translate(0, 0); }
+  100% { transform: translate(-70px, -70px); }
+}
+
+.hero-glow {
+  position: absolute;
+  border-radius: 50%;
+  filter: blur(120px);
+  pointer-events: none;
+}
+.hero-glow.g1 { width: 550px; height: 550px; background: #1C3144; opacity: 0.35; top: -150px; left: -100px; }
+.hero-glow.g2 { width: 450px; height: 450px; background: var(--gold-primary); opacity: 0.16; bottom: -120px; right: -80px; }
+
+.hero-content {
+  position: relative;
+  z-index: 10;
+  text-align: center;
+  max-width: 920px;
+  padding: 2rem 1rem;
+}
+
+.hero-epoch {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.75rem;
+  padding: 0.5rem 1.6rem;
+  border: 1px solid rgba(212, 175, 55, 0.35);
+  border-radius: 100px;
+  margin-bottom: 2rem;
+  color: var(--gold-primary);
+  font-size: 0.82rem;
+  font-weight: 600;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  backdrop-filter: blur(12px);
+  background: rgba(212, 175, 55, 0.08);
+}
+
+.hero-epoch .dot {
+  width: 7px; height: 7px;
+  border-radius: 50%;
+  background: var(--gold-primary);
+  animation: pulse-dot 2s ease-in-out infinite;
+}
+
+@keyframes pulse-dot {
+  0%, 100% { opacity: 1; transform: scale(1); }
+  50% { opacity: 0.3; transform: scale(0.6); }
+}
+
+.hero h1 {
+  font-family: 'Playfair Display', serif;
+  font-size: clamp(2.6rem, 5.8vw, 5rem);
+  font-weight: 900;
+  line-height: 1.12;
+  color: var(--cream);
+  margin-bottom: 1.5rem;
+  letter-spacing: -0.02em;
+}
+
+.hero h1 .accent {
+  background: linear-gradient(135deg, var(--gold-primary), var(--gold-light));
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+.hero-subtitle {
+  font-family: 'Noto Serif', serif;
+  font-size: clamp(1rem, 2vw, 1.25rem);
+  color: rgba(253, 251, 247, 0.75);
+  max-width: 720px;
+  margin: 0 auto 2.8rem;
+  line-height: 1.85;
+}
+
+.hero-cta {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.75rem;
+  padding: 0.95rem 2.2rem;
+  background: linear-gradient(135deg, var(--red-deep), var(--red-primary));
+  color: var(--cream);
+  border-radius: 12px;
+  font-size: 0.92rem;
+  font-weight: 600;
+  text-decoration: none;
+  transition: all 0.4s var(--transition-smooth);
+  box-shadow: 0 6px 25px rgba(196, 30, 58, 0.35);
+}
+
+.hero-cta:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 10px 35px rgba(196, 30, 58, 0.5);
+}
+
+.hero-year-display {
+  position: absolute;
+  bottom: 2.5rem;
+  left: 50%;
+  transform: translateX(-50%);
+  display: flex;
+  align-items: center;
+  gap: 2rem;
+  color: rgba(253, 251, 247, 0.3);
+  font-family: 'Playfair Display', serif;
+  font-size: 0.95rem;
+  letter-spacing: 0.3em;
+}
+
+.hero-year-display .line {
+  width: 70px;
+  height: 1px;
+  background: rgba(212, 175, 55, 0.3);
+}
+
+/* TIMELINE */
+.timeline-section {
+  background: linear-gradient(180deg, var(--cream) 0%, var(--cream-dark) 100%);
+}
+
+.section-container {
+  max-width: 1100px;
+  margin: 0 auto;
+  padding: 6rem 2rem;
+}
+
+.section-label {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.6rem;
+  font-size: 0.74rem;
+  font-weight: 700;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  color: var(--red-deep);
+  margin-bottom: 1rem;
+}
+
+.section-label .label-line {
+  width: 36px;
+  height: 2px;
+  background: linear-gradient(90deg, var(--red-deep), var(--gold-primary));
+  border-radius: 2px;
+}
+
+.section-title {
+  font-family: 'Playfair Display', serif;
+  font-size: clamp(2.1rem, 4vw, 3.2rem);
+  font-weight: 800;
+  color: var(--ink);
+  line-height: 1.18;
+  margin-bottom: 1.2rem;
+  letter-spacing: -0.015em;
+}
+
+.section-desc {
+  font-size: 1.05rem;
+  color: var(--ink-muted);
+  max-width: 720px;
+  line-height: 1.8;
+  margin-bottom: 3.5rem;
+}
+
+.timeline {
+  position: relative;
+  padding: 2rem 0;
+}
+
+.timeline::before {
+  content: '';
+  position: absolute;
+  left: 50%;
+  top: 0; bottom: 0;
+  width: 2px;
+  background: linear-gradient(180deg, transparent, var(--gold-primary) 10%, var(--gold-primary) 90%, transparent);
+  transform: translateX(-50%);
+}
+
+.timeline-node {
+  position: relative;
+  display: flex;
+  align-items: flex-start;
+  margin-bottom: 3.8rem;
+  opacity: 0;
+  transform: translateY(35px);
+}
+
+.timeline-node.visible {
+  opacity: 1;
+  transform: translateY(0);
+  transition: all 0.8s var(--transition-smooth);
+}
+
+.timeline-node:nth-child(odd) {
+  flex-direction: row;
+  padding-right: calc(50% + 3rem);
+  text-align: right;
+}
+
+.timeline-node:nth-child(even) {
+  flex-direction: row-reverse;
+  padding-left: calc(50% + 3rem);
+  text-align: left;
+}
+
+.timeline-dot {
+  position: absolute;
+  left: 50%;
+  top: 0.5rem;
+  transform: translateX(-50%);
+  width: 18px; height: 18px;
+  border-radius: 50%;
+  background: var(--cream);
+  border: 3px solid var(--gold-primary);
+  z-index: 5;
+  cursor: pointer;
+  transition: all 0.3s var(--transition-bounce);
+}
+
+.timeline-dot:hover,
+.timeline-dot.active {
+  background: var(--gold-primary);
+  transform: translateX(-50%) scale(1.3);
+  box-shadow: 0 0 0 6px rgba(212, 175, 55, 0.25);
+}
+
+.timeline-dot.milestone {
+  width: 24px; height: 24px;
+  border-color: var(--red-deep);
+  border-width: 4px;
+}
+
+.timeline-dot.milestone:hover,
+.timeline-dot.milestone.active {
+  background: var(--red-deep);
+  box-shadow: 0 0 0 8px rgba(139, 0, 0, 0.2);
+}
+
+.timeline-card {
+  background: #fff;
+  border-radius: 18px;
+  padding: 2rem;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.04);
+  border: 1px solid rgba(212, 175, 55, 0.15);
+  transition: all 0.4s var(--transition-smooth);
+  cursor: pointer;
+  position: relative;
+  overflow: hidden;
+}
+
+.timeline-card::before {
+  content: '';
+  position: absolute;
+  top: 0; left: 0; right: 0;
+  height: 3px;
+  background: linear-gradient(90deg, var(--red-deep), var(--gold-primary));
+  opacity: 0;
+  transition: opacity 0.3s ease;
+}
+
+.timeline-card:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 10px 35px rgba(0, 0, 0, 0.08);
+  border-color: rgba(212, 175, 55, 0.35);
+}
+
+.timeline-card:hover::before { opacity: 1; }
+
+.timeline-card.expanded {
+  border-color: var(--gold-primary);
+  box-shadow: 0 14px 45px rgba(0, 0, 0, 0.1);
+}
+
+.timeline-year {
+  font-family: 'Playfair Display', serif;
+  font-size: 1.6rem;
+  font-weight: 800;
+  color: var(--red-deep);
+  margin-bottom: 0.4rem;
+}
+
+.timeline-heading {
+  font-family: 'Noto Serif', serif;
+  font-size: 1.15rem;
+  font-weight: 700;
+  color: var(--ink);
+  margin-bottom: 0.6rem;
+  line-height: 1.4;
+}
+
+.timeline-text {
+  font-size: 0.92rem;
+  color: var(--ink-muted);
+  line-height: 1.75;
+}
+
+.timeline-expanded-content {
+  max-height: 0;
+  overflow: hidden;
+  transition: max-height 0.6s var(--transition-smooth), padding 0.4s ease;
+  padding-top: 0;
+}
+
+.timeline-card.expanded .timeline-expanded-content {
+  max-height: 550px;
+  padding-top: 1rem;
+}
+
+.detail-item {
+  display: flex;
+  align-items: flex-start;
+  gap: 0.6rem;
+  margin-bottom: 0.6rem;
+  font-size: 0.88rem;
+  color: var(--ink-light);
+  line-height: 1.65;
+  text-align: left;
+}
+
+.detail-bullet {
+  min-width: 6px; height: 6px;
+  border-radius: 50%;
+  background: var(--gold-primary);
+  margin-top: 0.55rem;
+  flex-shrink: 0;
+}
+
+.read-more-hint {
+  font-size: 0.78rem;
+  color: var(--gold-dark);
+  font-weight: 600;
+  margin-top: 0.8rem;
+  display: flex;
+  align-items: center;
+  gap: 0.3rem;
+  letter-spacing: 0.03em;
+}
+
+.timeline-card.expanded .read-more-hint { display: none; }
+
+/* QUOTE */
+.quote-block {
+  background: linear-gradient(135deg, var(--red-deep), #3A0005);
+  border-radius: 20px;
+  padding: 3.5rem 3rem;
+  margin: 3.5rem 0;
+  position: relative;
+  overflow: hidden;
+}
+
+.quote-block::before {
+  content: '\201C';
+  position: absolute;
+  top: -20px; left: 20px;
+  font-size: 13rem;
+  font-family: 'Playfair Display', serif;
+  color: rgba(212, 175, 55, 0.08);
+  line-height: 1;
+  pointer-events: none;
+}
+
+.quote-block blockquote {
+  position: relative;
+  z-index: 1;
+  font-family: 'Noto Serif', serif;
+  font-size: clamp(1.1rem, 2vw, 1.35rem);
+  font-style: italic;
+  color: var(--cream);
+  line-height: 1.8;
+  max-width: 750px;
+}
+
+.quote-block cite {
+  display: block;
+  margin-top: 1.4rem;
+  font-style: normal;
+  font-family: 'Inter', sans-serif;
+  font-size: 0.85rem;
+  font-weight: 600;
+  color: var(--gold-primary);
+  letter-spacing: 0.06em;
+}
+
+/* TABS */
+.tabs-container {
+  margin-top: 2rem;
+}
+
+.tabs-header {
+  display: flex;
+  gap: 0.6rem;
+  margin-bottom: 2rem;
+  flex-wrap: wrap;
+}
+
+.tab-btn {
+  padding: 0.7rem 1.6rem;
+  border: 1px solid rgba(139, 0, 0, 0.18);
+  background: transparent;
+  border-radius: 12px;
+  font-family: 'Inter', sans-serif;
+  font-size: 0.88rem;
+  font-weight: 600;
+  color: var(--ink-muted);
+  cursor: pointer;
+  transition: all 0.3s var(--transition-smooth);
+}
+
+.tab-btn:hover {
+  border-color: var(--red-deep);
+  color: var(--red-deep);
+  background: rgba(139, 0, 0, 0.04);
+}
+
+.tab-btn.active {
+  background: var(--red-deep);
+  color: var(--cream);
+  border-color: var(--red-deep);
+  box-shadow: 0 4px 18px rgba(139, 0, 0, 0.22);
+}
+
+.tab-panel {
+  display: none;
+  animation: fadeSlideIn 0.5s var(--transition-smooth);
+}
+
+.tab-panel.active { display: block; }
+
+@keyframes fadeSlideIn {
+  from { opacity: 0; transform: translateY(14px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+.content-block {
+  background: #fff;
+  border-radius: 20px;
+  padding: 2.5rem;
+  border: 1px solid rgba(0, 0, 0, 0.04);
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.03);
+}
+
+.content-block-header {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  margin-bottom: 1.8rem;
+}
+
+.content-block-icon {
+  width: 46px; height: 46px;
+  border-radius: 12px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.3rem;
+  flex-shrink: 0;
+}
+
+.content-block-icon.museum { background: rgba(69, 123, 157, 0.15); color: var(--sky); }
+.content-block-icon.intl { background: rgba(45, 106, 79, 0.15); color: var(--bamboo-green); }
+
+.content-block h3 {
+  font-family: 'Playfair Display', serif;
+  font-size: 1.4rem;
+  font-weight: 700;
+  color: var(--ink);
+}
+
+.content-item {
+  display: flex;
+  gap: 1.2rem;
+  align-items: flex-start;
+  padding: 1.4rem;
+  background: var(--cream);
+  border-radius: 14px;
+  margin-bottom: 1rem;
+  transition: all 0.3s var(--transition-smooth);
+}
+
+.content-item:hover {
+  background: var(--cream-dark);
+  transform: translateX(4px);
+}
+
+.content-item-marker {
+  width: 34px; height: 34px;
+  border-radius: 8px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 0.78rem;
+  font-weight: 700;
+  flex-shrink: 0;
+}
+
+.content-item-marker.museum-marker { background: rgba(69, 123, 157, 0.12); color: var(--sky); }
+.content-item-marker.intl-marker { background: rgba(45, 106, 79, 0.12); color: var(--bamboo-green); }
+
+.content-item p {
+  font-size: 0.94rem;
+  color: var(--ink-light);
+  line-height: 1.75;
+}
+
+/* FOOTER */
+footer {
+  background: var(--ink);
+  color: rgba(253, 251, 247, 0.55);
+  padding: 3.5rem 2rem;
+  text-align: center;
+  position: relative;
+  z-index: 1;
+  border-top: 1px solid rgba(255, 255, 255, 0.08);
+}
+
+footer .footer-brand {
+  font-family: 'Playfair Display', serif;
+  font-size: 1.25rem;
+  font-weight: 700;
+  color: var(--gold-primary);
+  margin-bottom: 0.6rem;
+}
+
+footer p {
+  font-size: 0.85rem;
+  line-height: 1.8;
+}
+
+footer .footer-ref {
+  margin-top: 1.2rem;
+  font-size: 0.78rem;
+  color: rgba(253, 251, 247, 0.35);
+  font-style: italic;
+}
+
+.back-to-top {
+  position: fixed;
+  bottom: 2rem; right: 2rem;
+  width: 48px; height: 48px;
+  border-radius: 14px;
+  background: var(--red-deep);
+  color: #fff;
+  border: none;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  opacity: 0;
+  transform: translateY(20px);
+  transition: all 0.4s var(--transition-smooth);
+  z-index: 999;
+  box-shadow: 0 6px 20px rgba(139, 0, 0, 0.35);
+}
+
+.back-to-top.visible { opacity: 1; transform: translateY(0); }
+.back-to-top:hover { background: var(--red-primary); transform: translateY(-3px); }
+
+@media (max-width: 768px) {
+  .nav-links {
+    display: none;
+    position: absolute;
+    top: 100%; left: 0; right: 0;
+    flex-direction: column;
+    background: rgba(253, 251, 247, 0.98);
+    backdrop-filter: blur(20px);
+    padding: 1.2rem;
+    border-bottom: 1px solid rgba(212, 175, 55, 0.15);
+  }
+  .nav-links.open { display: flex; }
+  .nav-toggle { display: block; }
+  .timeline::before { left: 2rem; }
+  .timeline-node:nth-child(odd),
+  .timeline-node:nth-child(even) {
+    flex-direction: column;
+    padding-left: 4.5rem;
+    padding-right: 1rem;
+    text-align: left;
+  }
+  .timeline-dot { left: 2rem; }
+  .quote-block { padding: 2.5rem 1.8rem; }
+}
+
+.reveal {
+  opacity: 0;
+  transform: translateY(30px);
+  transition: all 0.8s var(--transition-smooth);
+}
+
+.reveal.visible { opacity: 1; transform: translateY(0); }
+</style>
+</head>
+<body>
+
+<canvas id="particle-canvas"></canvas>
+
+<nav id="main-nav">
+  <a href="index.html" class="nav-brand">
+    <div class="brand-icon">★</div>
+    Lịch sử ĐCSVN
+  </a>
+  <button class="nav-toggle" id="navToggle" aria-label="Menu">
+    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><line x1="3" y1="6" x2="21" y2="6"/><line x1="3" y1="12" x2="21" y2="12"/><line x1="3" y1="18" x2="21" y2="18"/></svg>
+  </button>
+  <ul class="nav-links" id="navLinks">
+    <li><a href="index.html">Trang chủ</a></li>
+    <li><a href="giai-doan-1.html">1930–1945</a></li>
+    <li><a href="giai-doan-2.html" class="active">1945–1954</a></li>
+    <li><a href="giai-doan-3.html">1954–1975</a></li>
+    <li><a href="giai-doan-4.html">1975–Nay</a></li>
+    <li><a href="nhom-thuc-hien.html">Nhóm</a></li>
+  </ul>
+  <div class="nav-progress" id="navProgress"></div>
+</nav>
+
+<!-- HERO -->
+<section class="hero" id="hero">
+  <div class="hero-bg-pattern"></div>
+  <div class="hero-glow g1"></div>
+  <div class="hero-glow g2"></div>
+
+  <div class="hero-content">
+    <div class="hero-epoch">
+      <span class="dot"></span>
+      Giai đoạn II (1945 – 1954)
+    </div>
+    <h1>
+      Kháng chiến chống<br>
+      <span class="accent">Thực dân Pháp xâm lược</span>
+    </h1>
+    <p class="hero-subtitle">
+      Từ tình thế hiểm nghèo "ngàn cân treo sợi tóc" sau Cách mạng Tháng Tám đến thiên sử vàng Điện Biên Phủ — 
+      9 năm trường kỳ kháng chiến toàn dân, toàn diện, đập tan ách thống trị thực dân cũ.
+    </p>
+    <a href="#timeline" class="hero-cta" id="heroBtn">
+      Khám phá 9 năm kháng chiến
+      <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><line x1="12" y1="5" x2="12" y2="19"/><polyline points="19 12 12 19 5 12"/></svg>
+    </a>
+  </div>
+
+  <div class="hero-year-display">
+    <span>1945</span>
+    <div class="line"></div>
+    <span style="color: var(--gold-primary);">1954</span>
+  </div>
+</section>
+
+<!-- TIMELINE -->
+<section class="timeline-section" id="timeline">
+  <div class="section-container">
+    <div class="reveal">
+      <div class="section-label">
+        <span class="label-line"></span>
+        Trục thời gian chiến sự
+      </div>
+      <h2 class="section-title">9 năm trường kỳ kháng chiến<br>(1945 – 1954)</h2>
+      <p class="section-desc">
+        Hành trình vượt qua thử thách ngàn cân, củng cố chính quyền non trẻ, từng bước giành thế chủ động chiến lược và đi tới thắng lợi Điện Biên Phủ.
+      </p>
+    </div>
+
+    <div class="timeline">
+      <!-- Node 1 -->
+      <div class="timeline-node">
+        <div class="timeline-dot milestone"></div>
+        <div class="timeline-card">
+          <div class="timeline-year">1945 – 1946</div>
+          <div class="timeline-heading">Tình thế "Ngàn cân treo sợi tóc" & Chỉ thị Kháng chiến kiến quốc</div>
+          <div class="timeline-text">
+            Chính quyền non trẻ đứng trước muôn vàn thử thách: giặc đói, giặc dốt, giặc ngoại xâm (quân Tưởng ở miền Bắc, quân Anh - Pháp ở miền Nam).
+          </div>
+          <div class="timeline-expanded-content">
+            <div class="detail-item"><span class="detail-bullet"></span><span>Ngày 23/9/1945, thực dân Pháp nổ súng đánh chiếm Sài Gòn, quân dân Nam Bộ mở đầu cuộc kháng chiến bất khuất.</span></div>
+            <div class="detail-item"><span class="detail-bullet"></span><span>Ngày 25/11/1945, Trung ương Đảng ra chỉ thị <strong>"Kháng chiến kiến quốc"</strong>, xác định mục tiêu số một là giữ vững độc lập.</span></div>
+            <div class="detail-item"><span class="detail-bullet"></span><span>Sách lược ngoại giao mềm dẻo: hòa hoãn với Tưởng để đánh Pháp ở miền Nam, sau đó ký Hiệp định Sơ bộ (6/3/1946) và Tạm ước (14/9/1946) với Pháp để đuổi quân Tưởng, tranh thủ thời gian chuẩn bị kháng chiến lâu dài.</span></div>
+          </div>
+          <div class="read-more-hint">Nhấn để xem chi tiết ↓</div>
+        </div>
+      </div>
+
+      <!-- Node 2 -->
+      <div class="timeline-node">
+        <div class="timeline-dot milestone"></div>
+        <div class="timeline-card">
+          <div class="timeline-year">19/12/1946</div>
+          <div class="timeline-heading">Lời kêu gọi Toàn quốc kháng chiến & Đường lối kháng chiến</div>
+          <div class="timeline-text">
+            Khi thực dân Pháp bội ước và gửi tối hậu thư, Chủ tịch Hồ Chí Minh ra Lời kêu gọi Toàn quốc kháng chiến: "Chúng ta thà hy sinh tất cả, chứ nhất định không chịu mất nước...".
+          </div>
+          <div class="timeline-expanded-content">
+            <div class="detail-item"><span class="detail-bullet"></span><span>Đường lối kháng chiến được hoàn chỉnh qua các văn kiện: <em>Lời kêu gọi Toàn quốc kháng chiến</em>, chỉ thị <em>Toàn dân kháng chiến</em> và tác phẩm <em>Kháng chiến nhất định thắng lợi</em> của Trường Chinh.</span></div>
+            <div class="detail-item"><span class="detail-bullet"></span><span>Phương châm chiến lược: <strong>Toàn dân, toàn diện, trường kỳ, tự lực cánh sinh</strong> và tranh thủ sự ủng hộ quốc tế.</span></div>
+          </div>
+          <div class="read-more-hint">Nhấn để xem chi tiết ↓</div>
+        </div>
+      </div>
+
+      <!-- Node 3 -->
+      <div class="timeline-node">
+        <div class="timeline-dot"></div>
+        <div class="timeline-card">
+          <div class="timeline-year">Thu Đông 1947</div>
+          <div class="timeline-heading">Chiến dịch Việt Bắc Thu Đông 1947</div>
+          <div class="timeline-text">
+            Đập tan cuộc hành quân quy mô lớn của thực dân Pháp lên căn cứ địa Việt Bắc hòng tiêu diệt cơ quan đầu não kháng chiến và bộ đội chủ lực của ta.
+          </div>
+          <div class="timeline-expanded-content">
+            <div class="detail-item"><span class="detail-bullet"></span><span>Quân và dân ta đánh bại hoàn toàn hai gọng kìm sông Lô và Đường số 4 của địch.</span></div>
+            <div class="detail-item"><span class="detail-bullet"></span><span>Làm phá sản hoàn toàn chiến lược "đánh nhanh, thắng nhanh" của thực dân Pháp, buộc chúng phải chuyển sang đánh lâu dài.</span></div>
+          </div>
+          <div class="read-more-hint">Nhấn để xem chi tiết ↓</div>
+        </div>
+      </div>
+
+      <!-- Node 4 -->
+      <div class="timeline-node">
+        <div class="timeline-dot"></div>
+        <div class="timeline-card">
+          <div class="timeline-year">Thu Đông 1950</div>
+          <div class="timeline-heading">Chiến dịch Biên giới Thu Đông 1950</div>
+          <div class="timeline-text">
+            Chiến dịch tiến công lớn đầu tiên của bộ đội chủ lực ta, giải phóng hoàn toàn tuyến biên giới Việt – Trung từ Cao Bằng đến Đình Lập.
+          </div>
+          <div class="timeline-expanded-content">
+            <div class="detail-item"><span class="detail-bullet"></span><span>Chủ tịch Hồ Chí Minh trực tiếp ra mặt trận quan sát và chỉ đạo chiến dịch.</span></div>
+            <div class="detail-item"><span class="detail-bullet"></span><span>Khai thông con đường huyết mạch nối liền hậu phương quốc tế với các nước xã hội chủ nghĩa.</span></div>
+            <div class="detail-item"><span class="detail-bullet"></span><span>Bước ngoặt chiến lược: Quân đội nhân dân Việt Nam giành thế chủ động tiến công trên chiến trường chính Bắc Bộ.</span></div>
+          </div>
+          <div class="read-more-hint">Nhấn để xem chi tiết ↓</div>
+        </div>
+      </div>
+
+      <!-- Node 5 -->
+      <div class="timeline-node">
+        <div class="timeline-dot milestone"></div>
+        <div class="timeline-card">
+          <div class="timeline-year">2/1951</div>
+          <div class="timeline-heading">Đại hội II — Đảng Lao động Việt Nam</div>
+          <div class="timeline-text">
+            Họp tại Chiêm Hóa (Tuyên Quang), đánh dấu sự trưởng thành vượt bậc về tư tưởng, lý luận và tổ chức của Đảng sau hơn 20 năm hoạt động.
+          </div>
+          <div class="timeline-expanded-content">
+            <div class="detail-item"><span class="detail-bullet"></span><span>Quyết định đưa Đảng ra hoạt động công khai với tên gọi <strong>Đảng Lao động Việt Nam</strong>.</span></div>
+            <div class="detail-item"><span class="detail-bullet"></span><span>Thông qua <em>Chính cương của Đảng Lao động Việt Nam</em>, xác định rõ tính chất xã hội, đối tượng cách mạng và động lực kháng chiến.</span></div>
+            <div class="detail-item"><span class="detail-bullet"></span><span>Chủ trương xây dựng khối đoàn kết liên minh chiến đấu Việt – Miên – Lào, giúp các nước bạn lập chính đảng cách mạng riêng.</span></div>
+          </div>
+          <div class="read-more-hint">Nhấn để xem chi tiết ↓</div>
+        </div>
+      </div>
+
+      <!-- Node 6 -->
+      <div class="timeline-node">
+        <div class="timeline-dot milestone"></div>
+        <div class="timeline-card">
+          <div class="timeline-year">1953 – 1954</div>
+          <div class="timeline-heading">Chiến thắng Điện Biên Phủ & Hiệp định Giơnevơ</div>
+          <div class="timeline-text">
+            Đập tan Kế hoạch Nava của Pháp có Mỹ giúp sức. Sau 56 ngày đêm "khoét núi, ngủ hầm, mưa dầm, cơm vắt", chiều 7/5/1954 tướng De Castries đầu hàng.
+          </div>
+          <div class="timeline-expanded-content">
+            <div class="detail-item"><span class="detail-bullet"></span><span>Chiến thắng "lừng lẫy năm châu, chấn động địa cầu", giáng đòn quyết định vào ý chí xâm lược của thực dân Pháp.</span></div>
+            <div class="detail-item"><span class="detail-bullet"></span><span>Ngày 21/7/1954, ký kết <strong>Hiệp định Giơnevơ</strong>: các nước công nhận độc lập, chủ quyền, thống nhất và toàn vẹn lãnh thổ của Việt Nam, Lào và Campuchia.</span></div>
+            <div class="detail-item"><span class="detail-bullet"></span><span>Miền Bắc được hoàn toàn giải phóng, bước vào thời kỳ quá độ lên chủ nghĩa xã hội.</span></div>
+          </div>
+          <div class="read-more-hint">Nhấn để xem chi tiết ↓</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- QUOTE -->
+<section>
+  <div class="section-container">
+    <div class="quote-block reveal">
+      <blockquote>
+        "Chúng ta thà hy sinh tất cả, chứ nhất định không chịu mất nước, nhất định không chịu làm nô lệ... Hễ là người Việt Nam thì phải đứng lên đánh thực dân Pháp để cứu Tổ quốc."
+      </blockquote>
+      <cite>— Chủ tịch Hồ Chí Minh (Lời kêu gọi Toàn quốc kháng chiến, 19/12/1946)</cite>
+    </div>
+  </div>
+</section>
+
+<!-- TABS (MUSEUM & INTERNATIONAL) -->
+<section id="tabs-section">
+  <div class="section-container">
+    <div class="reveal">
+      <div class="section-label">
+        <span class="label-line"></span>
+        Hiện vật & Tầm vóc
+      </div>
+      <h2 class="section-title">Bảo tàng & Góc nhìn Quốc tế</h2>
+      <p class="section-desc">
+        Tư liệu phong trào kháng chiến tại Nam Bộ, chiến dịch Điện Biên Phủ tại bảo tàng kết hợp sự ủng hộ chí tình từ phe xã hội chủ nghĩa.
+      </p>
+    </div>
+
+    <div class="tabs-container reveal">
+      <div class="tabs-header">
+        <button class="tab-btn active" data-tab="museum">🏛 Bảo tàng Chứng tích Chiến tranh</button>
+        <button class="tab-btn" data-tab="intl">🌏 Góc nhìn & Liên hệ Quốc tế</button>
+      </div>
+
+      <div class="tab-panel active" id="tab-museum">
+        <div class="content-block">
+          <div class="content-block-header">
+            <div class="content-block-icon museum">🏛</div>
+            <h3>Lồng ghép tư liệu Bảo tàng Chứng tích Chiến tranh</h3>
+          </div>
+          <div class="content-item">
+            <div class="content-item-marker museum-marker">01</div>
+            <p>
+              <strong>Kháng chiến Nam Bộ mở đầu & Sự đối lập vũ khí:</strong> 
+              Hình ảnh tư liệu tại phòng trưng bày mở đầu về việc thực dân Pháp nổ súng tái chiếm Sài Gòn – Chợ Lớn (23/9/1945). 
+              Hình ảnh những vũ khí thô sơ như gậy tầm vông vạt nhọn, súng kíp đối lập hoàn toàn với đại bác, xe bọc thép của đạo quân viễn chinh Pháp.
+            </p>
+          </div>
+          <div class="content-item">
+            <div class="content-item-marker museum-marker">02</div>
+            <p>
+              <strong>Phong trào học sinh, sinh viên & Nhân dân Sài Gòn biểu tình:</strong> 
+              Tư liệu ngày 9/1/1950 khi học sinh Trần Văn Ơn hy sinh trong cuộc biểu tình đòi quyền học tập và dân sinh, 
+              và cuộc tuần hành của hơn 500.000 người dân Sài Gòn phản đối hai tàu chiến Mỹ can thiệp ngày 19/3/1950.
+            </p>
+          </div>
+          <div class="content-item">
+            <div class="content-item-marker museum-marker">03</div>
+            <p>
+              <strong>Hiện vật Chiến thắng Điện Biên Phủ & Bàn đàm phán Giơnevơ:</strong> 
+              Hình ảnh lá cờ "Quyết chiến Quyết thắng" tung bay trên nóc hầm De Castries và những bức ảnh tư liệu về phái đoàn Việt Nam Dân chủ Cộng hòa 
+              do Phó Thủ tướng Phạm Văn Đồng dẫn đầu tại Hội nghị Giơnevơ năm 1954.
+            </p>
+          </div>
+        </div>
+      </div>
+
+      <div class="tab-panel" id="tab-intl">
+        <div class="content-block">
+          <div class="content-block-header">
+            <div class="content-block-icon intl">🌏</div>
+            <h3>Liên hệ Quốc tế trong Giai đoạn 1945–1954</h3>
+          </div>
+          <div class="content-item">
+            <div class="content-item-marker intl-marker">01</div>
+            <p>
+              <strong>Thắng lợi Cách mạng Trung Quốc (1/10/1949):</strong> 
+              Đảng Cộng sản Trung Quốc lập nên nước Cộng hòa Nhân dân Trung Hoa, nối liền Việt Nam với phe xã hội chủ nghĩa rộng lớn. 
+              Đầu năm 1950, Trung Quốc, Liên Xô và các nước XHCN lần lượt công nhận và đặt quan hệ ngoại giao với Việt Nam Dân chủ Cộng hòa, phá thế bao vây cô lập.
+            </p>
+          </div>
+          <div class="content-item">
+            <div class="content-item-marker intl-marker">02</div>
+            <p>
+              <strong>Khối liên minh chiến đấu Việt – Miên – Lào:</strong> 
+              Đại hội II của Đảng (1951) đã quyết định giúp đỡ cách mạng Campuchia và cách mạng Lào thành lập chính đảng riêng 
+              (tiền thân của Đảng Nhân dân Cách mạng Campuchia và Đảng Nhân dân Cách mạng Lào), tăng cường tình đoàn kết chiến đấu keo sơn trên bán đảo Đông Dương.
+            </p>
+          </div>
+          <div class="content-item">
+            <div class="content-item-marker intl-marker">03</div>
+            <p>
+              <strong>Ý nghĩa toàn cầu của Điện Biên Phủ:</strong> 
+              Chiến thắng giáng đòn chí mạng vào hệ thống thuộc địa của chủ nghĩa đế quốc, cổ vũ mạnh mẽ phong trào giải phóng dân tộc ở châu Á, châu Phi và Mỹ Latinh, 
+              đặc biệt là cuộc đấu tranh giành độc lập của nhân dân Algeria sau đó.
+            </p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer>
+  <div class="footer-brand">Lịch sử Đảng Cộng sản Việt Nam — Nhóm 6</div>
+  <p>
+    Đồ án môn Lịch sử Đảng Cộng sản Việt Nam<br>
+    Trường Đại học Khoa học Tự nhiên — Đại học Quốc gia TP. Hồ Chí Minh
+  </p>
+  <p class="footer-ref">
+    Tài liệu tham chiếu: Giáo trình Lịch sử Đảng Cộng sản Việt Nam (Bộ Giáo dục và Đào tạo, Nxb. Chính trị quốc gia Sự thật, 2021)
+  </p>
+</footer>
+
+<button class="back-to-top" id="backToTop" aria-label="Về đầu trang">
+  <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="18 15 12 9 6 15"/></svg>
+</button>
+
+<script>
+document.addEventListener('DOMContentLoaded', () => {
+  // Canvas Particles
+  const canvas = document.getElementById('particle-canvas');
+  const ctx = canvas.getContext('2d');
+  let W, H;
+  function resize(){ W = canvas.width = window.innerWidth; H = canvas.height = window.innerHeight; }
+  resize();
+  window.addEventListener('resize', resize);
+
+  const colors = ['#D4AF37', '#8B0000', '#457B9D', '#C41E3A'];
+  const particles = [];
+  for(let i=0; i<80; i++){
+    particles.push({
+      x: Math.random()*W, y: Math.random()*H,
+      vx: (Math.random()-.5)*0.35, vy: (Math.random()-.5)*0.35,
+      r: Math.random()*2+0.8,
+      c: colors[Math.floor(Math.random()*colors.length)]
+    });
+  }
+
+  function loop(){
+    ctx.clearRect(0,0,W,H);
+    for(let i=0; i<particles.length; i++){
+      const p = particles[i];
+      p.x += p.vx; p.y += p.vy;
+      if(p.x<0) p.x=W; if(p.x>W) p.x=0;
+      if(p.y<0) p.y=H; if(p.y>H) p.y=0;
+
+      ctx.beginPath();
+      ctx.arc(p.x, p.y, p.r, 0, Math.PI*2);
+      ctx.fillStyle = p.c;
+      ctx.globalAlpha = 0.55;
+      ctx.fill();
+
+      for(let j=i+1; j<particles.length; j++){
+        const q = particles[j];
+        const dx = p.x - q.x, dy = p.y - q.y;
+        const d = Math.sqrt(dx*dx + dy*dy);
+        if(d < 120){
+          ctx.beginPath();
+          ctx.moveTo(p.x, p.y);
+          ctx.lineTo(q.x, q.y);
+          ctx.strokeStyle = 'rgba(212, 175, 55, ' + (0.08 * (1 - d/120)) + ')';
+          ctx.lineWidth = 0.5;
+          ctx.stroke();
+        }
+      }
+    }
+    requestAnimationFrame(loop);
+  }
+  loop();
+
+  // Scroll Nav & Back to Top
+  const nav = document.getElementById('main-nav');
+  const navProgress = document.getElementById('navProgress');
+  const btt = document.getElementById('backToTop');
+
+  window.addEventListener('scroll', () => {
+    const s = window.scrollY;
+    const max = document.documentElement.scrollHeight - window.innerHeight;
+    navProgress.style.width = (s / max * 100) + '%';
+    nav.classList.toggle('scrolled', s > 60);
+    btt.classList.toggle('visible', s > 500);
+  }, { passive: true });
+
+  btt.addEventListener('click', () => {
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  });
+
+  document.getElementById('navToggle').addEventListener('click', () => {
+    document.getElementById('navLinks').classList.toggle('open');
+  });
+
+  document.getElementById('heroBtn').addEventListener('click', (e) => {
+    e.preventDefault();
+    document.querySelector('#timeline').scrollIntoView({ behavior: 'smooth' });
+  });
+
+  // Expand Timeline cards
+  document.querySelectorAll('.timeline-card').forEach(card => {
+    card.addEventListener('click', () => {
+      const isExp = card.classList.contains('expanded');
+      document.querySelectorAll('.timeline-card.expanded').forEach(c => c.classList.remove('expanded'));
+      document.querySelectorAll('.timeline-dot.active').forEach(d => d.classList.remove('active'));
+
+      if(!isExp){
+        card.classList.add('expanded');
+        const node = card.closest('.timeline-node');
+        if(node) node.querySelector('.timeline-dot').classList.add('active');
+      }
+    });
+  });
+
+  // Tab switching
+  document.querySelectorAll('.tab-btn').forEach(btn => {
+    btn.addEventListener('click', () => {
+      document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
+      document.querySelectorAll('.tab-panel').forEach(p => p.classList.remove('active'));
+
+      btn.classList.add('active');
+      document.getElementById('tab-' + btn.dataset.tab).classList.add('active');
+    });
+  });
+
+  // Reveal observer
+  const obs = new IntersectionObserver((entries) => {
+    entries.forEach(e => {
+      if(e.isIntersecting){
+        e.target.classList.add('visible');
+        obs.unobserve(e.target);
+      }
+    });
+  }, { threshold: 0.12 });
+
+  document.querySelectorAll('.reveal, .timeline-node').forEach(el => obs.observe(el));
+});
+</script>
+
+</body>
+</html>
