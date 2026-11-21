@@ -1,0 +1,11 @@
+# Raw iPhone photos and videos
+*.HEIC
+*.heic
+*.MOV
+*.mov
+
+# System & OS artifacts
+.DS_Store
+Thumbs.db
+__pycache__/
+*.pyc

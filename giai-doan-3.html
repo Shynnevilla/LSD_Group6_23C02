@@ -889,6 +889,41 @@ section {
   font-weight: 600;
 }
 
+.museum-photo-strip {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  gap: 1rem;
+  margin-top: 1.2rem;
+}
+
+.museum-photo-thumb {
+  border-radius: 12px;
+  overflow: hidden;
+  border: 1px solid rgba(212, 175, 55, 0.25);
+  aspect-ratio: 16 / 10;
+  background: #000;
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.08);
+  transition: all 0.3s ease;
+}
+
+.museum-photo-thumb:hover {
+  transform: translateY(-3px);
+  border-color: var(--gold-primary);
+  box-shadow: 0 8px 25px rgba(0, 0, 0, 0.16);
+}
+
+.museum-photo-thumb img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+  transition: transform 0.5s ease;
+}
+
+.museum-photo-thumb:hover img {
+  transform: scale(1.05);
+}
+
 /* ═══════════════════════════════════════════════════════════════
    BLOCKQUOTE
    ═══════════════════════════════════════════════════════════════ */
@@ -1713,32 +1748,109 @@ footer .footer-ref {
           <div class="content-block-body">
             <div class="content-item">
               <div class="content-item-marker museum-marker">01</div>
-              <p>
-                <strong>Khu trưng bày ngoài trời — Khí tài quân sự tối tân của đế quốc Mỹ:</strong><br>
-                Tại sân bảo tàng, người xem tận mắt chứng kiến kho vũ khí chiến tranh khổng lồ của quân viễn chinh Mỹ: 
-                máy bay tiêm kích siêu âm F-5A Freedom Fighter, cường kích A-37 Dragonfly, máy bay trinh sát A-1 Skyraider, trực thăng vận tải CH-47 Chinook, trực thăng vũ trang UH-1 Huey; 
-                xe tăng bọc thép hạng nặng M48A3 Patton (nặng 49 tấn), xe thiết giáp M113; pháo tự hành 175mm M107 (được mệnh danh là <em>"Vua chiến trường"</em> với tầm bắn xa tới trên 32 km). 
-                Cùng với đó là các loại bom phá 1.000 - 2.000 bảng Anh, bom phát quang BLU-82 (nặng gần 7 tấn), bom chùm CBU, bom bi, mìn cleymo... 
-                Khối vũ khí tối tân ấy đối lập sâu sắc với trang bị thô sơ của Quân giải phóng, qua đó minh chứng hùng hồn cho sức mạnh phi thường của chiến tranh nhân dân: <strong>Vũ khí hiện đại không thể khuất phục được con người có lý tưởng độc lập, tự do</strong>.
-              </p>
+              <div>
+                <p>
+                  <strong>Khu trưng bày ngoài trời — Khí tài quân sự tối tân của đế quốc Mỹ:</strong><br>
+                  Tại sân bảo tàng, người xem tận mắt chứng kiến kho vũ khí chiến tranh khổng lồ của quân viễn chinh Mỹ: 
+                  máy bay tiêm kích siêu âm F-5A Freedom Fighter, cường kích A-37 Dragonfly, máy bay trinh sát A-1 Skyraider, trực thăng vận tải CH-47 Chinook, trực thăng vũ trang UH-1 Huey; 
+                  xe tăng bọc thép hạng nặng M48A3 Patton (nặng 49 tấn), xe thiết giáp M113; pháo tự hành 175mm M107 (được mệnh danh là <em>"Vua chiến trường"</em> với tầm bắn xa tới trên 32 km). 
+                  Cùng với đó là các loại bom phá 1.000 - 2.000 bảng Anh, bom phát quang BLU-82 (nặng gần 7 tấn), bom chùm CBU, bom bi, mìn cleymo... 
+                  Khối vũ khí tối tân ấy đối lập sâu sắc với trang bị thô sơ của Quân giải phóng, qua đó minh chứng hùng hồn cho sức mạnh phi thường của chiến tranh nhân dân: <strong>Vũ khí hiện đại không thể khuất phục được con người có lý tưởng độc lập, tự do</strong>.
+                </p>
+                <div class="museum-photo-strip">
+                  <div class="museum-photo-thumb">
+                    <img src="img/ChuaBiet/IMG_6225.jpg" alt="Tiêm kích F-5 và Cường kích A-37" loading="lazy">
+                  </div>
+                  <div class="museum-photo-thumb">
+                    <img src="img/ChuaBiet/IMG_6228.jpg" alt="Xe tăng hạng trung M48 và xe bọc thép" loading="lazy">
+                  </div>
+                  <div class="museum-photo-thumb">
+                    <img src="img/ChuaBiet/IMG_6230.jpg" alt="Pháo tự hành 175mm M107" loading="lazy">
+                  </div>
+                </div>
+              </div>
             </div>
             <div class="content-item">
               <div class="content-item-marker museum-marker">02</div>
-              <p>
-                <strong>Chuyên đề "Tội ác chiến tranh", Máy chém Luật 10/59 & Mô hình Ấp chiến lược:</strong><br>
-                Bảo tàng trưng bày chiếc máy chém nguyên bản được chính quyền Ngô Đình Diệm sử dụng theo <em>Luật 10/59</em>. Chiếc máy chém đã lê khắp các tỉnh miền Tây và miền Đông Nam Bộ để chặt đầu hàng ngàn đảng viên trung kiên và đồng bào yêu nước (trong đó có liệt sĩ Hoàng Lệ Kha - Tỉnh ủy viên Tây Ninh bị chém ngày 12/3/1960). 
-                Bên cạnh đó là sa bàn và mô hình hệ thống "Ấp chiến lược" với hào sâu cọc nhọn, dây kẽm gai bọc kín, tháp canh súng máy phản ánh âm mưu dồn hơn 10 triệu dân vào trại tập trung trá hình hòng "tát nước bắt cá", cô lập lực lượng cách mạng.
-              </p>
+              <div>
+                <p>
+                  <strong>Chuyên đề "Tội ác chiến tranh", Máy chém Luật 10/59 & Mô hình Ấp chiến lược:</strong><br>
+                  Bảo tàng trưng bày chiếc máy chém nguyên bản được chính quyền Ngô Đình Diệm sử dụng theo <em>Luật 10/59</em>. Chiếc máy chém đã lê khắp các tỉnh miền Tây và miền Đông Nam Bộ để chặt đầu hàng ngàn đảng viên trung kiên và đồng bào yêu nước (trong đó có liệt sĩ Hoàng Lệ Kha - Tỉnh ủy viên Tây Ninh bị chém ngày 12/3/1960). 
+                  Bên cạnh đó là sa bàn và mô hình hệ thống "Ấp chiến lược" với hào sâu cọc nhọn, dây kẽm gai bọc kín, tháp canh súng máy phản ánh âm mưu dồn hơn 10 triệu dân vào trại tập trung trá hình hòng "tát nước bắt cá", cô lập lực lượng cách mạng.
+                </p>
+                <div class="museum-photo-strip">
+                  <div class="museum-photo-thumb">
+                    <img src="img/ToiAcChienTranh/IMG_6129.jpg" alt="Chiếc máy chém thời Ngô Đình Diệm" loading="lazy">
+                  </div>
+                  <div class="museum-photo-thumb">
+                    <img src="img/ToiAcChienTranh/IMG_6130.jpg" alt="Cận cảnh khung máy chém" loading="lazy">
+                  </div>
+                </div>
+              </div>
             </div>
             <div class="content-item">
               <div class="content-item-marker museum-marker">03</div>
-              <p>
-                <strong>Chuyên đề "Hậu quả Chất độc da cam / Dioxin":</strong><br>
-                Chiến dịch hóa học mang tên <em>Ranch Hand</em> do quân đội Mỹ tiến hành từ ngày <strong>10/8/1961 đến năm 1971</strong> đã rải xuống miền Nam Việt Nam gần <strong>80 triệu lít chất độc hóa học</strong>, trong đó 61% là chất da cam chứa ít nhất 366 kg Dioxin nguyên chất (chất độc độc hại nhất mà con người từng biết đến). 
-                Chất độc da cam đã hủy diệt hơn 3,1 triệu héc-ta rừng nguyên sinh, đầu độc nguồn nước và hủy hoại môi trường sinh thái của 24,6% diện tích miền Nam. 
-                Đau lòng hơn, hơn <strong>4,8 triệu người dân Việt Nam bị phơi nhiễm</strong> và hơn 3 triệu người là nạn nhân trực tiếp, để lại di chứng quái thai, dị tật bẩm sinh di truyền qua 3 đến 4 thế hệ. 
-                Những hình ảnh trưng bày tại phòng Dioxin là lời nhắc nhở đanh thép về sự tàn khốc của chiến tranh phi nghĩa và ý chí vươn lên kỳ diệu của các nạn nhân da cam Việt Nam.
-              </p>
+              <div>
+                <p>
+                  <strong>Chuyên đề "Hậu quả Chất độc da cam / Dioxin":</strong><br>
+                  Chiến dịch hóa học mang tên <em>Ranch Hand</em> do quân đội Mỹ tiến hành từ ngày <strong>10/8/1961 đến năm 1971</strong> đã rải xuống miền Nam Việt Nam gần <strong>80 triệu lít chất độc hóa học</strong>, trong đó 61% là chất da cam chứa ít nhất 366 kg Dioxin nguyên chất (chất độc độc hại nhất mà con người từng biết đến). 
+                  Chất độc da cam đã hủy diệt hơn 3,1 triệu héc-ta rừng nguyên sinh, đầu độc nguồn nước và hủy hoại môi trường sinh thái của 24,6% diện tích miền Nam. 
+                  Đau lòng hơn, hơn <strong>4,8 triệu người dân Việt Nam bị phơi nhiễm</strong> và hơn 3 triệu người là nạn nhân trực tiếp, để lại di chứng quái thai, dị tật bẩm sinh di truyền qua 3 đến 4 thế hệ. 
+                  Những hình ảnh trưng bày tại phòng Dioxin là lời nhắc nhở đanh thép về sự tàn khốc của chiến tranh phi nghĩa và ý chí vươn lên kỳ diệu của các nạn nhân da cam Việt Nam.
+                </p>
+                <div class="museum-photo-strip">
+                  <div class="museum-photo-thumb">
+                    <img src="img/ChatDocMauDaCam/IMG_6182.jpg" alt="Phòng trưng bày Dioxin Da cam" loading="lazy">
+                  </div>
+                  <div class="museum-photo-thumb">
+                    <img src="img/ChatDocMauDaCam/IMG_6184.jpg" alt="Hậu quả di chứng Dioxin qua 3 thế hệ" loading="lazy">
+                  </div>
+                  <div class="museum-photo-thumb">
+                    <img src="img/ChatDocMauDaCam/IMG_6187.jpg" alt="Xoa dịu nỗi đau và tẩy độc môi trường" loading="lazy">
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="content-item">
+              <div class="content-item-marker museum-marker">04</div>
+              <div>
+                <p>
+                  <strong>Chuyên đề đặc biệt: Đồng chí Nguyễn Thị Bình & Hiệp định Paris (1968–1973):</strong><br>
+                  Không gian trưng bày độc bản về bản lĩnh ngoại giao của đồng chí Nguyễn Thị Bình tại Hội nghị Paris. 
+                  Hình ảnh lễ ký kết Hiệp định Paris ngày 27/1/1973 chấm dứt chiến tranh, lập lại hòa bình ở Việt Nam là mốc son chói lọi của sự kết hợp tài tình giữa đòn quân sự trên chiến trường và đòn ngoại giao quốc tế.
+                </p>
+                <div class="museum-photo-strip">
+                  <div class="museum-photo-thumb">
+                    <img src="img/PhongNguyenThiBinh/IMG_6133.jpg" alt="Madame Nguyễn Thị Bình tại Paris" loading="lazy">
+                  </div>
+                  <div class="museum-photo-thumb">
+                    <img src="img/PhongNguyenThiBinh/IMG_6135.jpg" alt="Lễ ký kết Hiệp định Paris 1973" loading="lazy">
+                  </div>
+                  <div class="museum-photo-thumb">
+                    <img src="img/PhongNguyenThiBinh/IMG_6176.jpg" alt="Di sản ngoại giao hòa bình" loading="lazy">
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="content-item">
+              <div class="content-item-marker museum-marker">05</div>
+              <div>
+                <p>
+                  <strong>Chuyên đề: Thời thanh xuân trên tuyến đường 1C huyền thoại (TNXP Tây Nam Bộ):</strong><br>
+                  Hình ảnh và kỷ vật chiếc xuồng ba lá, bi đông nước của hơn 800 thanh niên xung phong Tây Nam Bộ kiên cường bám trụ tuyến đường giao liên 1C, vượt mưa bom bão đạn và đầm lầy Đồng Tháp Mười, chuyển hơn 13.000 tấn vũ khí chi viện đắc lực cho Đại thắng mùa Xuân 1975.
+                </p>
+                <div class="museum-photo-strip">
+                  <div class="museum-photo-thumb">
+                    <img src="img/ThoiThanhXuanTrenTuyenDuong1C%20HuyenThoai/IMG_6243.jpg" alt="Không gian trưng bày Đường 1C" loading="lazy">
+                  </div>
+                  <div class="museum-photo-thumb">
+                    <img src="img/ThoiThanhXuanTrenTuyenDuong1C%20HuyenThoai/IMG_6248.jpg" alt="Kỷ vật TNXP đường 1C" loading="lazy">
+                  </div>
+                  <div class="museum-photo-thumb">
+                    <img src="img/ThoiThanhXuanTrenTuyenDuong1C%20HuyenThoai/IMG_6253.jpg" alt="Vượt đầm lầy tải đạn" loading="lazy">
+                  </div>
+                </div>
+              </div>
             </div>
           </div>
         </div>

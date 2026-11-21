@@ -889,6 +889,41 @@ section {
   font-weight: 600;
 }
 
+.museum-photo-strip {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  gap: 1rem;
+  margin-top: 1.2rem;
+}
+
+.museum-photo-thumb {
+  border-radius: 12px;
+  overflow: hidden;
+  border: 1px solid rgba(212, 175, 55, 0.25);
+  aspect-ratio: 16 / 10;
+  background: #000;
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.08);
+  transition: all 0.3s ease;
+}
+
+.museum-photo-thumb:hover {
+  transform: translateY(-3px);
+  border-color: var(--gold-primary);
+  box-shadow: 0 8px 25px rgba(0, 0, 0, 0.16);
+}
+
+.museum-photo-thumb img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+  transition: transform 0.5s ease;
+}
+
+.museum-photo-thumb:hover img {
+  transform: scale(1.05);
+}
+
 /* ═══════════════════════════════════════════════════════════════
    BLOCKQUOTE
    ═══════════════════════════════════════════════════════════════ */
@@ -1701,27 +1736,53 @@ footer .footer-ref {
           <div class="content-block-body">
             <div class="content-item">
               <div class="content-item-marker museum-marker">01</div>
-              <p>
-                <strong>Khu trưng bày "Chế độ lao tù thực dân" & Mô hình "Chuồng Cọp" Côn Đảo:</strong><br>
-                Nhà tù Côn Đảo được thực dân Pháp thành lập từ ngày 1/2/1862 theo quyết định của Thống đốc Bonard để đày ải những người Việt Nam yêu nước chống Pháp. 
-                Tại Bảo tàng Chứng tích Chiến tranh, mô hình chuồng cọp Côn Đảo được phục dựng chân thực: mỗi buồng giam chỉ rộng khoảng 1,45m x 2,7m nhưng giam giữ từ 4 đến 6 người; 
-                phía trên là giàn song sắt kiên cố nơi cai ngục đi lại dùng gậy đầu bịt sắt thọc xuống hoặc rắc vôi bột cay nồng thiêu đốt thân thể tù nhân mỗi khi họ cất tiếng đấu tranh. 
-                Nền đá xi măng ẩm mốc, hệ thống cùm chân bằng sắt hoen gỉ qua hàng chục năm là bằng chứng đanh thép tố cáo bản chất tàn bạo của chế độ thuộc địa, 
-                đồng thời làm sáng ngời tinh thần kiên cường, giữ vững khí tiết của các chiến sĩ cộng sản tiền bối.
-              </p>
+              <div>
+                <p>
+                  <strong>Khu trưng bày "Chế độ lao tù thực dân" & Mô hình "Chuồng Cọp" Côn Đảo:</strong><br>
+                  Nhà tù Côn Đảo được thực dân Pháp thành lập từ ngày 1/2/1862 theo quyết định của Thống đốc Bonard để đày ải những người Việt Nam yêu nước chống Pháp. 
+                  Tại Bảo tàng Chứng tích Chiến tranh, mô hình chuồng cọp Côn Đảo được phục dựng chân thực: mỗi buồng giam chỉ rộng khoảng 1,45m x 2,7m nhưng giam giữ từ 4 đến 6 người; 
+                  phía trên là giàn song sắt kiên cố nơi cai ngục đi lại dùng gậy đầu bịt sắt thọc xuống hoặc rắc vôi bột cay nồng thiêu đốt thân thể tù nhân mỗi khi họ cất tiếng đấu tranh. 
+                  Nền đá xi măng ẩm mốc, hệ thống cùm chân bằng sắt hoen gỉ qua hàng chục năm là bằng chứng đanh thép tố cáo bản chất tàn bạo của chế độ thuộc địa, 
+                  đồng thời làm sáng ngời tinh thần kiên cường, giữ vững khí tiết của các chiến sĩ cộng sản tiền bối.
+                </p>
+                <div class="museum-photo-strip">
+                  <div class="museum-photo-thumb">
+                    <img src="img/NhaTuConDaoP1/IMG_6066.jpg" alt="Mô hình Chuồng cọp Côn Đảo" loading="lazy">
+                  </div>
+                  <div class="museum-photo-thumb">
+                    <img src="img/NhaTuConDaoP1/IMG_6064.jpg" alt="Cùm chân sắt hoen gỉ" loading="lazy">
+                  </div>
+                  <div class="museum-photo-thumb">
+                    <img src="img/NhaTuConDaoP2/IMG_6088.jpg" alt="Khu buồng biệt giam" loading="lazy">
+                  </div>
+                </div>
+              </div>
             </div>
             <div class="content-item">
               <div class="content-item-marker museum-marker">02</div>
-              <p>
-                <strong>Máy chém thời Pháp & Khí tiết kiên trung của các nhà lãnh đạo tiền bối:</strong><br>
-                Bảo tàng lưu giữ chiếc máy chém nguyên bản do thực dân Pháp nhập khẩu từ Pháp sang Việt Nam từ đầu thế kỷ XX (lưỡi dao nặng 50kg, thả rơi từ độ cao 4 mét dọc khung gỗ chắc chắn). 
-                Hiện vật máy chém cùng hình ảnh các buồng giam biệt lập tại Hỏa Lò (Hà Nội), Khám Lớn Sài Gòn, ngục Kon Tum, nhà đày Buôn Ma Thuột tái hiện giai đoạn khủng bố trắng đẫm máu (1931–1935 và 1940–1942). 
-                Tại đây, người xem xúc động trước di ảnh và câu chuyện bất khuất của: 
-                <strong>Tổng Bí thư Trần Phú</strong> (bị tra tấn đến kiệt sức tại Khám Lớn, trút hơi thở cuối cùng tại Nhà thương Chợ Quán 6/9/1931 với lời căn dặn đồng chí: <em>"Hãy giữ vững chí khí chiến đấu!"</em>); 
-                <strong>Đồng chí Lý Tự Trọng</strong> (người đoàn viên thanh niên 17 tuổi hiên ngang bước lên máy chém tại Khám Lớn Sài Gòn ngày 21/11/1931); 
-                <strong>Tổng Bí thư Hà Huy Tập</strong> và <strong>Ủy viên Trung ương Nguyễn Thị Minh Khai</strong> bị xử bắn tại Ngã tư Giếng nước (Hóc Môn) sau Khởi nghĩa Nam Kỳ (28/8/1941); 
-                <strong>Tổng Bí thư Lê Hồng Phong</strong> bị đày đọa đến hy sinh tại Côn Đảo (1942).
-              </p>
+              <div>
+                <p>
+                  <strong>Máy chém thời Pháp & Khí tiết kiên trung của các nhà lãnh đạo tiền bối:</strong><br>
+                  Bảo tàng lưu giữ chiếc máy chém nguyên bản do thực dân Pháp nhập khẩu từ Pháp sang Việt Nam từ đầu thế kỷ XX (lưỡi dao nặng 50kg, thả rơi từ độ cao 4 mét dọc khung gỗ chắc chắn). 
+                  Hiện vật máy chém cùng hình ảnh các buồng giam biệt lập tại Hỏa Lò (Hà Nội), Khám Lớn Sài Gòn, ngục Kon Tum, nhà đày Buôn Ma Thuột tái hiện giai đoạn khủng bố trắng đẫm máu (1931–1935 và 1940–1942). 
+                  Tại đây, người xem xúc động trước di ảnh và câu chuyện bất khuất của: 
+                  <strong>Tổng Bí thư Trần Phú</strong> (bị tra tấn đến kiệt sức tại Khám Lớn, trút hơi thở cuối cùng tại Nhà thương Chợ Quán 6/9/1931 với lời căn dặn đồng chí: <em>"Hãy giữ vững chí khí chiến đấu!"</em>); 
+                  <strong>Đồng chí Lý Tự Trọng</strong> (người đoàn viên thanh niên 17 tuổi hiên ngang bước lên máy chém tại Khám Lớn Sài Gòn ngày 21/11/1931); 
+                  <strong>Tổng Bí thư Hà Huy Tập</strong> và <strong>Ủy viên Trung ương Nguyễn Thị Minh Khai</strong> bị xử bắn tại Ngã tư Giếng nước (Hóc Môn) sau Khởi nghĩa Nam Kỳ (28/8/1941); 
+                  <strong>Tổng Bí thư Lê Hồng Phong</strong> bị đày đọa đến hy sinh tại Côn Đảo (1942).
+                </p>
+                <div class="museum-photo-strip">
+                  <div class="museum-photo-thumb">
+                    <img src="img/ToiAcChienTranh/IMG_6129.jpg" alt="Máy chém thời thực dân Pháp" loading="lazy">
+                  </div>
+                  <div class="museum-photo-thumb">
+                    <img src="img/ToiAcChienTranh/IMG_6130.jpg" alt="Cận cảnh khung máy chém" loading="lazy">
+                  </div>
+                  <div class="museum-photo-thumb">
+                    <img src="img/NhaTuConDaoP2/IMG_6091.jpg" alt="Đấu tranh bảo vệ khí tiết" loading="lazy">
+                  </div>
+                </div>
+              </div>
             </div>
             <div class="content-item">
               <div class="content-item-marker museum-marker">03</div>

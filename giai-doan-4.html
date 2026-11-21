@@ -882,6 +882,41 @@ section {
   font-weight: 600;
 }
 
+.museum-photo-strip {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  gap: 1rem;
+  margin-top: 1.2rem;
+}
+
+.museum-photo-thumb {
+  border-radius: 12px;
+  overflow: hidden;
+  border: 1px solid rgba(212, 175, 55, 0.25);
+  aspect-ratio: 16 / 10;
+  background: #000;
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.08);
+  transition: all 0.3s ease;
+}
+
+.museum-photo-thumb:hover {
+  transform: translateY(-3px);
+  border-color: var(--gold-primary);
+  box-shadow: 0 8px 25px rgba(0, 0, 0, 0.16);
+}
+
+.museum-photo-thumb img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+  transition: transform 0.5s ease;
+}
+
+.museum-photo-thumb:hover img {
+  transform: scale(1.05);
+}
+
 /* ═══════════════════════════════════════════════════════════════
    BLOCKQUOTE
    ═══════════════════════════════════════════════════════════════ */
@@ -1713,20 +1748,41 @@ footer .footer-ref {
           <div class="content-block-body">
             <div class="content-item">
               <div class="content-item-marker museum-marker">01</div>
-              <p>
-                Hình ảnh về <strong>hậu quả nặng nề sau chiến tranh</strong>: Không quân Mỹ đã ném xuống chiến trường 
-                Đông Dương <strong>7,5 triệu tấn bom</strong> (gấp 3 lần tổng số bom Mỹ dùng trong Thế chiến II). 
-                Hiện vật tháo gỡ bom mìn, khắc phục di chứng chất độc da cam làm nổi bật khó khăn khách quan 
-                khi bước vào thời kỳ khôi phục kinh tế.
-              </p>
+              <div>
+                <p>
+                  Hình ảnh về <strong>hậu quả nặng nề sau chiến tranh & Nỗ lực tẩy độc Dioxin:</strong><br>
+                  Không quân Mỹ đã ném xuống chiến trường Đông Dương <strong>7,5 triệu tấn bom</strong> (gấp 3 lần tổng số bom Mỹ dùng trong Thế chiến II) và rải hàng chục triệu lít chất độc hóa học. 
+                  Hiện vật tháo gỡ bom mìn, tẩy độc môi trường tại sân bay Đà Nẵng, Biên Hòa và các trung tâm bảo trợ nạn nhân Da cam làm nổi bật khó khăn khách quan to lớn khi đất nước bước vào thời kỳ khôi phục và Đổi mới.
+                </p>
+                <div class="museum-photo-strip">
+                  <div class="museum-photo-thumb">
+                    <img src="img/ChatDocMauDaCam/IMG_6187.jpg" alt="Tẩy độc Da cam thời bình" loading="lazy">
+                  </div>
+                  <div class="museum-photo-thumb">
+                    <img src="img/ChatDocMauDaCam/IMG_6188.jpg" alt="Chung tay xoa dịu nỗi đau" loading="lazy">
+                  </div>
+                </div>
+              </div>
             </div>
             <div class="content-item">
               <div class="content-item-marker museum-marker">02</div>
-              <p>
-                Mảng trưng bày về <strong>sự hồi sinh của đất nước</strong>, thông điệp hòa bình, hòa giải 
-                và ngoại giao khép lại quá khứ, hướng tới tương lai — minh chứng cho tinh thần Đổi mới 
-                và hội nhập quốc tế của Việt Nam.
-              </p>
+              <div>
+                <p>
+                  Mảng trưng bày về <strong>sự hồi sinh của đất nước, thông điệp hòa bình & Ngoại giao thời kỳ Đổi mới:</strong><br>
+                  Từ hình ảnh Madame Nguyễn Thị Bình — biểu tượng ngoại giao kiệt xuất tiếp tục cống hiến cho công cuộc hòa bình, đến các tư liệu về bình thường hóa quan hệ Việt – Mỹ và nâng cấp Đối tác Chiến lược Toàn diện, bảo tàng minh chứng cho tinh thần khép lại quá khứ, hướng tới tương lai theo đường lối "Ngoại giao cây tre" của Đảng.
+                </p>
+                <div class="museum-photo-strip">
+                  <div class="museum-photo-thumb">
+                    <img src="img/PhongNguyenThiBinh/IMG_6176.jpg" alt="Madame Bình trong thời kỳ Đổi mới" loading="lazy">
+                  </div>
+                  <div class="museum-photo-thumb">
+                    <img src="img/TheGioiUngHoVN%20KhangChien/IMG_6278.jpg" alt="Thông điệp hòa giải quốc tế" loading="lazy">
+                  </div>
+                  <div class="museum-photo-thumb">
+                    <img src="img/Anh%20Nhom/IMG_6128.jpg" alt="Thế hệ trẻ sinh viên tiếp bước" loading="lazy">
+                  </div>
+                </div>
+              </div>
             </div>
           </div>
         </div>

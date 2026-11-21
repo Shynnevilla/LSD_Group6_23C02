@@ -890,6 +890,41 @@ section {
   font-weight: 600;
 }
 
+.museum-photo-strip {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  gap: 1rem;
+  margin-top: 1.2rem;
+}
+
+.museum-photo-thumb {
+  border-radius: 12px;
+  overflow: hidden;
+  border: 1px solid rgba(212, 175, 55, 0.25);
+  aspect-ratio: 16 / 10;
+  background: #000;
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.08);
+  transition: all 0.3s ease;
+}
+
+.museum-photo-thumb:hover {
+  transform: translateY(-3px);
+  border-color: var(--gold-primary);
+  box-shadow: 0 8px 25px rgba(0, 0, 0, 0.16);
+}
+
+.museum-photo-thumb img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+  transition: transform 0.5s ease;
+}
+
+.museum-photo-thumb:hover img {
+  transform: scale(1.05);
+}
+
 /* ═══════════════════════════════════════════════════════════════
    BLOCKQUOTE
    ═══════════════════════════════════════════════════════════════ */
@@ -1680,33 +1715,69 @@ footer .footer-ref {
           <div class="content-block-body">
             <div class="content-item">
               <div class="content-item-marker museum-marker">01</div>
-              <p>
-                <strong>Phòng trưng bày Kháng chiến Nam Bộ mở đầu & Sự đối lập vũ khí:</strong><br>
-                Hình ảnh tư liệu lịch sử ngày 23/9/1945 khi quân viễn chinh Pháp dưới sự bảo trợ của quân đội Anh nổ súng đánh úp trụ sở Ủy ban Hành chính Lâm thời Nam Bộ tại Dinh Xã Tây (nay là trụ sở UBND TP.HCM), Đài Phát thanh, Bưu điện Sài Gòn. 
-                Hiện vật trưng bày làm nổi bật sự đối lập đến kinh ngạc giữa hai lực lượng: Một bên là quân đội xâm lược trang bị xe thiết giáp Bren Carrier, xe tăng M24 Chaffee, đại bác hiện đại; 
-                một bên là các chiến sĩ Đội tự vệ cảm tử Sài Gòn – Chợ Lớn với vũ khí thô sơ tự chế: <em>gậy tầm vông vạt nhọn bôi sáp ong, giáo mác, dao găm, súng kíp đúc bằng sắt vụn</em>. 
-                Sự đối lập ấy khắc họa chân thực sức mạnh vĩ đại của chiến tranh nhân dân: <em>"Thà chết tự do còn hơn sống nô lệ!"</em>.
-              </p>
+              <div>
+                <p>
+                  <strong>Phòng trưng bày Kháng chiến Nam Bộ mở đầu & Sự đối lập vũ khí:</strong><br>
+                  Hình ảnh tư liệu lịch sử ngày 23/9/1945 khi quân viễn chinh Pháp dưới sự bảo trợ của quân đội Anh nổ súng đánh úp trụ sở Ủy ban Hành chính Lâm thời Nam Bộ tại Dinh Xã Tây (nay là trụ sở UBND TP.HCM), Đài Phát thanh, Bưu điện Sài Gòn. 
+                  Hiện vật trưng bày làm nổi bật sự đối lập đến kinh ngạc giữa hai lực lượng: Một bên là quân đội xâm lược trang bị xe thiết giáp Bren Carrier, xe tăng M24 Chaffee, đại bác hiện đại; 
+                  một bên là các chiến sĩ Đội tự vệ cảm tử Sài Gòn – Chợ Lớn với vũ khí thô sơ tự chế: <em>gậy tầm vông vạt nhọn bôi sáp ong, giáo mác, dao găm, súng kíp đúc bằng sắt vụn</em>. 
+                  Sự đối lập ấy khắc họa chân thực sức mạnh vĩ đại của chiến tranh nhân dân: <em>"Thà chết tự do còn hơn sống nô lệ!"</em>.
+                </p>
+                <div class="museum-photo-strip">
+                  <div class="museum-photo-thumb">
+                    <img src="img/ChuaBiet/IMG_6222.jpg" alt="Vũ khí tự tạo và súng cối chiến lợi phẩm" loading="lazy">
+                  </div>
+                  <div class="museum-photo-thumb">
+                    <img src="img/ChuaBiet/IMG_6223.jpg" alt="Hiện vật vũ khí chiến trường" loading="lazy">
+                  </div>
+                  <div class="museum-photo-thumb">
+                    <img src="img/ChuaBiet/IMG_6224.jpg" alt="Khí tài thời kỳ đầu kháng chiến" loading="lazy">
+                  </div>
+                </div>
+              </div>
             </div>
             <div class="content-item">
               <div class="content-item-marker museum-marker">02</div>
-              <p>
-                <strong>Phong trào đấu tranh chính trị đô thị Sài Gòn – Chợ Lớn (1950):</strong><br>
-                Tư liệu về cuộc bãi khóa ngày <strong>9/1/1950</strong> của hơn 2.000 học sinh, sinh viên trường Pétrus Ký, Gia Long... đòi thả các bạn bị bắt, đòi mở lại trường học. 
-                Thực dân Pháp đàn áp dã man khiến anh học sinh 19 tuổi <strong>Trần Văn Ơn</strong> hy sinh anh dũng. Đám tang Trần Văn Ơn ngày 12/1/1950 biến thành cuộc biểu tình khổng lồ của hơn 30 vạn người dân Sài Gòn; ngày 9/1 từ đó được chọn làm <em>Ngày truyền thống Học sinh - Sinh viên Việt Nam</em>.<br>
-                Tiếp đó, ngày <strong>19/3/1950</strong>, hơn 50 vạn đồng bào Sài Gòn – Chợ Lớn dưới sự dẫn đầu của Luật sư Nguyễn Hữu Thọ đã xuống đường rầm rộ phản đối 2 tàu chiến Mỹ (Anderson và Stickell) cập cảng Sài Gòn can thiệp quân sự, buộc tàu chiến Mỹ phải nhổ neo rút lui. Ngày 19/3 trở thành <em>Ngày Toàn quốc chống Mỹ</em> đầu tiên của nhân dân ta.
-              </p>
+              <div>
+                <p>
+                  <strong>Phong trào đấu tranh chính trị đô thị Sài Gòn – Chợ Lớn (1950):</strong><br>
+                  Tư liệu về cuộc bãi khóa ngày <strong>9/1/1950</strong> của hơn 2.000 học sinh, sinh viên trường Pétrus Ký, Gia Long... đòi thả các bạn bị bắt, đòi mở lại trường học. 
+                  Thực dân Pháp đàn áp dã man khiến anh học sinh 19 tuổi <strong>Trần Văn Ơn</strong> hy sinh anh dũng. Đám tang Trần Văn Ơn ngày 12/1/1950 biến thành cuộc biểu tình khổng lồ của hơn 30 vạn người dân Sài Gòn; ngày 9/1 từ đó được chọn làm <em>Ngày truyền thống Học sinh - Sinh viên Việt Nam</em>.<br>
+                  Tiếp đó, ngày <strong>19/3/1950</strong>, hơn 50 vạn đồng bào Sài Gòn – Chợ Lớn dưới sự dẫn đầu của Luật sư Nguyễn Hữu Thọ đã xuống đường rầm rộ phản đối 2 tàu chiến Mỹ (Anderson và Stickell) cập cảng Sài Gòn can thiệp quân sự, buộc tàu chiến Mỹ phải nhổ neo rút lui. Ngày 19/3 trở thành <em>Ngày Toàn quốc chống Mỹ</em> đầu tiên của nhân dân ta.
+                </p>
+                <div class="museum-photo-strip">
+                  <div class="museum-photo-thumb">
+                    <img src="img/TheGioiUngHoVN%20KhangChien/IMG_6268.jpg" alt="Tài liệu phong trào quốc tế" loading="lazy">
+                  </div>
+                  <div class="museum-photo-thumb">
+                    <img src="img/TheGioiUngHoVN%20KhangChien/IMG_6269.jpg" alt="Áp phích đoàn kết chống can thiệp" loading="lazy">
+                  </div>
+                  <div class="museum-photo-thumb">
+                    <img src="img/NhaTuConDaoP2/IMG_6091.jpg" alt="Phong trào đấu tranh trong lao tù" loading="lazy">
+                  </div>
+                </div>
+              </div>
             </div>
             <div class="content-item">
               <div class="content-item-marker museum-marker">03</div>
-              <p>
-                <strong>Hiện vật Chiến thắng Điện Biên Phủ & Bàn đàm phán Giơnevơ (1954):</strong><br>
-                Bảo tàng trưng bày cụm ảnh tư liệu độc bản: cảnh bộ đội ta kéo pháo bằng tay vượt đèo dốc hiểm trở trong chiến dịch Điện Biên Phủ; 
-                hình ảnh các khẩu pháo lựu 105mm của ta khống chế lòng chảo Mường Thanh; hình ảnh tiểu đội xung kích cắm cờ <em>"Quyết chiến Quyết thắng"</em> trên nóc hầm tướng De Castries lúc 17h30 ngày 7/5/1954; 
-                và hình ảnh đoàn tù binh hơn 10.000 lính Pháp lầm lũi cúi đầu bước ra hàng.<br>
-                Bên cạnh đó là tư liệu về <strong>Hội nghị Giơnevơ (21/7/1954)</strong>: Phái đoàn Chính phủ Việt Nam Dân chủ Cộng hòa do Phó Thủ tướng kiêm Bộ trưởng Ngoại giao Phạm Văn Đồng dẫn đầu đã kiên quyết đấu tranh trên bàn đàm phán, 
-                buộc các nước lớn phải ký tuyên bố cuối cùng cam kết tôn trọng độc lập, chủ quyền, thống nhất và toàn vẹn lãnh thổ của Việt Nam, chấm dứt hoàn toàn sự thống trị của thực dân Pháp sau gần một thế kỷ.
-              </p>
+              <div>
+                <p>
+                  <strong>Hiện vật Chiến thắng Điện Biên Phủ & Bàn đàm phán Giơnevơ (1954):</strong><br>
+                  Bảo tàng trưng bày cụm ảnh tư liệu độc bản: cảnh bộ đội ta kéo pháo bằng tay vượt đèo dốc hiểm trở trong chiến dịch Điện Biên Phủ; 
+                  hình ảnh các khẩu pháo lựu 105mm của ta khống chế lòng chảo Mường Thanh; hình ảnh tiểu đội xung kích cắm cờ <em>"Quyết chiến Quyết thắng"</em> trên nóc hầm tướng De Castries lúc 17h30 ngày 7/5/1954; 
+                  và hình ảnh đoàn tù binh hơn 10.000 lính Pháp lầm lũi cúi đầu bước ra hàng.<br>
+                  Bên cạnh đó là tư liệu về <strong>Hội nghị Giơnevơ (21/7/1954)</strong>: Phái đoàn Chính phủ Việt Nam Dân chủ Cộng hòa do Phó Thủ tướng kiêm Bộ trưởng Ngoại giao Phạm Văn Đồng dẫn đầu đã kiên quyết đấu tranh trên bàn đàm phán, 
+                  buộc các nước lớn phải ký tuyên bố cuối cùng cam kết tôn trọng độc lập, chủ quyền, thống nhất và toàn vẹn lãnh thổ của Việt Nam, chấm dứt hoàn toàn sự thống trị của thực dân Pháp sau gần một thế kỷ.
+                </p>
+                <div class="museum-photo-strip">
+                  <div class="museum-photo-thumb">
+                    <img src="img/ChuaBiet/IMG_6225.jpg" alt="Khí tài và pháo binh" loading="lazy">
+                  </div>
+                  <div class="museum-photo-thumb">
+                    <img src="img/NhaTuConDaoP2/IMG_6095.jpg" alt="Chiến sĩ Điện Biên trong ngục tù" loading="lazy">
+                  </div>
+                </div>
+              </div>
             </div>
           </div>
         </div>

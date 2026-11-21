@@ -1,1474 +1,2790 @@
 <!DOCTYPE html>
 <html lang="vi">
+
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Nhóm Thực Hiện & Nhật Ký Thực Địa Bảo Tàng — HCMUS Nhóm 6</title>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollToPlugin.min.js"></script>
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,600;0,700;0,800;0,900;1,400;1,600&family=Inter:wght@300;400;500;600;700;800&family=Noto+Serif:ital,wght@0,400;0,600;0,700;1,400&display=swap" rel="stylesheet">
-<style>
-/* ═══════════════════════════════════════════════════════════════
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Nhóm Thực Hiện & Nhật Ký Thực Địa Bảo Tàng — HCMUS Nhóm 6</title>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollToPlugin.min.js"></script>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link
+    href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,600;0,700;0,800;0,900;1,400;1,600&family=Inter:wght@300;400;500;600;700;800&family=Noto+Serif:ital,wght@0,400;0,600;0,700;1,400&display=swap"
+    rel="stylesheet">
+  <style>
+    /* ═══════════════════════════════════════════════════════════════
    ROOT & DESIGN TOKENS (CHUẨN 100% GIAI ĐOẠN 4)
    ═══════════════════════════════════════════════════════════════ */
-*, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+    *,
+    *::before,
+    *::after {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
 
-:root {
-  --red-deep: #8B0000;
-  --red-primary: #C41E3A;
-  --red-bright: #E63946;
-  --gold-primary: #D4AF37;
-  --gold-light: #F0D060;
-  --gold-dark: #B8960C;
-  --cream: #FDFBF7;
-  --cream-dark: #F5F0E6;
-  --ink: #1A1A1A;
-  --ink-light: #3A3A3A;
-  --ink-muted: #6B6B6B;
-  --bamboo-green: #2D6A4F;
-  --bamboo-light: #74C69D;
-  --bamboo-dark: #1B4332;
-  --sky: #457B9D;
-  --sky-light: #A8DADC;
-  --transition-smooth: cubic-bezier(0.22, 1, 0.36, 1);
-  --transition-bounce: cubic-bezier(0.34, 1.56, 0.64, 1);
-}
+    :root {
+      --red-deep: #8B0000;
+      --red-primary: #C41E3A;
+      --red-bright: #E63946;
+      --gold-primary: #D4AF37;
+      --gold-light: #F0D060;
+      --gold-dark: #B8960C;
+      --cream: #FDFBF7;
+      --cream-dark: #F5F0E6;
+      --ink: #1A1A1A;
+      --ink-light: #3A3A3A;
+      --ink-muted: #6B6B6B;
+      --bamboo-green: #2D6A4F;
+      --bamboo-light: #74C69D;
+      --bamboo-dark: #1B4332;
+      --sky: #457B9D;
+      --sky-light: #A8DADC;
+      --transition-smooth: cubic-bezier(0.22, 1, 0.36, 1);
+      --transition-bounce: cubic-bezier(0.34, 1.56, 0.64, 1);
+    }
 
-html {
-  scroll-behavior: smooth;
-  scrollbar-width: thin;
-  scrollbar-color: var(--gold-primary) var(--cream-dark);
-}
+    html {
+      scroll-behavior: smooth;
+      scrollbar-width: thin;
+      scrollbar-color: var(--gold-primary) var(--cream-dark);
+    }
 
-body {
-  font-family: 'Inter', system-ui, -apple-system, sans-serif;
-  background: var(--cream);
-  color: var(--ink);
-  overflow-x: hidden;
-  line-height: 1.7;
-  -webkit-font-smoothing: antialiased;
-}
+    body {
+      font-family: 'Inter', system-ui, -apple-system, sans-serif;
+      background: var(--cream);
+      color: var(--ink);
+      overflow-x: hidden;
+      line-height: 1.7;
+      -webkit-font-smoothing: antialiased;
+    }
 
-::selection {
-  background: var(--gold-primary);
-  color: var(--ink);
-}
+    ::selection {
+      background: var(--gold-primary);
+      color: var(--ink);
+    }
 
-/* ═══════════════════════════════════════════════════════════════
+    /* ═══════════════════════════════════════════════════════════════
    CANVAS BACKGROUND — PARTICLE SYSTEM
    ═══════════════════════════════════════════════════════════════ */
-#particle-canvas {
-  position: fixed;
-  top: 0; left: 0;
-  width: 100vw; height: 100vh;
-  z-index: 0;
-  pointer-events: none;
-  opacity: 0.38;
-}
+    #particle-canvas {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100vw;
+      height: 100vh;
+      z-index: 0;
+      pointer-events: none;
+      opacity: 0.38;
+    }
 
-/* ═══════════════════════════════════════════════════════════════
+    /* ═══════════════════════════════════════════════════════════════
    FROSTED GLASS NAVIGATION BAR
    ═══════════════════════════════════════════════════════════════ */
-nav {
-  position: fixed;
-  top: 0; left: 0; right: 0;
-  z-index: 1000;
-  padding: 0 2rem;
-  height: 64px;
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  background: rgba(253, 251, 247, 0.88);
-  backdrop-filter: blur(20px) saturate(1.8);
-  -webkit-backdrop-filter: blur(20px) saturate(1.8);
-  border-bottom: 1px solid rgba(212, 175, 55, 0.18);
-  transition: all 0.4s var(--transition-smooth);
-}
+    nav {
+      position: fixed;
+      top: 0;
+      left: 0;
+      right: 0;
+      z-index: 1000;
+      padding: 0 2rem;
+      height: 64px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      background: rgba(253, 251, 247, 0.88);
+      backdrop-filter: blur(20px) saturate(1.8);
+      -webkit-backdrop-filter: blur(20px) saturate(1.8);
+      border-bottom: 1px solid rgba(212, 175, 55, 0.18);
+      transition: all 0.4s var(--transition-smooth);
+    }
 
-nav.scrolled {
-  background: rgba(253, 251, 247, 0.96);
-  box-shadow: 0 4px 30px rgba(139, 0, 0, 0.08);
-  height: 56px;
-}
+    nav.scrolled {
+      background: rgba(253, 251, 247, 0.96);
+      box-shadow: 0 4px 30px rgba(139, 0, 0, 0.08);
+      height: 56px;
+    }
 
-.nav-brand {
-  font-family: 'Playfair Display', serif;
-  font-weight: 800;
-  font-size: 1.15rem;
-  color: var(--red-deep);
-  display: flex;
-  align-items: center;
-  gap: 0.65rem;
-  text-decoration: none;
-  letter-spacing: 0.01em;
-}
+    .nav-brand {
+      font-family: 'Playfair Display', serif;
+      font-weight: 800;
+      font-size: 1.15rem;
+      color: var(--red-deep);
+      display: flex;
+      align-items: center;
+      gap: 0.65rem;
+      text-decoration: none;
+      letter-spacing: 0.01em;
+    }
 
-.nav-brand .brand-icon {
-  width: 30px;
-  height: 30px;
-  background: var(--red-deep);
-  border-radius: 8px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  color: var(--gold-primary);
-  font-size: 0.85rem;
-  font-weight: 900;
-  box-shadow: 0 2px 10px rgba(139, 0, 0, 0.28);
-}
+    .nav-brand .brand-icon {
+      width: 30px;
+      height: 30px;
+      background: var(--red-deep);
+      border-radius: 8px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: var(--gold-primary);
+      font-size: 0.85rem;
+      font-weight: 900;
+      box-shadow: 0 2px 10px rgba(139, 0, 0, 0.28);
+    }
 
-.nav-links {
-  display: flex;
-  gap: 0.35rem;
-  list-style: none;
-}
+    .nav-links {
+      display: flex;
+      gap: 0.35rem;
+      list-style: none;
+    }
 
-.nav-links a {
-  font-size: 0.84rem;
-  font-weight: 500;
-  color: var(--ink-muted);
-  text-decoration: none;
-  padding: 0.45rem 0.85rem;
-  border-radius: 8px;
-  transition: all 0.3s var(--transition-smooth);
-  position: relative;
-}
+    .nav-links a {
+      font-size: 0.84rem;
+      font-weight: 500;
+      color: var(--ink-muted);
+      text-decoration: none;
+      padding: 0.45rem 0.85rem;
+      border-radius: 8px;
+      transition: all 0.3s var(--transition-smooth);
+      position: relative;
+    }
 
-.nav-links a:hover,
-.nav-links a.active {
-  color: var(--red-deep);
-  background: rgba(139, 0, 0, 0.06);
-}
+    .nav-links a:hover,
+    .nav-links a.active {
+      color: var(--red-deep);
+      background: rgba(139, 0, 0, 0.06);
+    }
 
-.nav-links a.active::after {
-  content: '';
-  position: absolute;
-  bottom: 2px;
-  left: 50%;
-  transform: translateX(-50%);
-  width: 18px;
-  height: 2px;
-  background: var(--gold-primary);
-  border-radius: 2px;
-}
+    .nav-links a.active::after {
+      content: '';
+      position: absolute;
+      bottom: 2px;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 18px;
+      height: 2px;
+      background: var(--gold-primary);
+      border-radius: 2px;
+    }
 
-.nav-progress {
-  position: absolute;
-  bottom: 0; left: 0;
-  height: 2.5px;
-  background: linear-gradient(90deg, var(--red-deep), var(--gold-primary), var(--red-bright));
-  width: 0%;
-  transition: width 0.15s linear;
-}
+    .nav-progress {
+      position: absolute;
+      bottom: 0;
+      left: 0;
+      height: 2.5px;
+      background: linear-gradient(90deg, var(--red-deep), var(--gold-primary), var(--red-bright));
+      width: 0%;
+      transition: width 0.15s linear;
+    }
 
-.nav-toggle {
-  display: none;
-  background: none;
-  border: none;
-  cursor: pointer;
-  padding: 0.5rem;
-  color: var(--ink);
-}
+    .nav-toggle {
+      display: none;
+      background: none;
+      border: none;
+      cursor: pointer;
+      padding: 0.5rem;
+      color: var(--ink);
+    }
 
-/* ═══════════════════════════════════════════════════════════════
+    /* ═══════════════════════════════════════════════════════════════
    CINEMATIC HERO SECTION
    ═══════════════════════════════════════════════════════════════ */
-.hero {
-  position: relative;
-  min-height: 90vh;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  overflow: hidden;
-  background: linear-gradient(165deg, #0A0D14 0%, #151C2C 35%, #1C2B3E 70%, #0D1622 100%);
-  padding: 5rem 1.5rem 4rem;
-}
-
-.hero-bg-pattern {
-  position: absolute;
-  inset: 0;
-  opacity: 0.07;
-  background-image:
-    radial-gradient(circle at 20% 50%, var(--gold-primary) 1.2px, transparent 1.2px),
-    radial-gradient(circle at 80% 25%, var(--sky-light) 1.2px, transparent 1.2px),
-    radial-gradient(circle at 50% 80%, var(--gold-light) 0.8px, transparent 0.8px);
-  background-size: 50px 50px, 70px 70px, 35px 35px;
-  animation: drift 75s linear infinite;
-}
-
-@keyframes drift {
-  0% { transform: translate(0, 0); }
-  100% { transform: translate(-70px, -70px); }
-}
-
-.hero-glow {
-  position: absolute;
-  border-radius: 50%;
-  filter: blur(130px);
-  pointer-events: none;
-}
-.hero-glow.g1 { width: 550px; height: 550px; background: #1C3144; opacity: 0.35; top: -150px; left: -100px; }
-.hero-glow.g2 { width: 500px; height: 500px; background: var(--gold-primary); opacity: 0.18; bottom: -120px; right: -80px; }
-.hero-glow.g3 { width: 700px; height: 700px; background: var(--red-deep); opacity: 0.18; top: 40%; left: 50%; transform: translate(-50%, -50%); }
-
-.hero-content {
-  position: relative;
-  z-index: 10;
-  text-align: center;
-  max-width: 950px;
-  padding: 2rem 1rem;
-}
-
-.hero-epoch {
-  display: inline-flex;
-  align-items: center;
-  gap: 0.75rem;
-  padding: 0.5rem 1.6rem;
-  border: 1px solid rgba(212, 175, 55, 0.35);
-  border-radius: 100px;
-  margin-bottom: 2rem;
-  color: var(--gold-primary);
-  font-size: 0.82rem;
-  font-weight: 600;
-  letter-spacing: 0.14em;
-  text-transform: uppercase;
-  backdrop-filter: blur(12px);
-  background: rgba(212, 175, 55, 0.08);
-}
-
-.hero-epoch .dot {
-  width: 7px; height: 7px;
-  border-radius: 50%;
-  background: var(--gold-primary);
-  animation: pulse-dot 2s ease-in-out infinite;
-}
-
-@keyframes pulse-dot {
-  0%, 100% { opacity: 1; transform: scale(1); }
-  50% { opacity: 0.3; transform: scale(0.6); }
-}
-
-.hero h1 {
-  font-family: 'Playfair Display', serif;
-  font-size: clamp(2.6rem, 5.5vw, 5.2rem);
-  font-weight: 900;
-  line-height: 1.1;
-  color: var(--cream);
-  margin-bottom: 1.5rem;
-  letter-spacing: -0.02em;
-}
-
-.hero h1 .accent {
-  background: linear-gradient(135deg, var(--gold-primary), var(--gold-light));
-  -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent;
-  background-clip: text;
-}
-
-.hero-subtitle {
-  font-family: 'Noto Serif', serif;
-  font-size: clamp(1rem, 2vw, 1.25rem);
-  color: rgba(253, 251, 247, 0.75);
-  max-width: 760px;
-  margin: 0 auto 2.8rem;
-  line-height: 1.85;
-}
-
-.hero-actions {
-  display: flex;
-  gap: 1.2rem;
-  justify-content: center;
-  flex-wrap: wrap;
-}
-
-.hero-cta {
-  display: inline-flex;
-  align-items: center;
-  gap: 0.75rem;
-  padding: 0.95rem 2.2rem;
-  background: linear-gradient(135deg, var(--red-deep), var(--red-primary));
-  color: var(--cream);
-  border-radius: 12px;
-  font-size: 0.92rem;
-  font-weight: 600;
-  text-decoration: none;
-  transition: all 0.4s var(--transition-smooth);
-  box-shadow: 0 6px 25px rgba(196, 30, 58, 0.35);
-}
-
-.hero-cta:hover {
-  transform: translateY(-3px);
-  box-shadow: 0 10px 35px rgba(196, 30, 58, 0.5);
-}
-
-.hero-cta-secondary {
-  display: inline-flex;
-  align-items: center;
-  gap: 0.6rem;
-  padding: 0.95rem 2rem;
-  background: rgba(255, 255, 255, 0.06);
-  border: 1px solid rgba(212, 175, 55, 0.35);
-  color: var(--cream);
-  border-radius: 12px;
-  font-size: 0.92rem;
-  font-weight: 600;
-  text-decoration: none;
-  backdrop-filter: blur(10px);
-  transition: all 0.3s var(--transition-smooth);
-}
-
-.hero-cta-secondary:hover {
-  background: rgba(212, 175, 55, 0.16);
-  border-color: var(--gold-primary);
-  transform: translateY(-3px);
-}
-
-/* ═══════════════════════════════════════════════════════════════
-   SECTION HEADERS
-   ═══════════════════════════════════════════════════════════════ */
-section {
-  position: relative;
-  z-index: 1;
-}
-
-.section-container {
-  max-width: 1140px;
-  margin: 0 auto;
-  padding: 6rem 2rem;
-}
-
-.section-label {
-  display: inline-flex;
-  align-items: center;
-  gap: 0.6rem;
-  font-size: 0.74rem;
-  font-weight: 700;
-  letter-spacing: 0.2em;
-  text-transform: uppercase;
-  color: var(--red-deep);
-  margin-bottom: 1rem;
-}
-
-.section-label .label-line {
-  width: 36px;
-  height: 2px;
-  background: linear-gradient(90deg, var(--red-deep), var(--gold-primary));
-  border-radius: 2px;
-}
-
-.section-title {
-  font-family: 'Playfair Display', serif;
-  font-size: clamp(2.1rem, 4vw, 3.2rem);
-  font-weight: 800;
-  color: var(--ink);
-  line-height: 1.18;
-  margin-bottom: 1.2rem;
-  letter-spacing: -0.015em;
-}
-
-.section-desc {
-  font-size: 1.05rem;
-  color: var(--ink-muted);
-  max-width: 760px;
-  line-height: 1.8;
-  margin-bottom: 3.5rem;
-}
-
-/* ═══════════════════════════════════════════════════════════════
-   PROFILE CARDS (THÀNH VIÊN NHÓM 6)
-   ═══════════════════════════════════════════════════════════════ */
-.team-grid {
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
-  gap: 2rem;
-}
-
-.team-card {
-  background: #fff;
-  border-radius: 22px;
-  overflow: hidden;
-  border: 1px solid rgba(212, 175, 55, 0.18);
-  box-shadow: 0 4px 25px rgba(0, 0, 0, 0.04);
-  transition: all 0.4s var(--transition-smooth);
-  display: flex;
-  flex-direction: column;
-}
-
-.team-card:hover {
-  transform: translateY(-8px);
-  border-color: rgba(212, 175, 55, 0.45);
-  box-shadow: 0 20px 50px rgba(0, 0, 0, 0.1);
-}
-
-.card-top {
-  height: 90px;
-  background: linear-gradient(135deg, var(--red-deep), #5C0000);
-  position: relative;
-  display: flex;
-  align-items: center;
-  justify-content: flex-end;
-  padding: 1.2rem;
-}
-
-.card-top.gold-gradient {
-  background: linear-gradient(135deg, #1C3144, #2B4C6F);
-}
-
-.card-top.green-gradient {
-  background: linear-gradient(135deg, #1B3B2B, #2E6045);
-}
-
-.card-top.purple-gradient {
-  background: linear-gradient(135deg, #3D2645, #623B6B);
-}
-
-.card-avatar-badge {
-  position: absolute;
-  bottom: -32px;
-  left: 1.8rem;
-  width: 64px;
-  height: 64px;
-  border-radius: 18px;
-  background: #fff;
-  border: 3px solid #fff;
-  box-shadow: 0 6px 20px rgba(0, 0, 0, 0.15);
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  font-size: 1.8rem;
-}
-
-.card-content {
-  padding: 2.8rem 1.8rem 1.8rem;
-  flex: 1;
-  display: flex;
-  flex-direction: column;
-  justify-content: space-between;
-}
-
-.member-role {
-  display: inline-block;
-  padding: 0.2rem 0.75rem;
-  border-radius: 50px;
-  font-size: 0.74rem;
-  font-weight: 700;
-  text-transform: uppercase;
-  letter-spacing: 0.06em;
-  background: rgba(139, 0, 0, 0.08);
-  color: var(--red-primary);
-  margin-bottom: 0.6rem;
-  align-self: flex-start;
-}
-
-.member-name {
-  font-family: 'Playfair Display', serif;
-  font-size: 1.35rem;
-  font-weight: 800;
-  color: var(--ink);
-  margin-bottom: 0.2rem;
-}
-
-.member-id {
-  font-size: 0.82rem;
-  color: var(--gold-dark);
-  font-weight: 600;
-  margin-bottom: 1rem;
-}
-
-.member-duty {
-  font-size: 0.88rem;
-  color: var(--ink-muted);
-  line-height: 1.7;
-  margin-bottom: 1.5rem;
-}
-
-.member-duty strong {
-  color: var(--ink);
-}
-
-.member-era-tag {
-  display: inline-flex;
-  align-items: center;
-  gap: 0.5rem;
-  padding: 0.5rem 1rem;
-  border-radius: 10px;
-  background: var(--cream-dark);
-  border: 1px solid rgba(212, 175, 55, 0.2);
-  color: var(--ink);
-  font-size: 0.82rem;
-  font-weight: 600;
-  text-decoration: none;
-  transition: all 0.3s ease;
-}
-
-.member-era-tag:hover {
-  background: var(--red-deep);
-  color: #fff;
-  border-color: var(--red-deep);
-}
-
-/* ═══════════════════════════════════════════════════════════════
-   MUSEUM FIELDWORK DIARY (NHẬT KÝ THỰC ĐỊA BẢO TÀNG)
-   ═══════════════════════════════════════════════════════════════ */
-.diary-section {
-  background: linear-gradient(165deg, #0A0D14 0%, #151C2C 50%, #0F1420 100%);
-  color: #fff;
-  position: relative;
-  overflow: hidden;
-}
-
-.diary-section::before {
-  content: '';
-  position: absolute;
-  inset: 0;
-  opacity: 0.04;
-  background-image: radial-gradient(#fff 1px, transparent 1px);
-  background-size: 32px 32px;
-}
-
-.diary-overview-box {
-  background: rgba(255, 255, 255, 0.04);
-  border: 1px solid rgba(212, 175, 55, 0.25);
-  border-radius: 20px;
-  padding: 2.2rem 2.5rem;
-  margin-bottom: 3.5rem;
-  backdrop-filter: blur(12px);
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
-  gap: 1.8rem;
-}
-
-.diary-meta-item {
-  display: flex;
-  flex-direction: column;
-  gap: 0.35rem;
-}
-
-.diary-meta-lbl {
-  font-size: 0.76rem;
-  color: var(--gold-primary);
-  text-transform: uppercase;
-  letter-spacing: 0.1em;
-  font-weight: 700;
-}
-
-.diary-meta-val {
-  font-size: 1.05rem;
-  color: #fff;
-  font-weight: 600;
-  font-family: 'Noto Serif', serif;
-}
-
-/* Diary Timeline Nodes */
-.diary-nodes {
-  display: flex;
-  flex-direction: column;
-  gap: 2.5rem;
-}
-
-.diary-card {
-  background: rgba(255, 255, 255, 0.03);
-  border: 1px solid rgba(255, 255, 255, 0.08);
-  border-radius: 22px;
-  padding: 2.5rem;
-  backdrop-filter: blur(10px);
-  transition: all 0.4s var(--transition-smooth);
-}
-
-.diary-card:hover {
-  transform: translateY(-5px);
-  border-color: rgba(212, 175, 55, 0.4);
-  background: rgba(255, 255, 255, 0.06);
-  box-shadow: 0 16px 45px rgba(0, 0, 0, 0.35);
-}
-
-.diary-header {
-  display: flex;
-  justify-content: space-between;
-  align-items: flex-start;
-  flex-wrap: wrap;
-  gap: 1rem;
-  margin-bottom: 1.2rem;
-  border-bottom: 1px solid rgba(255, 255, 255, 0.08);
-  padding-bottom: 1rem;
-}
-
-.diary-room-title {
-  font-family: 'Playfair Display', serif;
-  font-size: 1.5rem;
-  font-weight: 800;
-  color: var(--cream);
-}
-
-.diary-badge {
-  padding: 0.3rem 0.9rem;
-  border-radius: 50px;
-  font-size: 0.76rem;
-  font-weight: 700;
-  color: var(--gold-light);
-  background: rgba(212, 175, 55, 0.15);
-  border: 1px solid rgba(212, 175, 55, 0.3);
-}
-
-.diary-body {
-  font-size: 0.95rem;
-  color: rgba(253, 251, 247, 0.75);
-  line-height: 1.85;
-}
-
-.diary-body strong {
-  color: var(--cream);
-}
-
-.diary-notes-box {
-  margin-top: 1.5rem;
-  padding: 1.2rem 1.5rem;
-  border-radius: 12px;
-  background: rgba(139, 0, 0, 0.15);
-  border-left: 3px solid var(--red-bright);
-}
-
-.diary-notes-box p {
-  font-size: 0.9rem;
-  color: rgba(253, 251, 247, 0.85);
-  font-style: italic;
-  font-family: 'Noto Serif', serif;
-}
-
-/* ═══════════════════════════════════════════════════════════════
-   REFLECTIONS & LEARNING OUTCOMES (THU HOẠCH HỌC TẬP)
-   ═══════════════════════════════════════════════════════════════ */
-.reflections-grid {
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
-  gap: 2rem;
-}
-
-.reflection-box {
-  background: #fff;
-  border-radius: 20px;
-  padding: 2.5rem;
-  border: 1px solid rgba(212, 175, 55, 0.18);
-  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.03);
-  position: relative;
-  overflow: hidden;
-  transition: all 0.4s var(--transition-smooth);
-}
-
-.reflection-box:hover {
-  transform: translateY(-6px);
-  border-color: rgba(212, 175, 55, 0.4);
-  box-shadow: 0 16px 45px rgba(0, 0, 0, 0.08);
-}
-
-.reflection-box::before {
-  content: '\201C';
-  position: absolute;
-  top: -10px; right: 20px;
-  font-family: 'Playfair Display', serif;
-  font-size: 6rem;
-  color: rgba(212, 175, 55, 0.12);
-  line-height: 1;
-}
-
-.reflection-author {
-  font-family: 'Playfair Display', serif;
-  font-size: 1.2rem;
-  font-weight: 800;
-  color: var(--red-deep);
-  margin-bottom: 0.2rem;
-}
-
-.reflection-sub {
-  font-size: 0.78rem;
-  color: var(--ink-muted);
-  font-weight: 600;
-  text-transform: uppercase;
-  letter-spacing: 0.08em;
-  margin-bottom: 1.2rem;
-}
-
-.reflection-text {
-  font-family: 'Noto Serif', serif;
-  font-size: 0.94rem;
-  color: var(--ink-light);
-  line-height: 1.85;
-}
-
-/* ═══════════════════════════════════════════════════════════════
-   BIBLIOGRAPHY (TÀI LIỆU THAM KHẢO CHÍNH THỐNG)
-   ═══════════════════════════════════════════════════════════════ */
-.biblio-box {
-  background: #fff;
-  border-radius: 24px;
-  padding: 3rem;
-  border: 1px solid rgba(212, 175, 55, 0.2);
-  box-shadow: 0 6px 30px rgba(0, 0, 0, 0.03);
-}
-
-.biblio-list {
-  list-style: none;
-  display: flex;
-  flex-direction: column;
-  gap: 1.4rem;
-}
-
-.biblio-item {
-  display: flex;
-  align-items: flex-start;
-  gap: 1rem;
-  font-size: 0.92rem;
-  line-height: 1.75;
-  color: var(--ink-light);
-}
-
-.biblio-num {
-  min-width: 28px;
-  height: 28px;
-  border-radius: 8px;
-  background: rgba(139, 0, 0, 0.08);
-  color: var(--red-deep);
-  font-weight: 800;
-  font-size: 0.8rem;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  margin-top: 0.15rem;
-}
-
-/* ═══════════════════════════════════════════════════════════════
-   FOOTER
-   ═══════════════════════════════════════════════════════════════ */
-footer {
-  background: #11141A;
-  color: rgba(253, 251, 247, 0.6);
-  padding: 4.5rem 2rem 2.5rem;
-  position: relative;
-  z-index: 1;
-  border-top: 1px solid rgba(255, 255, 255, 0.08);
-}
-
-.footer-container {
-  max-width: 1140px;
-  margin: 0 auto;
-}
-
-.footer-grid {
-  display: grid;
-  grid-template-columns: 2fr 1fr 1fr;
-  gap: 3rem;
-  margin-bottom: 3rem;
-}
-
-.footer-brand {
-  font-family: 'Playfair Display', serif;
-  font-size: 1.35rem;
-  font-weight: 800;
-  color: var(--gold-primary);
-  margin-bottom: 0.8rem;
-}
-
-.footer-desc {
-  font-size: 0.88rem;
-  line-height: 1.8;
-  color: rgba(253, 251, 247, 0.55);
-  max-width: 440px;
-}
-
-.footer-col h5 {
-  color: #fff;
-  font-size: 0.92rem;
-  font-weight: 700;
-  letter-spacing: 0.08em;
-  text-transform: uppercase;
-  margin-bottom: 1.2rem;
-}
-
-.footer-links {
-  list-style: none;
-  display: flex;
-  flex-direction: column;
-  gap: 0.6rem;
-}
-
-.footer-links a {
-  color: rgba(253, 251, 247, 0.6);
-  text-decoration: none;
-  font-size: 0.85rem;
-  transition: all 0.2s ease;
-}
-
-.footer-links a:hover {
-  color: var(--gold-light);
-  transform: translateX(4px);
-}
-
-.footer-bottom {
-  padding-top: 2rem;
-  border-top: 1px solid rgba(255, 255, 255, 0.06);
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  flex-wrap: wrap;
-  gap: 1rem;
-  font-size: 0.82rem;
-  color: rgba(253, 251, 247, 0.4);
-}
-
-.back-to-top {
-  position: fixed;
-  bottom: 2rem; right: 2rem;
-  width: 48px; height: 48px;
-  border-radius: 14px;
-  background: var(--red-deep);
-  color: #fff;
-  border: 1px solid rgba(212, 175, 55, 0.3);
-  cursor: pointer;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  opacity: 0;
-  transform: translateY(20px);
-  transition: all 0.4s var(--transition-smooth);
-  z-index: 999;
-  box-shadow: 0 6px 20px rgba(139, 0, 0, 0.35);
-}
-
-.back-to-top.visible {
-  opacity: 1;
-  transform: translateY(0);
-}
-
-.back-to-top:hover {
-  background: var(--red-primary);
-  transform: translateY(-3px);
-}
-
-.reveal {
-  opacity: 0;
-  transform: translateY(35px);
-  transition: all 0.8s var(--transition-smooth);
-}
-
-.reveal.visible {
-  opacity: 1;
-  transform: translateY(0);
-}
-
-@media (max-width: 900px) {
-  .footer-grid { grid-template-columns: 1fr; gap: 2rem; }
-  .diary-overview-box { grid-template-columns: 1fr; }
-}
-
-@media (max-width: 768px) {
-  .nav-links {
-    display: none;
-    position: absolute;
-    top: 100%; left: 0; right: 0;
-    flex-direction: column;
-    background: rgba(253, 251, 247, 0.98);
-    backdrop-filter: blur(20px);
-    padding: 1.2rem;
-    border-bottom: 1px solid rgba(212, 175, 55, 0.15);
-    box-shadow: 0 10px 40px rgba(0, 0, 0, 0.1);
-  }
-  .nav-links.open { display: flex; }
-  .nav-toggle { display: block; }
-  .biblio-box { padding: 2rem 1.5rem; }
-  .diary-card { padding: 1.8rem; }
-}
-</style>
-</head>
-<body>
-
-<canvas id="particle-canvas"></canvas>
-
-<!-- Top Navigation -->
-<nav id="main-nav">
-  <a href="index.html" class="nav-brand">
-    <div class="brand-icon">★</div>
-    Lịch sử ĐCSVN
-  </a>
-  <button class="nav-toggle" id="navToggle" aria-label="Menu">
-    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><line x1="3" y1="6" x2="21" y2="6"/><line x1="3" y1="12" x2="21" y2="12"/><line x1="3" y1="18" x2="21" y2="18"/></svg>
-  </button>
-  <ul class="nav-links" id="navLinks">
-    <li><a href="index.html">Trang chủ</a></li>
-    <li><a href="giai-doan-1.html">1930–1945</a></li>
-    <li><a href="giai-doan-2.html">1945–1954</a></li>
-    <li><a href="giai-doan-3.html">1954–1975</a></li>
-    <li><a href="giai-doan-4.html">1975–Nay</a></li>
-    <li><a href="nhom-thuc-hien.html" class="active">Nhật ký & Nhóm</a></li>
-  </ul>
-  <div class="nav-progress" id="navProgress"></div>
-</nav>
-
-<!-- ═══════════════════════════════════════════════════════════════
-     HERO SECTION
-     ═══════════════════════════════════════════════════════════════ -->
-<section class="hero" id="hero">
-  <div class="hero-bg-pattern"></div>
-  <div class="hero-glow g1"></div>
-  <div class="hero-glow g2"></div>
-  <div class="hero-glow g3"></div>
-
-  <div class="hero-content">
-    <div class="hero-epoch">
-      <span class="dot"></span>
-      Hồ Sơ Nghiên Cứu & Nhật Ký Thực Địa
-    </div>
-    <h1>
-      Nhóm Thực Hiện &<br>
-      <span class="accent">Nhật Ký Bảo Tàng</span>
-    </h1>
-    <p class="hero-subtitle">
-      Đồ án môn học Lịch sử Đảng Cộng sản Việt Nam — Nhóm 6, Lớp 23C02, Khoa Công nghệ Thông tin, 
-      Trường Đại học Khoa học Tự nhiên, Đại học Quốc gia TP. Hồ Chí Minh (HCMUS). 
-      Kết nối nghiên cứu giáo trình chính thống với trải nghiệm thực tế sống động tại Bảo tàng Chứng tích Chiến tranh.
-    </p>
-    <div class="hero-actions">
-      <a href="#team" class="hero-cta" id="heroBtn">
-        Thông tin 4 thành viên
-        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><line x1="12" y1="5" x2="12" y2="19"/><polyline points="19 12 12 19 5 12"/></svg>
-      </a>
-      <a href="#diary" class="hero-cta-secondary">
-        Nhật ký khảo sát bảo tàng →
-      </a>
-    </div>
-  </div>
-</section>
-
-<!-- ═══════════════════════════════════════════════════════════════
-     TEAM MEMBERS SECTION
-     ═══════════════════════════════════════════════════════════════ -->
-<section id="team" style="background: var(--cream);">
-  <div class="section-container">
-    <div class="reveal">
-      <div class="section-label">
-        <span class="label-line"></span>
-        Nhân sự thực hiện
-      </div>
-      <h2 class="section-title">Nhóm 6 — Lớp 23C02<br>Khoa Công nghệ Thông tin (HCMUS)</h2>
-      <p class="section-desc">
-        Mỗi thành viên phụ trách nghiên cứu chuyên sâu một giai đoạn lịch sử trọng tâm, kết hợp khảo sát tư liệu hiện vật bảo tàng và xây dựng trải nghiệm tương tác trực quan.
-      </p>
-    </div>
-
-    <div class="team-grid reveal">
-      <!-- Member 1 -->
-      <div class="team-card">
-        <div class="card-top">
-          <div class="card-avatar-badge">👨‍💻</div>
-        </div>
-        <div class="card-content">
-          <div>
-            <span class="member-role">Nhóm trưởng</span>
-            <h3 class="member-name">Thành viên 1</h3>
-            <div class="member-id">MSSV: 23120xxx — Nhóm trưởng điều phối</div>
-            <p class="member-duty">
-              <strong>Phụ trách nội dung:</strong> Nghiên cứu Giai đoạn 1 (1930 – 1945), phân tích Cương lĩnh chính trị đầu tiên, Luận cương tháng 10/1930 và cao trào Cách mạng Tháng Tám.<br>
-              <strong>Phụ trách kỹ thuật:</strong> Thiết lập kiến trúc giao diện dùng chung, hệ thống hiệu ứng Canvas Particle, GSAP ScrollTrigger và chuẩn hóa typography.
-            </p>
-          </div>
-          <a href="giai-doan-1.html" class="member-era-tag">
-            Xem Giai đoạn 1 (1930–1945) →
-          </a>
-        </div>
-      </div>
-
-      <!-- Member 2 -->
-      <div class="team-card">
-        <div class="card-top gold-gradient">
-          <div class="card-avatar-badge">📊</div>
-        </div>
-        <div class="card-content">
-          <div>
-            <span class="member-role" style="color: var(--sky); background: rgba(69,123,157,0.1);">Thành viên</span>
-            <h3 class="member-name">Thành viên 2</h3>
-            <div class="member-id">MSSV: 23120xxx — Phụ trách Trang chủ & GĐ2</div>
-            <p class="member-duty">
-              <strong>Phụ trách nội dung:</strong> Nghiên cứu Giai đoạn 2 (1945 – 1954), làm rõ thế "ngàn cân treo sợi tóc", sách lược "Hòa để tiến" và đỉnh cao Chiến thắng Điện Biên Phủ 1954.<br>
-              <strong>Phụ trách kỹ thuật:</strong> Xây dựng trang chủ <code>index.html</code>, ma trận so sánh 4 giai đoạn và hệ thống số liệu tương tác.
-            </p>
-          </div>
-          <a href="giai-doan-2.html" class="member-era-tag">
-            Xem Giai đoạn 2 (1945–1954) →
-          </a>
-        </div>
-      </div>
-
-      <!-- Member 3 -->
-      <div class="team-card">
-        <div class="card-top green-gradient">
-          <div class="card-avatar-badge">📸</div>
-        </div>
-        <div class="card-content">
-          <div>
-            <span class="member-role" style="color: var(--bamboo-green); background: rgba(45,106,79,0.1);">Thành viên</span>
-            <h3 class="member-name">Thành viên 3</h3>
-            <div class="member-id">MSSV: 23120xxx — Phụ trách Khí tài & GĐ3</div>
-            <p class="member-duty">
-              <strong>Phụ trách nội dung:</strong> Nghiên cứu Giai đoạn 3 (1954 – 1975), tuyến đường Trường Sơn 559, Mậu Thân 1968, Điện Biên Phủ trên không 1972 và Đại thắng mùa Xuân 1975.<br>
-              <strong>Phụ trách thực địa:</strong> Khảo sát và ghi nhận hiện vật khí tài ngoài trời, chuyên đề Chất độc da cam và phòng trưng bày Thế giới ủng hộ Việt Nam.
-            </p>
-          </div>
-          <a href="giai-doan-3.html" class="member-era-tag">
-            Xem Giai đoạn 3 (1954–1975) →
-          </a>
-        </div>
-      </div>
-
-      <!-- Member 4 -->
-      <div class="team-card">
-        <div class="card-top purple-gradient">
-          <div class="card-avatar-badge">📝</div>
-        </div>
-        <div class="card-content">
-          <div>
-            <span class="member-role" style="color: #623B6B; background: rgba(98,59,107,0.1);">Thành viên</span>
-            <h3 class="member-name">Thành viên 4</h3>
-            <div class="member-id">MSSV: 23120xxx — Phụ trách Đổi mới & Nhật ký</div>
-            <p class="member-duty">
-              <strong>Phụ trách nội dung:</strong> Nghiên cứu Giai đoạn 4 (1975 – Nay), 3 bước đột phá kinh tế, đường lối Đổi mới, Ngoại giao cây tre và tầm nhìn 2030 – 2045.<br>
-              <strong>Phụ trách tổng hợp:</strong> Biên tập nhật ký khảo sát thực tế bảo tàng, bài học kinh nghiệm và biên mục tài liệu tham khảo chính thống.
-            </p>
-          </div>
-          <a href="giai-doan-4.html" class="member-era-tag">
-            Xem Giai đoạn 4 (1975–Nay) →
-          </a>
-        </div>
-      </div>
-    </div>
-  </div>
-</section>
-
-<!-- ═══════════════════════════════════════════════════════════════
-     MUSEUM FIELDWORK DIARY SECTION
-     ═══════════════════════════════════════════════════════════════ -->
-<section class="diary-section" id="diary">
-  <div class="section-container">
-    <div class="reveal">
-      <div class="section-label" style="color: var(--gold-primary);">
-        <span class="label-line" style="background: linear-gradient(90deg, var(--gold-primary), var(--sky));"></span>
-        Hồ sơ thực tế tại số 28 Võ Văn Tần, Q.3, TP.HCM
-      </div>
-      <h2 class="section-title" style="color: #fff;">
-        Nhật ký khảo sát thực địa<br>Bảo tàng Chứng tích Chiến tranh
-      </h2>
-      <p class="section-desc" style="color: rgba(253, 251, 247, 0.65);">
-        Chuyến đi thực tế đã giúp nhóm đối chiếu những bài giảng lý luận trong giáo trình với những bằng chứng lịch sử sống động, cảm nhận sâu sắc cái giá thiêng liêng của hòa bình và độc lập tự do.
-      </p>
-    </div>
-
-    <!-- Metadata Box -->
-    <div class="diary-overview-box reveal">
-      <div class="diary-meta-item">
-        <span class="diary-meta-lbl">Địa điểm khảo sát</span>
-        <span class="diary-meta-val">Bảo tàng Chứng tích Chiến tranh</span>
-        <span style="font-size: 0.8rem; color: rgba(253,251,247,0.5);">28 Võ Văn Tần, Phường Võ Thị Sáu, Quận 3, TP.HCM</span>
-      </div>
-      <div class="diary-meta-item">
-        <span class="diary-meta-lbl">Thời gian thực địa</span>
-        <span class="diary-meta-val">Chủ Nhật, Khung giờ 08:30 – 12:00</span>
-        <span style="font-size: 0.8rem; color: rgba(253,251,247,0.5);">Khảo sát cả 3 tầng lầu và khu trưng bày ngoài trời</span>
-      </div>
-      <div class="diary-meta-item">
-        <span class="diary-meta-lbl">Phương pháp nghiên cứu</span>
-        <span class="diary-meta-val">Khảo sát hiện vật & Đối chiếu tư liệu</span>
-        <span style="font-size: 0.8rem; color: rgba(253,251,247,0.5);">Ghi chép mã hiện vật, chụp ảnh và phân tích ngữ cảnh</span>
-      </div>
-      <div class="diary-meta-item">
-        <span class="diary-meta-lbl">Đơn vị chủ trì</span>
-        <span class="diary-meta-val">Nhóm 6 — Lớp 23C02 (HCMUS)</span>
-        <span style="font-size: 0.8rem; color: rgba(253,251,247,0.5);">Khoa Công nghệ Thông tin — ĐH Khoa học Tự nhiên</span>
-      </div>
-    </div>
-
-    <!-- Detailed Chronological Log of 4 Exhibits -->
-    <div class="diary-nodes reveal">
-      <!-- Room 1 -->
-      <div class="diary-card">
-        <div class="diary-header">
-          <div>
-            <span class="diary-badge">Chuyên đề 01 • Tầng trệt & Sân phụ</span>
-            <h3 class="diary-room-title">Khu Chứng tích "Chuồng Cọp" Côn Đảo & Chế độ Lao tù Thực dân</h3>
-          </div>
-          <span style="color: var(--gold-light); font-size: 0.85rem; font-weight: 600;">Gắn với Giai đoạn 1 (1930–1945) & Giai đoạn 2 (1945–1954)</span>
-        </div>
-        <div class="diary-body">
-          <p>
-            Nhóm dành hơn 45 phút khảo sát mô hình phục dựng nguyên bản <strong>"Chuồng Cọp" Côn Đảo</strong> (nhà tù do thực dân Pháp thành lập từ năm 1862). 
-            Tận mắt chứng kiến các buồng giam chật hẹp chỉ 1,45m x 2,7m, sàn xi măng lạnh buốt, gông cùm sắt hoen gỉ qua hàng chục năm và giàn song sắt phía trên — nơi cai ngục rắc vôi bột và chọc gậy bịt sắt tra tấn tù nhân. 
-            Đặc biệt, hiện vật <strong>chiếc máy chém thời Pháp</strong> (lưỡi dao nặng 50kg rơi từ độ cao 4m) khiến toàn bộ thành viên lặng người trước sự hy sinh kiên cường của các chiến sĩ cách mạng tiền bối như Trần Phú, Lý Tự Trọng, Lê Hồng Phong, Nguyễn Thị Minh Khai...
-          </p>
-          <div class="diary-notes-box">
-            <p><strong>Ghi chép thu hoạch:</strong> "Xiềng xích và máy chém có thể cướp đi sinh mạng thể xác nhưng không thể dập tắt ngọn lửa lý tưởng của người cộng sản. Sự đàn áp tàn khốc càng chứng minh tính tất yếu của ngọn cờ lãnh đạo độc lập dân tộc gắn liền với CNXH."</p>
-          </div>
-        </div>
-      </div>
-
-      <!-- Room 2 -->
-      <div class="diary-card">
-        <div class="diary-header">
-          <div>
-            <span class="diary-badge">Chuyên đề 02 • Sân trưng bày ngoài trời</span>
-            <h3 class="diary-room-title">Bộ sưu tập Khí tài Quân sự Hạng nặng của Quân đội Mỹ</h3>
-          </div>
-          <span style="color: var(--gold-light); font-size: 0.85rem; font-weight: 600;">Gắn với Giai đoạn 3 (1954–1975)</span>
-        </div>
-        <div class="diary-body">
-          <p>
-            Tại sân bảo tàng, nhóm khảo sát kỹ thuật các loại vũ khí hiện đại bậc nhất thế kỷ 20 do quân viễn chinh Mỹ sử dụng: 
-            <strong>Máy bay tiêm kích phản lực F-5A</strong>, cường kích A-37, trực thăng vận tải CH-47 Chinook; 
-            <strong>Pháo tự hành 175mm M107</strong> ("Vua chiến trường" có tầm bắn trên 32 km); 
-            <strong>Xe tăng hạng nặng M48A3 Patton</strong> nặng gần 49 tấn cùng hàng chục loại bom đạn có sức công phá khủng khiếp (bom phá, bom bi CBU, bom phát quang BLU-82).
-          </p>
-          <div class="diary-notes-box">
-            <p><strong>Ghi chép thu hoạch:</strong> "Đối lập với trang bị tối tân của Mỹ là vũ khí thô sơ tự tạo và ý chí sắt đá của quân dân ta. Chiến thắng 1975 không phải thắng lợi của sắt thép đơn thuần, mà là thắng lợi của trí tuệ, nghệ thuật quân sự chiến tranh nhân dân dưới sự lãnh đạo tài tình của Đảng."</p>
-          </div>
-        </div>
-      </div>
-
-      <!-- Room 3 -->
-      <div class="diary-card">
-        <div class="diary-header">
-          <div>
-            <span class="diary-badge">Chuyên đề 03 • Tầng 2 — Phòng trưng bày số 6</span>
-            <h3 class="diary-room-title">Chuyên đề "Chất độc Da cam trong Chiến tranh Việt Nam"</h3>
-          </div>
-          <span style="color: var(--gold-light); font-size: 0.85rem; font-weight: 600;">Gắn với Giai đoạn 3 & Hậu quả sau chiến tranh (Giai đoạn 4)</span>
-        </div>
-        <div class="diary-body">
-          <p>
-            Đây là khu vực xúc động và để lại nỗi ám ảnh sâu sắc nhất đối với nhóm. Hơn 80 triệu lít chất độc diệt cỏ (chứa ít nhất 366 kg Dioxin nguyên chất) rải xuống 24,6% diện tích miền Nam trong chiến dịch <em>Ranch Hand (1961–1971)</em>. 
-            Những bức ảnh tư liệu về các thế hệ nạn nhân da cam (trẻ em sinh ra không mắt, teo cơ, quái thai bẩm sinh kéo dài đến thế hệ thứ ba, thứ tư) là bằng chứng không thể chối cãi về thảm họa hóa học phi nhân tính. 
-            Đồng thời, nhóm cũng ghi nhận nỗ lực tẩy độc Dioxin tại các điểm nóng sân bay Đà Nẵng, Biên Hòa và phong trào chung tay xoa dịu nỗi đau da cam của nhân dân ta.
-          </p>
-          <div class="diary-notes-box">
-            <p><strong>Ghi chép thu hoạch:</strong> "Hòa bình hôm nay được đánh đổi bằng nỗi đau thể xác kéo dài của hàng triệu đồng bào. Nghiên cứu lịch sử giúp thế hệ trẻ sinh viên nhận thức sâu sắc trách nhiệm bảo vệ hòa bình và đóng góp tri thức công nghệ để khắc phục hậu quả chiến tranh."</p>
-          </div>
-        </div>
-      </div>
-
-      <!-- Room 4 -->
-      <div class="diary-card">
-        <div class="diary-header">
-          <div>
-            <span class="diary-badge">Chuyên đề 04 • Tầng 1 — Phòng trưng bày số 2</span>
-            <h3 class="diary-room-title">Phòng Trưng bày "Thế giới Ủng hộ Việt Nam Kháng chiến" & Thông điệp Hòa giải</h3>
-          </div>
-          <span style="color: var(--gold-light); font-size: 0.85rem; font-weight: 600;">Gắn với Tinh thần Quốc tế & Kỷ nguyên Hội nhập</span>
-        </div>
-        <div class="diary-body">
-          <p>
-            Nhóm ấn tượng mạnh mẽ trước bộ sưu tập hàng trăm áp phích, biểu ngữ phản đối chiến tranh của các tổ chức quốc tế và nhân dân Mỹ, Pháp, Nhật Bản, Thụy Điển, Cuba... 
-            Hình ảnh ngọn lửa tự thiêu của Norman Morrison trước Lầu Năm Góc năm 1965 minh chứng cho sức mạnh của công lý và lương tri thời đại. 
-            Đặc biệt, mảng tư liệu về sự bình thường hóa quan hệ Việt – Mỹ (1995) và việc nâng cấp lên <strong>Đối tác Chiến lược Toàn diện (2023)</strong> thể hiện bản lĩnh ngoại giao khép lại quá khứ, hướng tới tương lai của Đảng và Nhà nước ta.
-          </p>
-          <div class="diary-notes-box">
-            <p><strong>Ghi chép thu hoạch:</strong> "Đường lối đối ngoại của Đảng từ 'Việt Nam muốn là bạn' đến 'Ngoại giao cây tre' thời đại mới đã biến Việt Nam từ một dân tộc bị bao vây cấm vận thành đối tác tin cậy, có trách nhiệm của toàn thế giới."</p>
-          </div>
-        </div>
-      </div>
-    </div>
-  </div>
-</section>
-
-<!-- ═══════════════════════════════════════════════════════════════
-     REFLECTIONS & LEARNING OUTCOMES
-     ═══════════════════════════════════════════════════════════════ -->
-<section style="background: var(--cream);">
-  <div class="section-container">
-    <div class="reveal">
-      <div class="section-label">
-        <span class="label-line"></span>
-        Thu hoạch nhận thức
-      </div>
-      <h2 class="section-title">Cảm nhận & Bài học sâu sắc<br>của sinh viên HCMUS</h2>
-      <p class="section-desc">
-        Những thu hoạch lý luận và cảm xúc chân thành của các thành viên sau quá trình nghiên cứu giáo trình và khảo sát thực địa.
-      </p>
-    </div>
-
-    <div class="reflections-grid reveal">
-      <div class="reflection-box">
-        <h4 class="reflection-author">Thành viên 1 — Nhóm trưởng</h4>
-        <div class="reflection-sub">Thu hoạch về Bản lĩnh chính trị & Cương lĩnh</div>
-        <p class="reflection-text">
-          "Qua việc nghiên cứu Cương lĩnh 1930 và đối chiếu với chứng tích lao tù tại bảo tàng, em hiểu rằng độc lập tự do không phải món quà từ trên trời rơi xuống. 
-          Bản lĩnh của Đảng nằm ở chỗ luôn kiên định mục tiêu giải phóng dân tộc nhưng cực kỳ linh hoạt về sách lược. 
-          Là sinh viên ngành Công nghệ Thông tin, em thấy mình cần rèn luyện bản lĩnh chính trị vững vàng, dùng tri thức công nghệ để phụng sự Tổ quốc trong kỷ nguyên số."
-        </p>
-      </div>
-
-      <div class="reflection-box">
-        <h4 class="reflection-author">Thành viên 2</h4>
-        <div class="reflection-sub">Thu hoạch về Nghệ thuật Ngoại giao & Thời cơ</div>
-        <p class="reflection-text">
-          "Bài học 'Dĩ bất biến, ứng vạn biến' trong giai đoạn 1945–1946 và chiến thắng Điện Biên Phủ cho em bài học lớn về nghệ thuật chớp thời cơ và cân bằng lực lượng. 
-          Trong môi trường công nghệ biến động nhanh chóng hiện nay, tư duy biện chứng và kiên định giá trị cốt lõi của Bác Hồ vẫn là kim chỉ nam vô giá cho thế hệ trẻ."
-        </p>
-      </div>
-
-      <div class="reflection-box">
-        <h4 class="reflection-author">Thành viên 3</h4>
-        <div class="reflection-sub">Thu hoạch về Sức mạnh Chiến tranh Nhân dân</div>
-        <p class="reflection-text">
-          "Đứng trước pháo tự hành 175mm và xe tăng M48 tại sân bảo tàng, em thực sự xúc động trước ý chí của thế hệ cha anh. 
-          Không có pháo đài thép nào thắng nổi lòng dân đoàn kết. 
-          Trách nhiệm của thế hệ sinh viên hôm nay là phải bảo vệ vững chắc thành quả hòa bình mà lớp lớp cha anh đã ngã xuống để giành lấy."
-        </p>
-      </div>
-
-      <div class="reflection-box">
-        <h4 class="reflection-author">Thành viên 4</h4>
-        <div class="reflection-sub">Thu hoạch về Kỷ nguyên Vươn mình 2030 – 2045</div>
-        <p class="reflection-text">
-          "Đường lối Đổi mới từ Đại hội VI đến Đại hội XIII đã đưa đất nước từ một nền kinh tế khủng hoảng vươn lên quy mô hơn 500 tỷ USD. 
-          Mục tiêu 2030 và 2045 không phải khẩu hiệu xa vời, mà là sứ mệnh trực tiếp của thế hệ sinh viên chúng em — những kỹ sư công nghệ tương lai sẽ tham gia kiến tạo nền kinh tế số, công nghệ cao cho đất nước."
-        </p>
-      </div>
-    </div>
-  </div>
-</section>
-
-<!-- ═══════════════════════════════════════════════════════════════
-     ACADEMIC BIBLIOGRAPHY (TÀI LIỆU THAM KHẢO CHÍNH THỐNG)
-     ═══════════════════════════════════════════════════════════════ -->
-<section style="background: var(--cream-dark); padding: 5rem 0;" id="tailieu">
-  <div class="section-container">
-    <div class="reveal">
-      <div class="section-label">
-        <span class="label-line"></span>
-        Danh mục tài liệu
-      </div>
-      <h2 class="section-title">Tài liệu tham khảo chính thống</h2>
-      <p class="section-desc">
-        Đồ án được xây dựng dựa trên nguồn tài liệu chuẩn mực của Bộ Giáo dục & Đào tạo, các Văn kiện Đại hội Đảng chính thức và tư liệu lưu trữ của Bảo tàng Chứng tích Chiến tranh.
-      </p>
-    </div>
-
-    <div class="biblio-box reveal">
-      <ul class="biblio-list">
-        <li class="biblio-item">
-          <div class="biblio-num">1</div>
-          <div>
-            <strong>Bộ Giáo dục và Đào tạo (2021)</strong>, <em>Giáo trình Lịch sử Đảng Cộng sản Việt Nam</em> (Dành cho bậc đại học hệ không chuyên lý luận chính trị), Nxb. Chính trị quốc gia Sự thật, Hà Nội.
-          </div>
-        </li>
-        <li class="biblio-item">
-          <div class="biblio-num">2</div>
-          <div>
-            <strong>Đảng Cộng sản Việt Nam (2021)</strong>, <em>Văn kiện Đại hội đại biểu toàn quốc lần thứ XIII</em>, Tập I và Tập II, Nxb. Chính trị quốc gia Sự thật, Hà Nội.
-          </div>
-        </li>
-        <li class="biblio-item">
-          <div class="biblio-num">3</div>
-          <div>
-            <strong>Đảng Cộng sản Việt Nam (2011)</strong>, <em>Cương lĩnh xây dựng đất nước trong thời kỳ quá độ lên chủ nghĩa xã hội (Bổ sung, phát triển năm 2011)</em>, Nxb. Chính trị quốc gia, Hà Nội.
-          </div>
-        </li>
-        <li class="biblio-item">
-          <div class="biblio-num">4</div>
-          <div>
-            <strong>Hồ Chí Minh (2011)</strong>, <em>Toàn tập</em>, Tập 1 đến Tập 15, Nxb. Chính trị quốc gia Sự thật, Hà Nội.
-          </div>
-        </li>
-        <li class="biblio-item">
-          <div class="biblio-num">5</div>
-          <div>
-            <strong>Nguyễn Phú Trọng (2023)</strong>, <em>Một số vấn đề lý luận và thực tiễn về chủ nghĩa xã hội và con đường đi lên chủ nghĩa xã hội ở Việt Nam</em>, Nxb. Chính trị quốc gia Sự thật, Hà Nội.
-          </div>
-        </li>
-        <li class="biblio-item">
-          <div class="biblio-num">6</div>
-          <div>
-            <strong>Bảo tàng Chứng tích Chiến tranh (TP.HCM)</strong>, <em>Tư liệu, hình ảnh hiện vật các chuyên đề: Chế độ lao tù thực dân, Tội ác chiến tranh xâm lược, Hậu quả chất độc da cam và Thế giới ủng hộ Việt Nam kháng chiến</em>, Số 28 Võ Văn Tần, Q.3, TP.HCM.
-          </div>
-        </li>
-      </ul>
-    </div>
-  </div>
-</section>
-
-<!-- ═══════════════════════════════════════════════════════════════
-     FOOTER
-     ═══════════════════════════════════════════════════════════════ -->
-<footer>
-  <div class="footer-container">
-    <div class="footer-grid">
-      <div>
-        <div class="footer-brand">Lịch sử Đảng Cộng sản Việt Nam — Nhóm 6</div>
-        <p class="footer-desc">
-          Đồ án môn học Lịch sử Đảng Cộng sản Việt Nam — Lớp 23C02, Trường Đại học Khoa học Tự nhiên, Đại học Quốc gia TP. Hồ Chí Minh.
-          Kết hợp lý luận chính thống với chứng tích thực tiễn tại Bảo tàng Chứng tích Chiến tranh TP.HCM.
-        </p>
-      </div>
-      <div class="footer-col">
-        <h5>Tiến trình Lịch sử</h5>
-        <ul class="footer-links">
-          <li><a href="giai-doan-1.html">Giai đoạn 1 (1930 – 1945)</a></li>
-          <li><a href="giai-doan-2.html">Giai đoạn 2 (1945 – 1954)</a></li>
-          <li><a href="giai-doan-3.html">Giai đoạn 3 (1954 – 1975)</a></li>
-          <li><a href="giai-doan-4.html">Giai đoạn 4 (1975 – Nay)</a></li>
-        </ul>
-      </div>
-      <div class="footer-col">
-        <h5>Thông tin Đồ án</h5>
-        <ul class="footer-links">
-          <li><a href="index.html">Trang chủ tổng quan</a></li>
-          <li><a href="nhom-thuc-hien.html">Nhật ký bảo tàng & Nhóm 6</a></li>
-          <li><a href="#tailieu">Tài liệu tham khảo</a></li>
-          <li><a href="https://baotangchungtichchientranh.vn" target="_blank" rel="noopener">Bảo tàng Chứng tích Chiến tranh</a></li>
-        </ul>
-      </div>
-    </div>
-    
-    <div class="footer-bottom">
-      <div>© 2026 Nhóm 6 — Lớp 23C02 — Khoa Công nghệ Thông tin, HCMUS. Bảo lưu mọi quyền.</div>
-      <div style="font-style: italic;">Giáo trình tham khảo chính: Giáo trình Lịch sử ĐCSVN (Nxb. Chính trị quốc gia Sự thật, 2021)</div>
-    </div>
-  </div>
-</footer>
-
-<button class="back-to-top" id="backToTop" aria-label="Về đầu trang">
-  <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="18 15 12 9 6 15"/></svg>
-</button>
-
-<script>
-document.addEventListener('DOMContentLoaded', () => {
-  // ─── CANVAS PARTICLES ──────────────────────────────────────
-  const canvas = document.getElementById('particle-canvas');
-  const ctx = canvas.getContext('2d');
-  let W, H;
-  function resize(){ W = canvas.width = window.innerWidth; H = canvas.height = window.innerHeight; }
-  resize();
-  window.addEventListener('resize', resize);
-
-  const colors = ['#D4AF37', '#8B0000', '#C41E3A', '#457B9D'];
-  const particles = [];
-  for(let i = 0; i < 85; i++){
-    particles.push({
-      x: Math.random() * W, y: Math.random() * H,
-      vx: (Math.random() - 0.5) * 0.35, vy: (Math.random() - 0.5) * 0.35,
-      r: Math.random() * 2 + 0.8,
-      c: colors[Math.floor(Math.random() * colors.length)]
-    });
-  }
-
-  function loop(){
-    ctx.clearRect(0, 0, W, H);
-    for(let i = 0; i < particles.length; i++){
-      const p = particles[i];
-      p.x += p.vx; p.y += p.vy;
-      if(p.x < 0) p.x = W; if(p.x > W) p.x = 0;
-      if(p.y < 0) p.y = H; if(p.y > H) p.y = 0;
-
-      ctx.beginPath();
-      ctx.arc(p.x, p.y, p.r, 0, Math.PI * 2);
-      ctx.fillStyle = p.c;
-      ctx.globalAlpha = 0.5;
-      ctx.fill();
-
-      for(let j = i + 1; j < particles.length; j++){
-        const q = particles[j];
-        const dx = p.x - q.x, dy = p.y - q.y;
-        const d = Math.sqrt(dx * dx + dy * dy);
-        if(d < 120){
-          ctx.beginPath();
-          ctx.moveTo(p.x, p.y);
-          ctx.lineTo(q.x, q.y);
-          ctx.strokeStyle = 'rgba(212, 175, 55, ' + (0.08 * (1 - d / 120)) + ')';
-          ctx.lineWidth = 0.5;
-          ctx.stroke();
-        }
+    .hero {
+      position: relative;
+      min-height: 90vh;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      overflow: hidden;
+      background: linear-gradient(165deg, #0A0D14 0%, #151C2C 35%, #1C2B3E 70%, #0D1622 100%);
+      padding: 5rem 1.5rem 4rem;
+    }
+
+    .hero-bg-pattern {
+      position: absolute;
+      inset: 0;
+      opacity: 0.07;
+      background-image:
+        radial-gradient(circle at 20% 50%, var(--gold-primary) 1.2px, transparent 1.2px),
+        radial-gradient(circle at 80% 25%, var(--sky-light) 1.2px, transparent 1.2px),
+        radial-gradient(circle at 50% 80%, var(--gold-light) 0.8px, transparent 0.8px);
+      background-size: 50px 50px, 70px 70px, 35px 35px;
+      animation: drift 75s linear infinite;
+    }
+
+    @keyframes drift {
+      0% {
+        transform: translate(0, 0);
+      }
+
+      100% {
+        transform: translate(-70px, -70px);
       }
     }
-    requestAnimationFrame(loop);
-  }
-  loop();
 
-  // ─── SCROLL & NAVBAR ───────────────────────────────────────
-  const nav = document.getElementById('main-nav');
-  const navProgress = document.getElementById('navProgress');
-  const backToTop = document.getElementById('backToTop');
+    .hero-glow {
+      position: absolute;
+      border-radius: 50%;
+      filter: blur(130px);
+      pointer-events: none;
+    }
 
-  window.addEventListener('scroll', () => {
-    const s = window.scrollY;
-    const max = document.documentElement.scrollHeight - window.innerHeight;
-    navProgress.style.width = (s / max * 100) + '%';
-    nav.classList.toggle('scrolled', s > 60);
-    backToTop.classList.toggle('visible', s > 500);
-  }, { passive: true });
+    .hero-glow.g1 {
+      width: 550px;
+      height: 550px;
+      background: #1C3144;
+      opacity: 0.35;
+      top: -150px;
+      left: -100px;
+    }
 
-  // Mobile menu
-  document.getElementById('navToggle').addEventListener('click', () => {
-    document.getElementById('navLinks').classList.toggle('open');
-  });
+    .hero-glow.g2 {
+      width: 500px;
+      height: 500px;
+      background: var(--gold-primary);
+      opacity: 0.18;
+      bottom: -120px;
+      right: -80px;
+    }
 
-  // Back to top
-  backToTop.addEventListener('click', () => {
-    gsap.to(window, { scrollTo: 0, duration: 1.2, ease: 'power3.inOut' });
-  });
+    .hero-glow.g3 {
+      width: 700px;
+      height: 700px;
+      background: var(--red-deep);
+      opacity: 0.18;
+      top: 40%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+    }
 
-  // Hero CTA
-  document.getElementById('heroBtn').addEventListener('click', (e) => {
-    e.preventDefault();
-    gsap.to(window, { scrollTo: '#team', duration: 1.2, ease: 'power3.inOut' });
-  });
+    .hero-content {
+      position: relative;
+      z-index: 10;
+      text-align: center;
+      max-width: 950px;
+      padding: 2rem 1rem;
+    }
 
-  // Reveal observer
-  const obs = new IntersectionObserver((entries) => {
-    entries.forEach(e => {
-      if(e.isIntersecting){
-        e.target.classList.add('visible');
+    .hero-epoch {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.75rem;
+      padding: 0.5rem 1.6rem;
+      border: 1px solid rgba(212, 175, 55, 0.35);
+      border-radius: 100px;
+      margin-bottom: 2rem;
+      color: var(--gold-primary);
+      font-size: 0.82rem;
+      font-weight: 600;
+      letter-spacing: 0.14em;
+      text-transform: uppercase;
+      backdrop-filter: blur(12px);
+      background: rgba(212, 175, 55, 0.08);
+    }
+
+    .hero-epoch .dot {
+      width: 7px;
+      height: 7px;
+      border-radius: 50%;
+      background: var(--gold-primary);
+      animation: pulse-dot 2s ease-in-out infinite;
+    }
+
+    @keyframes pulse-dot {
+
+      0%,
+      100% {
+        opacity: 1;
+        transform: scale(1);
       }
-    });
-  }, { threshold: 0.12 });
-  document.querySelectorAll('.reveal').forEach(el => obs.observe(el));
 
-  // 3D Parallax Tilt
-  function addTilt(selector, maxTilt = 6, perspective = 800) {
-    document.querySelectorAll(selector).forEach(card => {
-      card.addEventListener('mousemove', (e) => {
-        const rect = card.getBoundingClientRect();
-        const x = (e.clientX - rect.left) / rect.width - 0.5;
-        const y = (e.clientY - rect.top) / rect.height - 0.5;
-        gsap.to(card, {
-          rotateY: x * maxTilt,
-          rotateX: -y * maxTilt,
-          transformPerspective: perspective,
-          duration: 0.35,
-          ease: 'power2.out'
+      50% {
+        opacity: 0.3;
+        transform: scale(0.6);
+      }
+    }
+
+    .hero h1 {
+      font-family: 'Playfair Display', serif;
+      font-size: clamp(2.6rem, 5.5vw, 5.2rem);
+      font-weight: 900;
+      line-height: 1.1;
+      color: var(--cream);
+      margin-bottom: 1.5rem;
+      letter-spacing: -0.02em;
+    }
+
+    .hero h1 .accent {
+      background: linear-gradient(135deg, var(--gold-primary), var(--gold-light));
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+    }
+
+    .hero-subtitle {
+      font-family: 'Noto Serif', serif;
+      font-size: clamp(1rem, 2vw, 1.25rem);
+      color: rgba(253, 251, 247, 0.75);
+      max-width: 760px;
+      margin: 0 auto 2.8rem;
+      line-height: 1.85;
+    }
+
+    .hero-actions {
+      display: flex;
+      gap: 1.2rem;
+      justify-content: center;
+      flex-wrap: wrap;
+    }
+
+    .hero-cta {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.75rem;
+      padding: 0.95rem 2.2rem;
+      background: linear-gradient(135deg, var(--red-deep), var(--red-primary));
+      color: var(--cream);
+      border-radius: 12px;
+      font-size: 0.92rem;
+      font-weight: 600;
+      text-decoration: none;
+      transition: all 0.4s var(--transition-smooth);
+      box-shadow: 0 6px 25px rgba(196, 30, 58, 0.35);
+    }
+
+    .hero-cta:hover {
+      transform: translateY(-3px);
+      box-shadow: 0 10px 35px rgba(196, 30, 58, 0.5);
+    }
+
+    .hero-cta-secondary {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.6rem;
+      padding: 0.95rem 2rem;
+      background: rgba(255, 255, 255, 0.06);
+      border: 1px solid rgba(212, 175, 55, 0.35);
+      color: var(--cream);
+      border-radius: 12px;
+      font-size: 0.92rem;
+      font-weight: 600;
+      text-decoration: none;
+      backdrop-filter: blur(10px);
+      transition: all 0.3s var(--transition-smooth);
+    }
+
+    .hero-cta-secondary:hover {
+      background: rgba(212, 175, 55, 0.16);
+      border-color: var(--gold-primary);
+      transform: translateY(-3px);
+    }
+
+    /* ═══════════════════════════════════════════════════════════════
+   SECTION HEADERS
+   ═══════════════════════════════════════════════════════════════ */
+    section {
+      position: relative;
+      z-index: 1;
+    }
+
+    .section-container {
+      max-width: 1140px;
+      margin: 0 auto;
+      padding: 6rem 2rem;
+    }
+
+    .section-label {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.6rem;
+      font-size: 0.74rem;
+      font-weight: 700;
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      color: var(--red-deep);
+      margin-bottom: 1rem;
+    }
+
+    .section-label .label-line {
+      width: 36px;
+      height: 2px;
+      background: linear-gradient(90deg, var(--red-deep), var(--gold-primary));
+      border-radius: 2px;
+    }
+
+    .section-title {
+      font-family: 'Playfair Display', serif;
+      font-size: clamp(2.1rem, 4vw, 3.2rem);
+      font-weight: 800;
+      color: var(--ink);
+      line-height: 1.18;
+      margin-bottom: 1.2rem;
+      letter-spacing: -0.015em;
+    }
+
+    .section-desc {
+      font-size: 1.05rem;
+      color: var(--ink-muted);
+      max-width: 760px;
+      line-height: 1.8;
+      margin-bottom: 3.5rem;
+    }
+
+    /* ═══════════════════════════════════════════════════════════════
+   PROFILE CARDS (THÀNH VIÊN NHÓM 6)
+   ═══════════════════════════════════════════════════════════════ */
+    .team-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+      gap: 2rem;
+    }
+
+    .team-card {
+      background: #fff;
+      border-radius: 22px;
+      overflow: hidden;
+      border: 1px solid rgba(212, 175, 55, 0.18);
+      box-shadow: 0 4px 25px rgba(0, 0, 0, 0.04);
+      transition: all 0.4s var(--transition-smooth);
+      display: flex;
+      flex-direction: column;
+    }
+
+    .team-card:hover {
+      transform: translateY(-8px);
+      border-color: rgba(212, 175, 55, 0.45);
+      box-shadow: 0 20px 50px rgba(0, 0, 0, 0.1);
+    }
+
+    .card-top {
+      height: 90px;
+      background: linear-gradient(135deg, var(--red-deep), #5C0000);
+      position: relative;
+      display: flex;
+      align-items: center;
+      justify-content: flex-end;
+      padding: 1.2rem;
+    }
+
+    .card-top.gold-gradient {
+      background: linear-gradient(135deg, #1C3144, #2B4C6F);
+    }
+
+    .card-top.green-gradient {
+      background: linear-gradient(135deg, #1B3B2B, #2E6045);
+    }
+
+    .card-top.purple-gradient {
+      background: linear-gradient(135deg, #3D2645, #623B6B);
+    }
+
+    .card-avatar-badge {
+      position: absolute;
+      bottom: -32px;
+      left: 1.8rem;
+      width: 64px;
+      height: 64px;
+      border-radius: 18px;
+      background: #fff;
+      border: 3px solid #fff;
+      box-shadow: 0 6px 20px rgba(0, 0, 0, 0.15);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 1.8rem;
+    }
+
+    .card-content {
+      padding: 2.8rem 1.8rem 1.8rem;
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+    }
+
+    .member-role {
+      display: inline-block;
+      padding: 0.2rem 0.75rem;
+      border-radius: 50px;
+      font-size: 0.74rem;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.06em;
+      background: rgba(139, 0, 0, 0.08);
+      color: var(--red-primary);
+      margin-bottom: 0.6rem;
+      align-self: flex-start;
+    }
+
+    .member-name {
+      font-family: 'Playfair Display', serif;
+      font-size: 1.35rem;
+      font-weight: 800;
+      color: var(--ink);
+      margin-bottom: 0.2rem;
+    }
+
+    .member-id {
+      font-size: 0.82rem;
+      color: var(--gold-dark);
+      font-weight: 600;
+      margin-bottom: 1rem;
+    }
+
+    .member-duty {
+      font-size: 0.88rem;
+      color: var(--ink-muted);
+      line-height: 1.7;
+      margin-bottom: 1.5rem;
+    }
+
+    .member-duty strong {
+      color: var(--ink);
+    }
+
+    .member-era-tag {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.5rem;
+      padding: 0.5rem 1rem;
+      border-radius: 10px;
+      background: var(--cream-dark);
+      border: 1px solid rgba(212, 175, 55, 0.2);
+      color: var(--ink);
+      font-size: 0.82rem;
+      font-weight: 600;
+      text-decoration: none;
+      transition: all 0.3s ease;
+    }
+
+    .member-era-tag:hover {
+      background: var(--red-deep);
+      color: #fff;
+      border-color: var(--red-deep);
+    }
+
+    /* ═══════════════════════════════════════════════════════════════
+   MUSEUM FIELDWORK DIARY (NHẬT KÝ THỰC ĐỊA BẢO TÀNG)
+   ═══════════════════════════════════════════════════════════════ */
+    .diary-section {
+      background: linear-gradient(165deg, #0A0D14 0%, #151C2C 50%, #0F1420 100%);
+      color: #fff;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .diary-section::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      opacity: 0.04;
+      background-image: radial-gradient(#fff 1px, transparent 1px);
+      background-size: 32px 32px;
+    }
+
+    .diary-overview-box {
+      background: rgba(255, 255, 255, 0.04);
+      border: 1px solid rgba(212, 175, 55, 0.25);
+      border-radius: 20px;
+      padding: 2.2rem 2.5rem;
+      margin-bottom: 3.5rem;
+      backdrop-filter: blur(12px);
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+      gap: 1.8rem;
+    }
+
+    .diary-meta-item {
+      display: flex;
+      flex-direction: column;
+      gap: 0.35rem;
+    }
+
+    .diary-meta-lbl {
+      font-size: 0.76rem;
+      color: var(--gold-primary);
+      text-transform: uppercase;
+      letter-spacing: 0.1em;
+      font-weight: 700;
+    }
+
+    .diary-meta-val {
+      font-size: 1.05rem;
+      color: #fff;
+      font-weight: 600;
+      font-family: 'Noto Serif', serif;
+    }
+
+    /* Diary Timeline Nodes */
+    .diary-nodes {
+      display: flex;
+      flex-direction: column;
+      gap: 2.5rem;
+    }
+
+    .diary-card {
+      background: rgba(255, 255, 255, 0.03);
+      border: 1px solid rgba(255, 255, 255, 0.08);
+      border-radius: 22px;
+      padding: 2.5rem;
+      backdrop-filter: blur(10px);
+      transition: all 0.4s var(--transition-smooth);
+    }
+
+    .diary-card:hover {
+      transform: translateY(-5px);
+      border-color: rgba(212, 175, 55, 0.4);
+      background: rgba(255, 255, 255, 0.06);
+      box-shadow: 0 16px 45px rgba(0, 0, 0, 0.35);
+    }
+
+    .diary-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-start;
+      flex-wrap: wrap;
+      gap: 1rem;
+      margin-bottom: 1.2rem;
+      border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+      padding-bottom: 1rem;
+    }
+
+    .diary-room-title {
+      font-family: 'Playfair Display', serif;
+      font-size: 1.5rem;
+      font-weight: 800;
+      color: var(--cream);
+    }
+
+    .diary-badge {
+      padding: 0.3rem 0.9rem;
+      border-radius: 50px;
+      font-size: 0.76rem;
+      font-weight: 700;
+      color: var(--gold-light);
+      background: rgba(212, 175, 55, 0.15);
+      border: 1px solid rgba(212, 175, 55, 0.3);
+    }
+
+    .diary-body {
+      font-size: 0.95rem;
+      color: rgba(253, 251, 247, 0.75);
+      line-height: 1.85;
+    }
+
+    .diary-body strong {
+      color: var(--cream);
+    }
+
+    .diary-notes-box {
+      margin-top: 1.5rem;
+      padding: 1.2rem 1.5rem;
+      border-radius: 12px;
+      background: rgba(139, 0, 0, 0.15);
+      border-left: 3px solid var(--red-bright);
+    }
+
+    .diary-notes-box p {
+      font-size: 0.9rem;
+      color: rgba(253, 251, 247, 0.85);
+      font-style: italic;
+      font-family: 'Noto Serif', serif;
+    }
+
+    /* ═══════════════════════════════════════════════════════════════
+   REFLECTIONS & LEARNING OUTCOMES (THU HOẠCH HỌC TẬP)
+   ═══════════════════════════════════════════════════════════════ */
+    .reflections-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+      gap: 2rem;
+    }
+
+    .reflection-box {
+      background: #fff;
+      border-radius: 20px;
+      padding: 2.5rem;
+      border: 1px solid rgba(212, 175, 55, 0.18);
+      box-shadow: 0 4px 20px rgba(0, 0, 0, 0.03);
+      position: relative;
+      overflow: hidden;
+      transition: all 0.4s var(--transition-smooth);
+    }
+
+    .reflection-box:hover {
+      transform: translateY(-6px);
+      border-color: rgba(212, 175, 55, 0.4);
+      box-shadow: 0 16px 45px rgba(0, 0, 0, 0.08);
+    }
+
+    .reflection-box::before {
+      content: '\201C';
+      position: absolute;
+      top: -10px;
+      right: 20px;
+      font-family: 'Playfair Display', serif;
+      font-size: 6rem;
+      color: rgba(212, 175, 55, 0.12);
+      line-height: 1;
+    }
+
+    .reflection-author {
+      font-family: 'Playfair Display', serif;
+      font-size: 1.2rem;
+      font-weight: 800;
+      color: var(--red-deep);
+      margin-bottom: 0.2rem;
+    }
+
+    .reflection-sub {
+      font-size: 0.78rem;
+      color: var(--ink-muted);
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+      margin-bottom: 1.2rem;
+    }
+
+    .reflection-text {
+      font-family: 'Noto Serif', serif;
+      font-size: 0.94rem;
+      color: var(--ink-light);
+      line-height: 1.85;
+    }
+
+    /* ═══════════════════════════════════════════════════════════════
+   BIBLIOGRAPHY (TÀI LIỆU THAM KHẢO CHÍNH THỐNG)
+   ═══════════════════════════════════════════════════════════════ */
+    .biblio-box {
+      background: #fff;
+      border-radius: 24px;
+      padding: 3rem;
+      border: 1px solid rgba(212, 175, 55, 0.2);
+      box-shadow: 0 6px 30px rgba(0, 0, 0, 0.03);
+    }
+
+    .biblio-list {
+      list-style: none;
+      display: flex;
+      flex-direction: column;
+      gap: 1.4rem;
+    }
+
+    .biblio-item {
+      display: flex;
+      align-items: flex-start;
+      gap: 1rem;
+      font-size: 0.92rem;
+      line-height: 1.75;
+      color: var(--ink-light);
+    }
+
+    .biblio-num {
+      min-width: 28px;
+      height: 28px;
+      border-radius: 8px;
+      background: rgba(139, 0, 0, 0.08);
+      color: var(--red-deep);
+      font-weight: 800;
+      font-size: 0.8rem;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin-top: 0.15rem;
+    }
+
+    /* ═══════════════════════════════════════════════════════════════
+       HERO GROUP PHOTO SHOWCASE
+       ═══════════════════════════════════════════════════════════════ */
+    .hero-photo-showcase {
+      margin-top: 3rem;
+      position: relative;
+      max-width: 860px;
+      margin-left: auto;
+      margin-right: auto;
+    }
+
+    .hero-photo-frame {
+      border-radius: 22px;
+      overflow: hidden;
+      border: 2px solid rgba(212, 175, 55, 0.45);
+      box-shadow: 0 24px 65px rgba(0, 0, 0, 0.5);
+      position: relative;
+      background: #000;
+      cursor: pointer;
+    }
+
+    .hero-photo-frame img {
+      width: 100%;
+      height: auto;
+      max-height: 480px;
+      object-fit: cover;
+      display: block;
+      transition: transform 0.6s var(--transition-smooth);
+    }
+
+    .hero-photo-frame:hover img {
+      transform: scale(1.025);
+    }
+
+    .hero-photo-caption {
+      position: absolute;
+      bottom: 0;
+      left: 0;
+      right: 0;
+      padding: 1.8rem 2rem 1.4rem;
+      background: linear-gradient(to top, rgba(10, 13, 20, 0.96) 0%, rgba(10, 13, 20, 0.65) 60%, transparent 100%);
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-end;
+      flex-wrap: wrap;
+      gap: 1rem;
+    }
+
+    .hero-photo-caption h4 {
+      font-family: 'Playfair Display', serif;
+      color: var(--cream);
+      font-size: 1.25rem;
+      font-weight: 700;
+      text-align: left;
+    }
+
+    .hero-photo-caption p {
+      font-size: 0.86rem;
+      color: rgba(253, 251, 247, 0.75);
+      text-align: left;
+    }
+
+    .hero-photo-thumbs {
+      display: flex;
+      gap: 0.75rem;
+      margin-top: 1.2rem;
+      justify-content: center;
+    }
+
+    .hero-thumb-btn {
+      width: 70px;
+      height: 48px;
+      border-radius: 10px;
+      overflow: hidden;
+      border: 2px solid rgba(255, 255, 255, 0.25);
+      cursor: pointer;
+      opacity: 0.65;
+      transition: all 0.3s ease;
+      background: none;
+      padding: 0;
+    }
+
+    .hero-thumb-btn.active, .hero-thumb-btn:hover {
+      opacity: 1;
+      border-color: var(--gold-primary);
+      transform: translateY(-2px);
+      box-shadow: 0 4px 15px rgba(212, 175, 55, 0.35);
+    }
+
+    .hero-thumb-btn img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+    }
+
+    /* ═══════════════════════════════════════════════════════════════
+       DIARY PHOTO GRIDS (INSIDE ROOM CARDS)
+       ═══════════════════════════════════════════════════════════════ */
+    .diary-photo-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+      gap: 1.2rem;
+      margin: 1.8rem 0 1.2rem;
+    }
+
+    .diary-photo-item {
+      position: relative;
+      border-radius: 16px;
+      overflow: hidden;
+      border: 1px solid rgba(255, 255, 255, 0.12);
+      background: rgba(0, 0, 0, 0.45);
+      cursor: pointer;
+      aspect-ratio: 4 / 3;
+      transition: all 0.4s var(--transition-smooth);
+    }
+
+    .diary-photo-item:hover {
+      transform: translateY(-5px);
+      border-color: var(--gold-primary);
+      box-shadow: 0 14px 35px rgba(0, 0, 0, 0.45);
+    }
+
+    .diary-photo-item img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      display: block;
+      transition: transform 0.5s var(--transition-smooth);
+    }
+
+    .diary-photo-item:hover img {
+      transform: scale(1.08);
+    }
+
+    .diary-photo-overlay {
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(to top, rgba(0, 0, 0, 0.85) 0%, transparent 60%);
+      display: flex;
+      flex-direction: column;
+      justify-content: flex-end;
+      padding: 0.9rem 1.1rem;
+      opacity: 0.95;
+      transition: opacity 0.3s ease;
+    }
+
+    .diary-photo-overlay .photo-title {
+      font-size: 0.84rem;
+      font-weight: 600;
+      color: #fff;
+      line-height: 1.35;
+    }
+
+    .diary-photo-overlay .zoom-badge {
+      position: absolute;
+      top: 0.65rem;
+      right: 0.65rem;
+      background: rgba(0, 0, 0, 0.65);
+      backdrop-filter: blur(4px);
+      border-radius: 6px;
+      padding: 0.2rem 0.55rem;
+      font-size: 0.72rem;
+      font-weight: 600;
+      color: var(--gold-primary);
+      border: 1px solid rgba(212, 175, 55, 0.4);
+    }
+
+    /* ═══════════════════════════════════════════════════════════════
+       MUSEUM FULL GALLERY & FILTER TABS
+       ═══════════════════════════════════════════════════════════════ */
+    .gallery-section {
+      background: #090C12;
+      color: #fff;
+      position: relative;
+      border-top: 1px solid rgba(212, 175, 55, 0.2);
+    }
+
+    .gallery-filter-bar {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.65rem;
+      margin-bottom: 2.8rem;
+      justify-content: center;
+    }
+
+    .gallery-filter-btn {
+      padding: 0.55rem 1.25rem;
+      border-radius: 50px;
+      background: rgba(255, 255, 255, 0.05);
+      border: 1px solid rgba(255, 255, 255, 0.12);
+      color: rgba(253, 251, 247, 0.72);
+      font-size: 0.84rem;
+      font-weight: 600;
+      cursor: pointer;
+      transition: all 0.3s var(--transition-smooth);
+    }
+
+    .gallery-filter-btn:hover {
+      background: rgba(255, 255, 255, 0.12);
+      color: #fff;
+      border-color: rgba(212, 175, 55, 0.4);
+    }
+
+    .gallery-filter-btn.active {
+      background: linear-gradient(135deg, var(--red-deep), var(--red-primary));
+      border-color: var(--gold-primary);
+      color: #fff;
+      box-shadow: 0 4px 18px rgba(196, 30, 58, 0.4);
+    }
+
+    .gallery-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+      gap: 1.8rem;
+    }
+
+    .gallery-card {
+      background: rgba(255, 255, 255, 0.035);
+      border: 1px solid rgba(255, 255, 255, 0.08);
+      border-radius: 20px;
+      overflow: hidden;
+      cursor: pointer;
+      transition: all 0.4s var(--transition-smooth);
+      display: flex;
+      flex-direction: column;
+    }
+
+    .gallery-card:hover {
+      transform: translateY(-7px);
+      border-color: rgba(212, 175, 55, 0.45);
+      box-shadow: 0 18px 45px rgba(0, 0, 0, 0.4);
+      background: rgba(255, 255, 255, 0.07);
+    }
+
+    .gallery-card-imgwrap {
+      width: 100%;
+      aspect-ratio: 16 / 10;
+      overflow: hidden;
+      position: relative;
+      background: #0d121c;
+    }
+
+    .gallery-card-imgwrap img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      display: block;
+      transition: transform 0.5s var(--transition-smooth);
+    }
+
+    .gallery-card:hover .gallery-card-imgwrap img {
+      transform: scale(1.08);
+    }
+
+    .gallery-card-category {
+      position: absolute;
+      top: 0.8rem;
+      left: 0.8rem;
+      padding: 0.25rem 0.75rem;
+      border-radius: 6px;
+      font-size: 0.72rem;
+      font-weight: 700;
+      background: rgba(10, 13, 20, 0.8);
+      backdrop-filter: blur(4px);
+      color: var(--gold-primary);
+      border: 1px solid rgba(212, 175, 55, 0.35);
+    }
+
+    .gallery-card-info {
+      padding: 1.4rem;
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+    }
+
+    .gallery-card-title {
+      font-family: 'Playfair Display', serif;
+      font-size: 1.12rem;
+      font-weight: 700;
+      color: var(--cream);
+      margin-bottom: 0.45rem;
+      line-height: 1.35;
+    }
+
+    .gallery-card-desc {
+      font-size: 0.84rem;
+      color: rgba(253, 251, 247, 0.68);
+      line-height: 1.6;
+    }
+
+    /* ═══════════════════════════════════════════════════════════════
+       INTERACTIVE LIGHTBOX MODAL
+       ═══════════════════════════════════════════════════════════════ */
+    .lightbox-modal {
+      position: fixed;
+      inset: 0;
+      z-index: 9999;
+      background: rgba(5, 7, 12, 0.95);
+      backdrop-filter: blur(18px);
+      display: none;
+      align-items: center;
+      justify-content: center;
+      padding: 2rem;
+      animation: fadeInModal 0.3s ease forwards;
+    }
+
+    .lightbox-modal.active {
+      display: flex;
+    }
+
+    @keyframes fadeInModal {
+      from { opacity: 0; }
+      to { opacity: 1; }
+    }
+
+    .lightbox-content {
+      position: relative;
+      max-width: 1150px;
+      width: 100%;
+      max-height: 92vh;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+    }
+
+    .lightbox-img-wrapper {
+      max-width: 100%;
+      max-height: 72vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      border-radius: 16px;
+      overflow: hidden;
+      border: 1px solid rgba(212, 175, 55, 0.35);
+      box-shadow: 0 30px 80px rgba(0, 0, 0, 0.7);
+      background: #000;
+    }
+
+    .lightbox-img-wrapper img {
+      max-width: 100%;
+      max-height: 72vh;
+      object-fit: contain;
+      display: block;
+    }
+
+    .lightbox-caption-box {
+      margin-top: 1.4rem;
+      text-align: center;
+      max-width: 820px;
+    }
+
+    .lightbox-title {
+      font-family: 'Playfair Display', serif;
+      font-size: 1.35rem;
+      font-weight: 700;
+      color: var(--gold-light);
+      margin-bottom: 0.4rem;
+    }
+
+    .lightbox-desc {
+      font-size: 0.92rem;
+      color: rgba(253, 251, 247, 0.85);
+      line-height: 1.65;
+    }
+
+    .lightbox-close-btn {
+      position: absolute;
+      top: -48px;
+      right: 0;
+      background: rgba(255, 255, 255, 0.12);
+      border: 1px solid rgba(255, 255, 255, 0.25);
+      color: #fff;
+      width: 42px;
+      height: 42px;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+      font-size: 1.3rem;
+      transition: all 0.3s ease;
+    }
+
+    .lightbox-close-btn:hover {
+      background: var(--red-deep);
+      border-color: var(--red-primary);
+      transform: rotate(90deg);
+    }
+
+    .lightbox-nav-btn {
+      position: absolute;
+      top: 50%;
+      transform: translateY(-50%);
+      background: rgba(0, 0, 0, 0.65);
+      border: 1px solid rgba(212, 175, 55, 0.35);
+      color: var(--gold-primary);
+      width: 52px;
+      height: 52px;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+      font-size: 1.5rem;
+      transition: all 0.3s ease;
+      z-index: 10;
+    }
+
+    .lightbox-nav-btn:hover {
+      background: var(--gold-primary);
+      color: #000;
+      box-shadow: 0 0 25px rgba(212, 175, 55, 0.6);
+      transform: translateY(-50%) scale(1.1);
+    }
+
+    .lightbox-prev-btn { left: -75px; }
+    .lightbox-next-btn { right: -75px; }
+
+    @media (max-width: 900px) {
+      .lightbox-prev-btn { left: 10px; }
+      .lightbox-next-btn { right: 10px; }
+      .lightbox-close-btn { top: -45px; right: 10px; }
+    }
+
+    /* ═══════════════════════════════════════════════════════════════
+   FOOTER
+   ═══════════════════════════════════════════════════════════════ */
+    footer {
+      background: #11141A;
+      color: rgba(253, 251, 247, 0.6);
+      padding: 4.5rem 2rem 2.5rem;
+      position: relative;
+      z-index: 1;
+      border-top: 1px solid rgba(255, 255, 255, 0.08);
+    }
+
+    .footer-container {
+      max-width: 1140px;
+      margin: 0 auto;
+    }
+
+    .footer-grid {
+      display: grid;
+      grid-template-columns: 2fr 1fr 1fr;
+      gap: 3rem;
+      margin-bottom: 3rem;
+    }
+
+    .footer-brand {
+      font-family: 'Playfair Display', serif;
+      font-size: 1.35rem;
+      font-weight: 800;
+      color: var(--gold-primary);
+      margin-bottom: 0.8rem;
+    }
+
+    .footer-desc {
+      font-size: 0.88rem;
+      line-height: 1.8;
+      color: rgba(253, 251, 247, 0.55);
+      max-width: 440px;
+    }
+
+    .footer-col h5 {
+      color: #fff;
+      font-size: 0.92rem;
+      font-weight: 700;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      margin-bottom: 1.2rem;
+    }
+
+    .footer-links {
+      list-style: none;
+      display: flex;
+      flex-direction: column;
+      gap: 0.6rem;
+    }
+
+    .footer-links a {
+      color: rgba(253, 251, 247, 0.6);
+      text-decoration: none;
+      font-size: 0.85rem;
+      transition: all 0.2s ease;
+    }
+
+    .footer-links a:hover {
+      color: var(--gold-light);
+      transform: translateX(4px);
+    }
+
+    .footer-bottom {
+      padding-top: 2rem;
+      border-top: 1px solid rgba(255, 255, 255, 0.06);
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      flex-wrap: wrap;
+      gap: 1rem;
+      font-size: 0.82rem;
+      color: rgba(253, 251, 247, 0.4);
+    }
+
+    .back-to-top {
+      position: fixed;
+      bottom: 2rem;
+      right: 2rem;
+      width: 48px;
+      height: 48px;
+      border-radius: 14px;
+      background: var(--red-deep);
+      color: #fff;
+      border: 1px solid rgba(212, 175, 55, 0.3);
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      opacity: 0;
+      transform: translateY(20px);
+      transition: all 0.4s var(--transition-smooth);
+      z-index: 999;
+      box-shadow: 0 6px 20px rgba(139, 0, 0, 0.35);
+    }
+
+    .back-to-top.visible {
+      opacity: 1;
+      transform: translateY(0);
+    }
+
+    .back-to-top:hover {
+      background: var(--red-primary);
+      transform: translateY(-3px);
+    }
+
+    .reveal {
+      opacity: 0;
+      transform: translateY(35px);
+      transition: all 0.8s var(--transition-smooth);
+    }
+
+    .reveal.visible {
+      opacity: 1;
+      transform: translateY(0);
+    }
+
+    @media (max-width: 900px) {
+      .footer-grid {
+        grid-template-columns: 1fr;
+        gap: 2rem;
+      }
+
+      .diary-overview-box {
+        grid-template-columns: 1fr;
+      }
+    }
+
+    @media (max-width: 768px) {
+      .nav-links {
+        display: none;
+        position: absolute;
+        top: 100%;
+        left: 0;
+        right: 0;
+        flex-direction: column;
+        background: rgba(253, 251, 247, 0.98);
+        backdrop-filter: blur(20px);
+        padding: 1.2rem;
+        border-bottom: 1px solid rgba(212, 175, 55, 0.15);
+        box-shadow: 0 10px 40px rgba(0, 0, 0, 0.1);
+      }
+
+      .nav-links.open {
+        display: flex;
+      }
+
+      .nav-toggle {
+        display: block;
+      }
+
+      .biblio-box {
+        padding: 2rem 1.5rem;
+      }
+
+      .diary-card {
+        padding: 1.8rem;
+      }
+    }
+  </style>
+</head>
+
+<body>
+
+  <canvas id="particle-canvas"></canvas>
+
+  <!-- Top Navigation -->
+  <nav id="main-nav">
+    <a href="index.html" class="nav-brand">
+      <div class="brand-icon">★</div>
+      Lịch sử ĐCSVN
+    </a>
+    <button class="nav-toggle" id="navToggle" aria-label="Menu">
+      <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+        stroke-linecap="round">
+        <line x1="3" y1="6" x2="21" y2="6" />
+        <line x1="3" y1="12" x2="21" y2="12" />
+        <line x1="3" y1="18" x2="21" y2="18" />
+      </svg>
+    </button>
+    <ul class="nav-links" id="navLinks">
+      <li><a href="index.html">Trang chủ</a></li>
+      <li><a href="giai-doan-1.html">1930–1945</a></li>
+      <li><a href="giai-doan-2.html">1945–1954</a></li>
+      <li><a href="giai-doan-3.html">1954–1975</a></li>
+      <li><a href="giai-doan-4.html">1975–Nay</a></li>
+      <li><a href="nhom-thuc-hien.html" class="active">Nhật ký & Nhóm</a></li>
+    </ul>
+    <div class="nav-progress" id="navProgress"></div>
+  </nav>
+
+  <!-- ═══════════════════════════════════════════════════════════════
+     HERO SECTION
+     ═══════════════════════════════════════════════════════════════ -->
+  <section class="hero" id="hero">
+    <div class="hero-bg-pattern"></div>
+    <div class="hero-glow g1"></div>
+    <div class="hero-glow g2"></div>
+    <div class="hero-glow g3"></div>
+
+    <div class="hero-content">
+      <div class="hero-epoch">
+        <span class="dot"></span>
+        Hồ Sơ Nghiên Cứu & Nhật Ký Thực Địa
+      </div>
+      <h1>
+        Nhóm Thực Hiện &<br>
+        <span class="accent">Nhật Ký Bảo Tàng</span>
+      </h1>
+      <p class="hero-subtitle">
+        Đồ án môn học Lịch sử Đảng Cộng sản Việt Nam — Nhóm 6, Lớp 23C02, Khoa Công nghệ Thông tin,
+        Trường Đại học Khoa học Tự nhiên, Đại học Quốc gia TP. Hồ Chí Minh (HCMUS).
+        Kết nối nghiên cứu giáo trình chính thống với trải nghiệm thực tế sống động tại Bảo tàng Chứng tích Chiến tranh.
+      </p>
+      <div class="hero-actions">
+        <a href="#team" class="hero-cta" id="heroBtn">
+          Thông tin 4 thành viên
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"
+            stroke-linecap="round" stroke-linejoin="round">
+            <line x1="12" y1="5" x2="12" y2="19" />
+            <polyline points="19 12 12 19 5 12" />
+          </svg>
+        </a>
+        <a href="#diary" class="hero-cta-secondary">
+          Nhật ký khảo sát bảo tàng →
+        </a>
+        <a href="#gallery" class="hero-cta-secondary" style="border-color: rgba(212, 175, 55, 0.5); background: rgba(212, 175, 55, 0.1);">
+          Kho ảnh thực địa (200+ ảnh) 📸
+        </a>
+      </div>
+
+      <!-- Group Photo Showcase Frame -->
+      <div class="hero-photo-showcase reveal">
+        <div class="hero-photo-frame" onclick="openLightbox('img/Anh%20Nhom/IMG_6125.jpg', 'Tập thể Nhóm 6 — Lớp 23C02 tại Bảo tàng CTCT', 'Chuyến đi thực tế tại Bảo tàng Chứng tích Chiến tranh (28 Võ Văn Tần, Q.3, TP.HCM) phục vụ nghiên cứu đồ án môn Lịch sử Đảng Cộng sản Việt Nam.')">
+          <img id="heroMainPhoto" src="img/Anh%20Nhom/IMG_6125.jpg" alt="Nhóm 6 tại Bảo tàng Chứng tích Chiến tranh">
+          <div class="hero-photo-caption">
+            <div>
+              <h4 id="heroPhotoCaptionTitle">Tập thể Nhóm 6 — Lớp 23C02 tại Bảo tàng CTCT</h4>
+              <p id="heroPhotoCaptionSub">28 Võ Văn Tần, Phường Võ Thị Sáu, Quận 3, TP. Hồ Chí Minh</p>
+            </div>
+            <span class="hero-epoch" style="margin-bottom: 0; padding: 0.35rem 1rem; font-size: 0.75rem;">🔍 Xem ảnh lớn</span>
+          </div>
+        </div>
+        <div class="hero-photo-thumbs">
+          <button class="hero-thumb-btn active" onclick="switchHeroPhoto('img/Anh%20Nhom/IMG_6125.jpg', 'Tập thể Nhóm 6 — Lớp 23C02 tại Bảo tàng CTCT', 'Chuyến đi thực tế tại Bảo tàng Chứng tích Chiến tranh (28 Võ Văn Tần, Q.3, TP.HCM)', this)" title="Ảnh nhóm 1">
+            <img src="img/Anh%20Nhom/IMG_6125.jpg" alt="Ảnh nhóm 1">
+          </button>
+          <button class="hero-thumb-btn" onclick="switchHeroPhoto('img/Anh%20Nhom/IMG_6126.jpg', 'Nhóm 6 bên hiện vật khí tài quân sự', 'Khảo sát hiện vật máy bay và xe tăng tại sân ngoài trời bảo tàng', this)" title="Ảnh nhóm 2">
+            <img src="img/Anh%20Nhom/IMG_6126.jpg" alt="Ảnh nhóm 2">
+          </button>
+          <button class="hero-thumb-btn" onclick="switchHeroPhoto('img/Anh%20Nhom/IMG_6127.jpg', 'Nhóm 6 tại khu chứng tích Chuồng Cọp Côn Đảo', 'Ghi chép và tìm hiểu mô hình ngục tù thực dân Pháp và máy chém', this)" title="Ảnh nhóm 3">
+            <img src="img/Anh%20Nhom/IMG_6127.jpg" alt="Ảnh nhóm 3">
+          </button>
+          <button class="hero-thumb-btn" onclick="switchHeroPhoto('img/Anh%20Nhom/IMG_6128.jpg', 'Nhóm 6 tại sảnh chính Bảo tàng', 'Hoàn thành chuyến khảo sát thực địa kết nối lý luận lịch sử với thực tiễn', this)" title="Ảnh nhóm 4">
+            <img src="img/Anh%20Nhom/IMG_6128.jpg" alt="Ảnh nhóm 4">
+          </button>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ═══════════════════════════════════════════════════════════════
+     TEAM MEMBERS SECTION
+     ═══════════════════════════════════════════════════════════════ -->
+  <section id="team" style="background: var(--cream);">
+    <div class="section-container">
+      <div class="reveal">
+        <div class="section-label">
+          <span class="label-line"></span>
+          Nhân sự thực hiện
+        </div>
+        <h2 class="section-title">Nhóm 6 — Lớp 23C02<br>Khoa Công nghệ Thông tin (HCMUS)</h2>
+        <p class="section-desc">
+          Mỗi thành viên phụ trách nghiên cứu chuyên sâu một giai đoạn lịch sử trọng tâm, kết hợp khảo sát tư liệu hiện
+          vật bảo tàng và xây dựng trải nghiệm tương tác trực quan.
+        </p>
+      </div>
+
+      <div class="team-grid reveal">
+        <!-- Member 1 -->
+        <div class="team-card">
+          <div class="card-top">
+            <div class="card-avatar-badge">👨‍💻</div>
+          </div>
+          <div class="card-content">
+            <div>
+              <span class="member-role">Nhóm trưởng</span>
+              <h3 class="member-name">Thành viên 1</h3>
+              <div class="member-id">MSSV: 23120xxx — Nhóm trưởng điều phối</div>
+              <p class="member-duty">
+                <strong>Phụ trách nội dung:</strong> Nghiên cứu Giai đoạn 1 (1930 – 1945), phân tích Cương lĩnh chính
+                trị đầu tiên, Luận cương tháng 10/1930 và cao trào Cách mạng Tháng Tám.<br>
+                <strong>Phụ trách kỹ thuật:</strong> Thiết lập kiến trúc giao diện dùng chung, hệ thống hiệu ứng Canvas
+                Particle, GSAP ScrollTrigger và chuẩn hóa typography.
+              </p>
+            </div>
+            <a href="giai-doan-1.html" class="member-era-tag">
+              Xem Giai đoạn 1 (1930–1945) →
+            </a>
+          </div>
+        </div>
+
+        <!-- Member 2 -->
+        <div class="team-card">
+          <div class="card-top gold-gradient">
+            <div class="card-avatar-badge">📊</div>
+          </div>
+          <div class="card-content">
+            <div>
+              <span class="member-role" style="color: var(--sky); background: rgba(69,123,157,0.1);">Thành viên</span>
+              <h3 class="member-name">Thành viên 2</h3>
+              <div class="member-id">MSSV: 23120xxx — Phụ trách Trang chủ & GĐ2</div>
+              <p class="member-duty">
+                <strong>Phụ trách nội dung:</strong> Nghiên cứu Giai đoạn 2 (1945 – 1954), làm rõ thế "ngàn cân treo sợi
+                tóc", sách lược "Hòa để tiến" và đỉnh cao Chiến thắng Điện Biên Phủ 1954.<br>
+                <strong>Phụ trách kỹ thuật:</strong> Xây dựng trang chủ <code>index.html</code>, ma trận so sánh 4 giai
+                đoạn và hệ thống số liệu tương tác.
+              </p>
+            </div>
+            <a href="giai-doan-2.html" class="member-era-tag">
+              Xem Giai đoạn 2 (1945–1954) →
+            </a>
+          </div>
+        </div>
+
+        <!-- Member 3 -->
+        <div class="team-card">
+          <div class="card-top green-gradient">
+            <div class="card-avatar-badge">📸</div>
+          </div>
+          <div class="card-content">
+            <div>
+              <span class="member-role" style="color: var(--bamboo-green); background: rgba(45,106,79,0.1);">Thành
+                viên</span>
+              <h3 class="member-name">Thành viên 3</h3>
+              <div class="member-id">MSSV: 23120xxx — Phụ trách Khí tài & GĐ3</div>
+              <p class="member-duty">
+                <strong>Phụ trách nội dung:</strong> Nghiên cứu Giai đoạn 3 (1954 – 1975), tuyến đường Trường Sơn 559,
+                Mậu Thân 1968, Điện Biên Phủ trên không 1972 và Đại thắng mùa Xuân 1975.<br>
+                <strong>Phụ trách thực địa:</strong> Khảo sát và ghi nhận hiện vật khí tài ngoài trời, chuyên đề Chất
+                độc da cam và phòng trưng bày Thế giới ủng hộ Việt Nam.
+              </p>
+            </div>
+            <a href="giai-doan-3.html" class="member-era-tag">
+              Xem Giai đoạn 3 (1954–1975) →
+            </a>
+          </div>
+        </div>
+
+        <!-- Member 4 -->
+        <div class="team-card">
+          <div class="card-top purple-gradient">
+            <div class="card-avatar-badge">📝</div>
+          </div>
+          <div class="card-content">
+            <div>
+              <span class="member-role" style="color: #623B6B; background: rgba(98,59,107,0.1);">Thành viên</span>
+              <h3 class="member-name">Thành viên 4</h3>
+              <div class="member-id">MSSV: 23120xxx — Phụ trách Đổi mới & Nhật ký</div>
+              <p class="member-duty">
+                <strong>Phụ trách nội dung:</strong> Nghiên cứu Giai đoạn 4 (1975 – Nay), 3 bước đột phá kinh tế, đường
+                lối Đổi mới, Ngoại giao cây tre và tầm nhìn 2030 – 2045.<br>
+                <strong>Phụ trách tổng hợp:</strong> Biên tập nhật ký khảo sát thực tế bảo tàng, bài học kinh nghiệm và
+                biên mục tài liệu tham khảo chính thống.
+              </p>
+            </div>
+            <a href="giai-doan-4.html" class="member-era-tag">
+              Xem Giai đoạn 4 (1975–Nay) →
+            </a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ═══════════════════════════════════════════════════════════════
+     MUSEUM FIELDWORK DIARY SECTION
+     ═══════════════════════════════════════════════════════════════ -->
+  <section class="diary-section" id="diary">
+    <div class="section-container">
+      <div class="reveal">
+        <div class="section-label" style="color: var(--gold-primary);">
+          <span class="label-line" style="background: linear-gradient(90deg, var(--gold-primary), var(--sky));"></span>
+          Hồ sơ thực tế tại số 28 Võ Văn Tần, Q.3, TP.HCM
+        </div>
+        <h2 class="section-title" style="color: #fff;">
+          Nhật ký khảo sát thực địa<br>Bảo tàng Chứng tích Chiến tranh
+        </h2>
+        <p class="section-desc" style="color: rgba(253, 251, 247, 0.65);">
+          Chuyến đi thực tế đã giúp nhóm đối chiếu những bài giảng lý luận trong giáo trình với những bằng chứng lịch sử
+          sống động, cảm nhận sâu sắc cái giá thiêng liêng của hòa bình và độc lập tự do.
+        </p>
+      </div>
+
+      <!-- Metadata Box -->
+      <div class="diary-overview-box reveal">
+        <div class="diary-meta-item">
+          <span class="diary-meta-lbl">Địa điểm khảo sát</span>
+          <span class="diary-meta-val">Bảo tàng Chứng tích Chiến tranh</span>
+          <span style="font-size: 0.8rem; color: rgba(253,251,247,0.5);">28 Võ Văn Tần, Phường Võ Thị Sáu, Quận 3,
+            TP.HCM</span>
+        </div>
+        <div class="diary-meta-item">
+          <span class="diary-meta-lbl">Thời gian thực địa</span>
+          <span class="diary-meta-val">Chủ Nhật, Khung giờ 08:30 – 12:00</span>
+          <span style="font-size: 0.8rem; color: rgba(253,251,247,0.5);">Khảo sát cả 3 tầng lầu và khu trưng bày ngoài
+            trời</span>
+        </div>
+        <div class="diary-meta-item">
+          <span class="diary-meta-lbl">Phương pháp nghiên cứu</span>
+          <span class="diary-meta-val">Khảo sát hiện vật & Đối chiếu tư liệu</span>
+          <span style="font-size: 0.8rem; color: rgba(253,251,247,0.5);">Ghi chép mã hiện vật, chụp ảnh và phân tích ngữ
+            cảnh</span>
+        </div>
+        <div class="diary-meta-item">
+          <span class="diary-meta-lbl">Đơn vị chủ trì</span>
+          <span class="diary-meta-val">Nhóm 6 — Lớp 23C02 (HCMUS)</span>
+          <span style="font-size: 0.8rem; color: rgba(253,251,247,0.5);">Khoa Công nghệ Thông tin — ĐH Khoa học Tự
+            nhiên</span>
+        </div>
+      </div>
+
+      <!-- Detailed Chronological Log of 4 Exhibits -->
+      <div class="diary-nodes reveal">
+        <!-- Room 1 -->
+        <div class="diary-card">
+          <div class="diary-header">
+            <div>
+              <span class="diary-badge">Chuyên đề 01 • Tầng trệt & Sân phụ</span>
+              <h3 class="diary-room-title">Khu Chứng tích "Chuồng Cọp" Côn Đảo & Chế độ Lao tù Thực dân</h3>
+            </div>
+            <span style="color: var(--gold-light); font-size: 0.85rem; font-weight: 600;">Gắn với Giai đoạn 1
+              (1930–1945) & Giai đoạn 2 (1945–1954)</span>
+          </div>
+          <div class="diary-body">
+            <p>
+              Nhóm dành hơn 45 phút khảo sát mô hình phục dựng nguyên bản <strong>"Chuồng Cọp" Côn Đảo</strong> (nhà tù
+              do thực dân Pháp thành lập từ năm 1862).
+              Tận mắt chứng kiến các buồng giam chật hẹp chỉ 1,45m x 2,7m, sàn xi măng lạnh buốt, gông cùm sắt hoen gỉ
+              qua hàng chục năm và giàn song sắt phía trên — nơi cai ngục rắc vôi bột và chọc gậy bịt sắt tra tấn tù
+              nhân.
+              Đặc biệt, hiện vật <strong>chiếc máy chém thời Pháp</strong> (lưỡi dao nặng 50kg rơi từ độ cao 4m) khiến
+              toàn bộ thành viên lặng người trước sự hy sinh kiên cường của các chiến sĩ cách mạng tiền bối như Trần
+              Phú, Lý Tự Trọng, Lê Hồng Phong, Nguyễn Thị Minh Khai...
+            </p>
+            <div class="diary-photo-grid">
+              <div class="diary-photo-item" onclick="openLightbox('img/NhaTuConDaoP1/IMG_6066.jpg', 'Mô hình Chuồng Cọp Côn Đảo', 'Tầng trệt Bảo tàng Chứng tích Chiến tranh — Phục dựng không gian ngục tù thuộc địa với giàn song sắt tra tấn bên trên và nền xi măng lạnh buốt.')">
+                <img src="img/NhaTuConDaoP1/IMG_6066.jpg" alt="Chuồng cọp Côn Đảo" loading="lazy">
+                <div class="diary-photo-overlay">
+                  <span class="photo-title">Mô hình Chuồng Cọp Côn Đảo</span>
+                  <span class="zoom-badge">🔍 Phóng to</span>
+                </div>
+              </div>
+              <div class="diary-photo-item" onclick="openLightbox('img/ToiAcChienTranh/IMG_6129.jpg', 'Máy chém thời thực dân Pháp', 'Hiện vật gốc máy chém thực dân dùng đàn áp các nhà yêu nước và chiến sĩ cách mạng đầu thế kỷ XX.')">
+                <img src="img/ToiAcChienTranh/IMG_6129.jpg" alt="Máy chém thời Pháp" loading="lazy">
+                <div class="diary-photo-overlay">
+                  <span class="photo-title">Máy chém thời thực dân</span>
+                  <span class="zoom-badge">🔍 Phóng to</span>
+                </div>
+              </div>
+              <div class="diary-photo-item" onclick="openLightbox('img/NhaTuConDaoP2/IMG_6088.jpg', 'Hệ thống buồng giam biệt lập', 'Khu biệt giam và cùm chân sắt hoen gỉ — nơi giam cầm và tra tấn các chiến sĩ tiền bối.')">
+                <img src="img/NhaTuConDaoP2/IMG_6088.jpg" alt="Buồng giam Côn Đảo" loading="lazy">
+                <div class="diary-photo-overlay">
+                  <span class="photo-title">Hệ thống buồng biệt giam</span>
+                  <span class="zoom-badge">🔍 Phóng to</span>
+                </div>
+              </div>
+            </div>
+            <div class="diary-notes-box">
+              <p><strong>Ghi chép thu hoạch:</strong> "Xiềng xích và máy chém có thể cướp đi sinh mạng thể xác nhưng
+                không thể dập tắt ngọn lửa lý tưởng của người cộng sản. Sự đàn áp tàn khốc càng chứng minh tính tất yếu
+                của ngọn cờ lãnh đạo độc lập dân tộc gắn liền với CNXH."</p>
+            </div>
+          </div>
+        </div>
+
+        <!-- Room 2 -->
+        <div class="diary-card">
+          <div class="diary-header">
+            <div>
+              <span class="diary-badge">Chuyên đề 02 • Sân trưng bày ngoài trời</span>
+              <h3 class="diary-room-title">Bộ sưu tập Khí tài Quân sự Hạng nặng của Quân đội Mỹ</h3>
+            </div>
+            <span style="color: var(--gold-light); font-size: 0.85rem; font-weight: 600;">Gắn với Giai đoạn 3
+              (1954–1975)</span>
+          </div>
+          <div class="diary-body">
+            <p>
+              Tại sân bảo tàng, nhóm khảo sát kỹ thuật các loại vũ khí hiện đại bậc nhất thế kỷ 20 do quân viễn chinh Mỹ
+              sử dụng:
+              <strong>Máy bay tiêm kích phản lực F-5A</strong>, cường kích A-37, trực thăng vận tải CH-47 Chinook;
+              <strong>Pháo tự hành 175mm M107</strong> ("Vua chiến trường" có tầm bắn trên 32 km);
+              <strong>Xe tăng hạng nặng M48A3 Patton</strong> nặng gần 49 tấn cùng hàng chục loại bom đạn có sức công
+              phá khủng khiếp (bom phá, bom bi CBU, bom phát quang BLU-82).
+            </p>
+            <div class="diary-photo-grid">
+              <div class="diary-photo-item" onclick="openLightbox('img/ChuaBiet/IMG_6225.jpg', 'Máy bay cường kích A-37 Dragonfly & Tiêm kích F-5', 'Trưng bày tại sân bảo tàng — Các phi cơ hiện đại của không lực Hoa Kỳ tham chiến tại chiến trường Việt Nam.')">
+                <img src="img/ChuaBiet/IMG_6225.jpg" alt="Không lực Mỹ" loading="lazy">
+                <div class="diary-photo-overlay">
+                  <span class="photo-title">Máy bay tiêm kích & cường kích</span>
+                  <span class="zoom-badge">🔍 Phóng to</span>
+                </div>
+              </div>
+              <div class="diary-photo-item" onclick="openLightbox('img/ChuaBiet/IMG_6228.jpg', 'Xe tăng hạng trung & xe bọc thép M113', 'Hiện vật xe tăng chiến trường bị quân giải phóng vô hiệu hóa trong các chiến dịch lớn.')">
+                <img src="img/ChuaBiet/IMG_6228.jpg" alt="Xe bọc thép" loading="lazy">
+                <div class="diary-photo-overlay">
+                  <span class="photo-title">Xe tăng & Xe bọc thép M113</span>
+                  <span class="zoom-badge">🔍 Phóng to</span>
+                </div>
+              </div>
+              <div class="diary-photo-item" onclick="openLightbox('img/ChuaBiet/IMG_6230.jpg', 'Pháo tự hành 175mm M107 Vua chiến trường', 'Khẩu pháo có tầm bắn trên 32km, biểu tượng cho ưu thế hỏa lực tuyệt đối của quân viễn chinh Mỹ nhưng vẫn bị đánh bại.')">
+                <img src="img/ChuaBiet/IMG_6230.jpg" alt="Pháo 175mm" loading="lazy">
+                <div class="diary-photo-overlay">
+                  <span class="photo-title">Pháo tự hành 175mm M107</span>
+                  <span class="zoom-badge">🔍 Phóng to</span>
+                </div>
+              </div>
+            </div>
+            <div class="diary-notes-box">
+              <p><strong>Ghi chép thu hoạch:</strong> "Đối lập với trang bị tối tân của Mỹ là vũ khí thô sơ tự tạo và ý
+                chí sắt đá của quân dân ta. Chiến thắng 1975 không phải thắng lợi của sắt thép đơn thuần, mà là thắng
+                lợi của trí tuệ, nghệ thuật quân sự chiến tranh nhân dân dưới sự lãnh đạo tài tình của Đảng."</p>
+            </div>
+          </div>
+        </div>
+
+        <!-- Room 3 -->
+        <div class="diary-card">
+          <div class="diary-header">
+            <div>
+              <span class="diary-badge">Chuyên đề 03 • Tầng 2 — Phòng trưng bày số 6</span>
+              <h3 class="diary-room-title">Chuyên đề "Chất độc Da cam trong Chiến tranh Việt Nam"</h3>
+            </div>
+            <span style="color: var(--gold-light); font-size: 0.85rem; font-weight: 600;">Gắn với Giai đoạn 3 & Hậu quả
+              sau chiến tranh (Giai đoạn 4)</span>
+          </div>
+          <div class="diary-body">
+            <p>
+              Đây là khu vực xúc động và để lại nỗi ám ảnh sâu sắc nhất đối với nhóm. Hơn 80 triệu lít chất độc diệt cỏ
+              (chứa ít nhất 366 kg Dioxin nguyên chất) rải xuống 24,6% diện tích miền Nam trong chiến dịch <em>Ranch
+                Hand (1961–1971)</em>.
+              Những bức ảnh tư liệu về các thế hệ nạn nhân da cam (trẻ em sinh ra không mắt, teo cơ, quái thai bẩm sinh
+              kéo dài đến thế hệ thứ ba, thứ tư) là bằng chứng không thể chối cãi về thảm họa hóa học phi nhân tính.
+              Đồng thời, nhóm cũng ghi nhận nỗ lực tẩy độc Dioxin tại các điểm nóng sân bay Đà Nẵng, Biên Hòa và phong
+              trào chung tay xoa dịu nỗi đau da cam của nhân dân ta.
+            </p>
+            <div class="diary-photo-grid">
+              <div class="diary-photo-item" onclick="openLightbox('img/ChatDocMauDaCam/IMG_6182.jpg', 'Phòng trưng bày Tội ác Chất độc Da cam Dioxin', 'Tầng 2 Bảo tàng — Hệ thống biểu đồ, bản đồ rải chất khai quang và bằng chứng khoa học quốc tế về thảm họa Dioxin.')">
+                <img src="img/ChatDocMauDaCam/IMG_6182.jpg" alt="Phòng trưng bày Dioxin" loading="lazy">
+                <div class="diary-photo-overlay">
+                  <span class="photo-title">Hồ sơ Chiến dịch Ranch Hand</span>
+                  <span class="zoom-badge">🔍 Phóng to</span>
+                </div>
+              </div>
+              <div class="diary-photo-item" onclick="openLightbox('img/ChatDocMauDaCam/IMG_6184.jpg', 'Chứng tích nỗi đau thế hệ nạn nhân Da cam', 'Di chứng quái thai bẩm sinh và những tổn thương cơ thể vĩnh viễn qua 3 thế hệ gia đình Việt Nam.')">
+                <img src="img/ChatDocMauDaCam/IMG_6184.jpg" alt="Nạn nhân Da cam" loading="lazy">
+                <div class="diary-photo-overlay">
+                  <span class="photo-title">Nỗi đau qua 3 thế hệ</span>
+                  <span class="zoom-badge">🔍 Phóng to</span>
+                </div>
+              </div>
+              <div class="diary-photo-item" onclick="openLightbox('img/ChatDocMauDaCam/IMG_6187.jpg', 'Phong trào xoa dịu nỗi đau Da cam', 'Hành trình vượt lên số phận của nạn nhân và nỗ lực tẩy độc môi trường, khép lại nỗi đau chiến tranh.')">
+                <img src="img/ChatDocMauDaCam/IMG_6187.jpg" alt="Xoa dịu nỗi đau" loading="lazy">
+                <div class="diary-photo-overlay">
+                  <span class="photo-title">Hàn gắn & Tẩy độc môi trường</span>
+                  <span class="zoom-badge">🔍 Phóng to</span>
+                </div>
+              </div>
+            </div>
+            <div class="diary-notes-box">
+              <p><strong>Ghi chép thu hoạch:</strong> "Hòa bình hôm nay được đánh đổi bằng nỗi đau thể xác kéo dài của
+                hàng triệu đồng bào. Nghiên cứu lịch sử giúp thế hệ trẻ sinh viên nhận thức sâu sắc trách nhiệm bảo vệ
+                hòa bình và đóng góp tri thức công nghệ để khắc phục hậu quả chiến tranh."</p>
+            </div>
+          </div>
+        </div>
+
+        <!-- Room 4 -->
+        <div class="diary-card">
+          <div class="diary-header">
+            <div>
+              <span class="diary-badge">Chuyên đề 04 • Tầng 1 — Phòng trưng bày số 2</span>
+              <h3 class="diary-room-title">Phòng Trưng bày "Thế giới Ủng hộ Việt Nam Kháng chiến" & Thông điệp Hòa giải
+              </h3>
+            </div>
+            <span style="color: var(--gold-light); font-size: 0.85rem; font-weight: 600;">Gắn với Tinh thần Quốc tế & Kỷ
+              nguyên Hội nhập</span>
+          </div>
+          <div class="diary-body">
+            <p>
+              Nhóm ấn tượng mạnh mẽ trước bộ sưu tập hàng trăm áp phích, biểu ngữ phản đối chiến tranh của các tổ chức
+              quốc tế và nhân dân Mỹ, Pháp, Nhật Bản, Thụy Điển, Cuba...
+              Hình ảnh ngọn lửa tự thiêu của Norman Morrison trước Lầu Năm Góc năm 1965 minh chứng cho sức mạnh của công
+              lý và lương tri thời đại.
+              Đặc biệt, mảng tư liệu về sự bình thường hóa quan hệ Việt – Mỹ (1995) và việc nâng cấp lên <strong>Đối tác
+                Chiến lược Toàn diện (2023)</strong> thể hiện bản lĩnh ngoại giao khép lại quá khứ, hướng tới tương lai
+              của Đảng và Nhà nước ta.
+            </p>
+            <div class="diary-photo-grid">
+              <div class="diary-photo-item" onclick="openLightbox('img/TheGioiUngHoVN%20KhangChien/IMG_6268.jpg', 'Áp phích đoàn kết quốc tế với Việt Nam', 'Hàng nghìn tổ chức chính trị, xã hội trên 5 châu lục biểu tình phản đối chiến tranh xâm lược của Mỹ.')">
+                <img src="img/TheGioiUngHoVN%20KhangChien/IMG_6268.jpg" alt="Đoàn kết quốc tế" loading="lazy">
+                <div class="diary-photo-overlay">
+                  <span class="photo-title">Áp phích phản chiến quốc tế</span>
+                  <span class="zoom-badge">🔍 Phóng to</span>
+                </div>
+              </div>
+              <div class="diary-photo-item" onclick="openLightbox('img/TheGioiUngHoVN%20KhangChien/IMG_6272.jpg', 'Làn sóng biểu tình tại Mỹ và châu Âu', 'Nhân dân tiến bộ toàn cầu xuống đường đòi quân đội Mỹ rút khỏi Việt Nam, tạo sức ép ngoại giao khổng lồ.')">
+                <img src="img/TheGioiUngHoVN%20KhangChien/IMG_6272.jpg" alt="Biểu tình phản chiến" loading="lazy">
+                <div class="diary-photo-overlay">
+                  <span class="photo-title">Làn sóng biểu tình toàn cầu</span>
+                  <span class="zoom-badge">🔍 Phóng to</span>
+                </div>
+              </div>
+              <div class="diary-photo-item" onclick="openLightbox('img/TheGioiUngHoVN%20KhangChien/IMG_6275.jpg', 'Ủng hộ Việt Nam — Lương tri nhân loại', 'Các kỷ vật, huân huy chương và tài liệu ngoại giao nhân dân khẳng định chân lý chính nghĩa của dân tộc Việt Nam.')">
+                <img src="img/TheGioiUngHoVN%20KhangChien/IMG_6275.jpg" alt="Lương tri nhân loại" loading="lazy">
+                <div class="diary-photo-overlay">
+                  <span class="photo-title">Khối đoàn kết lương tri</span>
+                  <span class="zoom-badge">🔍 Phóng to</span>
+                </div>
+              </div>
+            </div>
+            <div class="diary-notes-box">
+              <p><strong>Ghi chép thu hoạch:</strong> "Đường lối đối ngoại của Đảng từ 'Việt Nam muốn là bạn' đến 'Ngoại
+                giao cây tre' thời đại mới đã biến Việt Nam từ một dân tộc bị bao vây cấm vận thành đối tác tin cậy, có
+                trách nhiệm của toàn thế giới."</p>
+            </div>
+          </div>
+        </div>
+
+        <!-- Room 5 (Bổ sung chuyên đề) -->
+        <div class="diary-card">
+          <div class="diary-header">
+            <div>
+              <span class="diary-badge" style="background: rgba(69,123,157,0.18); color: var(--sky-light); border-color: rgba(69,123,157,0.35);">Chuyên đề 05 • Tầng 1 — Trưng bày đặc biệt</span>
+              <h3 class="diary-room-title">Đồng chí Nguyễn Thị Bình & Bản lĩnh Ngoại giao tại Hiệp định Paris (1968–1973)</h3>
+            </div>
+            <span style="color: var(--gold-light); font-size: 0.85rem; font-weight: 600;">Gắn với Mặt trận Ngoại giao GĐ3 & GĐ4</span>
+          </div>
+          <div class="diary-body">
+            <p>
+              Gian trưng bày chuyên đề về đồng chí <strong>Nguyễn Thị Bình</strong> (Trưởng phái đoàn đàm phán Chính phủ Cách mạng lâm thời Cộng hòa miền Nam Việt Nam tại Hội nghị Paris) để lại cho nhóm ấn tượng sâu sắc về nghệ thuật đàm phán kết hợp <em>"vừa đánh vừa đàm"</em>.
+              Với phong thái ung dung, lập luận sắc bén và nụ cười tự tin, "Madame Bình" đã làm rung động truyền thông quốc tế, góp phần quyết định vào việc ký kết Hiệp định Paris ngày 27/1/1973 buộc quân Mỹ phải cuốn cờ rút về nước.
+            </p>
+            <div class="diary-photo-grid">
+              <div class="diary-photo-item" onclick="openLightbox('img/PhongNguyenThiBinh/IMG_6133.jpg', 'Đồng chí Nguyễn Thị Bình tại Hội nghị Paris', 'Chân dung và hoạt động ngoại giao kiệt xuất của Madame Bình tại bàn đàm phán quốc tế Paris 1968–1973.')">
+                <img src="img/PhongNguyenThiBinh/IMG_6133.jpg" alt="Nguyễn Thị Bình tại Paris" loading="lazy">
+                <div class="diary-photo-overlay">
+                  <span class="photo-title">Bản lĩnh Madame Bình tại Paris</span>
+                  <span class="zoom-badge">🔍 Phóng to</span>
+                </div>
+              </div>
+              <div class="diary-photo-item" onclick="openLightbox('img/PhongNguyenThiBinh/IMG_6135.jpg', 'Lễ ký kết Hiệp định Paris (27/1/1973)', 'Giây phút lịch sử ký kết hiệp định chấm dứt chiến tranh, lập lại hòa bình ở Việt Nam.')">
+                <img src="img/PhongNguyenThiBinh/IMG_6135.jpg" alt="Ký kết Hiệp định Paris" loading="lazy">
+                <div class="diary-photo-overlay">
+                  <span class="photo-title">Lễ ký kết Hiệp định Paris 1973</span>
+                  <span class="zoom-badge">🔍 Phóng to</span>
+                </div>
+              </div>
+              <div class="diary-photo-item" onclick="openLightbox('img/PhongNguyenThiBinh/IMG_6176.jpg', 'Di sản Ngoại giao & Thời kỳ Đổi mới', 'Tư liệu về các đóng góp to lớn của nguyên Phó Chủ tịch nước Nguyễn Thị Bình trong kỷ nguyên hòa bình và hội nhập.')">
+                <img src="img/PhongNguyenThiBinh/IMG_6176.jpg" alt="Di sản Ngoại giao" loading="lazy">
+                <div class="diary-photo-overlay">
+                  <span class="photo-title">Di sản ngoại giao đổi mới</span>
+                  <span class="zoom-badge">🔍 Phóng to</span>
+                </div>
+              </div>
+            </div>
+            <div class="diary-notes-box">
+              <p><strong>Ghi chép thu hoạch:</strong> "Mặt trận ngoại giao là sự tiếp nối và kết tinh của thắng lợi trên chiến trường quân sự. Bản lĩnh đàm phán kiên định nguyên tắc độc lập, linh hoạt về sách lược chính là cội nguồn của trường phái 'Ngoại giao cây tre' của Đảng ta ngày nay."</p>
+            </div>
+          </div>
+        </div>
+
+        <!-- Room 6 (Bổ sung chuyên đề) -->
+        <div class="diary-card">
+          <div class="diary-header">
+            <div>
+              <span class="diary-badge" style="background: rgba(45,106,79,0.2); color: var(--bamboo-light); border-color: rgba(45,106,79,0.4);">Chuyên đề 06 • Tầng 2 — Chuyên đề lịch sử</span>
+              <h3 class="diary-room-title">Thời Thanh Xuân Trên Tuyến Đường 1C Huyền Thoại (Tây Nam Bộ)</h3>
+            </div>
+            <span style="color: var(--gold-light); font-size: 0.85rem; font-weight: 600;">Gắn với Hậu cần Chiến lược GĐ3 (1954–1975)</span>
+          </div>
+          <div class="diary-body">
+            <p>
+              Tuyến đường 1C là huyết mạch giao liên, vận chuyển vũ khí và bộ đội từ Trung ương chi viện cho chiến trường Tây Nam Bộ qua biên giới Tây Nam, kênh rạch chằng chịt và đầm lầy Đồng Tháp Mười, U Minh.
+              Hơn 800 thanh niên xung phong (đa số là các cô gái tuổi đời mười tám, đôi mươi) đã dũng cảm bám trụ dưới làn mưa bom B-52, chất độc hóa học và tàu chiến địch, vận chuyển hơn 13.000 tấn vũ khí, đưa đón hàng vạn lượt cán bộ, thương binh an toàn.
+            </p>
+            <div class="diary-photo-grid">
+              <div class="diary-photo-item" onclick="openLightbox('img/ThoiThanhXuanTrenTuyenDuong1C%20HuyenThoai/IMG_6243.jpg', 'Không gian Trưng bày Tuyến đường 1C', 'Tái hiện gian khổ và lòng dũng cảm phi thường của lực lượng TNXP Tây Nam Bộ bám trụ huyết mạch vận tải.')">
+                <img src="img/ThoiThanhXuanTrenTuyenDuong1C%20HuyenThoai/IMG_6243.jpg" alt="Tuyến đường 1C" loading="lazy">
+                <div class="diary-photo-overlay">
+                  <span class="photo-title">Huyết mạch giao liên 1C</span>
+                  <span class="zoom-badge">🔍 Phóng to</span>
+                </div>
+              </div>
+              <div class="diary-photo-item" onclick="openLightbox('img/ThoiThanhXuanTrenTuyenDuong1C%20HuyenThoai/IMG_6248.jpg', 'Kỷ vật Thanh niên Xung phong đường 1C', 'Chiếc xuồng ba lá, bi đông nước và những vật dụng giản dị gắn bó với tuổi thanh xuân trên sông nước.')">
+                <img src="img/ThoiThanhXuanTrenTuyenDuong1C%20HuyenThoai/IMG_6248.jpg" alt="Kỷ vật TNXP" loading="lazy">
+                <div class="diary-photo-overlay">
+                  <span class="photo-title">Kỷ vật tuổi thanh xuân</span>
+                  <span class="zoom-badge">🔍 Phóng to</span>
+                </div>
+              </div>
+              <div class="diary-photo-item" onclick="openLightbox('img/ThoiThanhXuanTrenTuyenDuong1C%20HuyenThoai/IMG_6253.jpg', 'Vượt đầm lầy tải đạn cho chiến trường', 'Hình ảnh lịch sử các nữ thanh niên xung phong ngâm mình dưới nước đưa vũ khí phục vụ Tổng tiến công 1975.')">
+                <img src="img/ThoiThanhXuanTrenTuyenDuong1C%20HuyenThoai/IMG_6253.jpg" alt="Tải đạn chiến trường" loading="lazy">
+                <div class="diary-photo-overlay">
+                  <span class="photo-title">Vượt đầm lầy tải đạn</span>
+                  <span class="zoom-badge">🔍 Phóng to</span>
+                </div>
+              </div>
+            </div>
+            <div class="diary-notes-box">
+              <p><strong>Ghi chép thu hoạch:</strong> "Tuổi thanh xuân của cha anh đã hòa vào sông núi. Thế hệ sinh viên ngày nay được sống trong hòa bình cần phát huy tinh thần xung kích của đường 1C trong công cuộc chuyển đổi số và phụng sự Tổ quốc."</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ═══════════════════════════════════════════════════════════════
+     MUSEUM FULL PHOTO ARCHIVE (KHO TƯ LIỆU ẢNH THỰC ĐỊA BẢO TÀNG)
+     ═══════════════════════════════════════════════════════════════ -->
+  <section class="gallery-section" id="gallery">
+    <div class="section-container">
+      <div class="reveal" style="text-align: center;">
+        <div class="section-label" style="color: var(--gold-primary); justify-content: center;">
+          <span class="label-line" style="background: linear-gradient(90deg, var(--gold-primary), var(--sky));"></span>
+          Kho lưu trữ 200+ tư liệu thực địa
+          <span class="label-line" style="background: linear-gradient(90deg, var(--sky), var(--gold-primary));"></span>
+        </div>
+        <h2 class="section-title" style="color: #fff; max-width: 800px; margin-left: auto; margin-right: auto;">
+          Kho Ảnh Khảo Sát Thực Địa<br>Bảo Tàng Chứng Tích Chiến Tranh
+        </h2>
+        <p class="section-desc" style="color: rgba(253, 251, 247, 0.65); margin-left: auto; margin-right: auto;">
+          Toàn bộ hình ảnh do nhóm tự tay chụp và ghi nhận trực tiếp tại số 28 Võ Văn Tần, Q.3, TP.HCM. 
+          Nhấp vào bất kỳ ảnh nào để xem ảnh gốc độ nét cao và diễn giải lịch sử chi tiết.
+        </p>
+      </div>
+
+      <!-- Filter Bar -->
+      <div class="gallery-filter-bar reveal">
+        <button class="gallery-filter-btn active" onclick="filterGallery('all', this)">Tất cả (38 ảnh tiêu biểu)</button>
+        <button class="gallery-filter-btn" onclick="filterGallery('nhom', this)">📸 Nhóm Thực Hiện</button>
+        <button class="gallery-filter-btn" onclick="filterGallery('nhatu', this)">⛓️ Chuồng Cọp Côn Đảo</button>
+        <button class="gallery-filter-btn" onclick="filterGallery('toiac', this)">⚔️ Máy Chém & Tội Ác</button>
+        <button class="gallery-filter-btn" onclick="filterGallery('dacam', this)">☢️ Chất Độc Da Cam</button>
+        <button class="gallery-filter-btn" onclick="filterGallery('paris', this)">🕊️ Hiệp Định Paris 1973</button>
+        <button class="gallery-filter-btn" onclick="filterGallery('duong1c', this)">🌿 Đường 1C Huyền Thoại</button>
+        <button class="gallery-filter-btn" onclick="filterGallery('quocte', this)">🌍 Quốc Tế Ủng Hộ VN</button>
+        <button class="gallery-filter-btn" onclick="filterGallery('khitai', this)">🛡️ Khí Tài Quân Sự</button>
+        <button class="gallery-filter-btn" onclick="filterGallery('hoiniem', this)">📷 Phòng Hồi Niệm</button>
+      </div>
+
+      <!-- Gallery Grid -->
+      <div class="gallery-grid reveal" id="galleryGrid">
+        <!-- NHÓM THỰC HIỆN -->
+        <div class="gallery-card" data-category="nhom" onclick="openLightbox('img/Anh%20Nhom/IMG_6125.jpg', 'Tập thể Nhóm 6 tại Bảo tàng CTCT', 'Chuyến đi thực tế tại Bảo tàng Chứng tích Chiến tranh (28 Võ Văn Tần, Q.3, TP.HCM) phục vụ nghiên cứu đồ án môn Lịch sử Đảng Cộng sản Việt Nam.')">
+          <div class="gallery-card-imgwrap">
+            <span class="gallery-card-category">Nhóm Thực Hiện</span>
+            <img src="img/Anh%20Nhom/IMG_6125.jpg" alt="Nhóm 6" loading="lazy">
+          </div>
+          <div class="gallery-card-info">
+            <h4 class="gallery-card-title">Tập thể Nhóm 6 — Lớp 23C02</h4>
+            <p class="gallery-card-desc">Chụp tại không gian sảnh chính Bảo tàng Chứng tích Chiến tranh.</p>
+          </div>
+        </div>
+
+        <div class="gallery-card" data-category="nhom" onclick="openLightbox('img/Anh%20Nhom/IMG_6126.jpg', 'Nhóm 6 khảo sát khí tài ngoài trời', 'Khảo sát hiện vật máy bay cường kích A-37 và xe bọc thép tại sân bảo tàng.')">
+          <div class="gallery-card-imgwrap">
+            <span class="gallery-card-category">Nhóm Thực Hiện</span>
+            <img src="img/Anh%20Nhom/IMG_6126.jpg" alt="Nhóm 6 tại sân bảo tàng" loading="lazy">
+          </div>
+          <div class="gallery-card-info">
+            <h4 class="gallery-card-title">Khảo sát khí tài quân sự</h4>
+            <p class="gallery-card-desc">Ghi nhận thông số các loại vũ khí hạng nặng của quân đội Mỹ.</p>
+          </div>
+        </div>
+
+        <div class="gallery-card" data-category="nhom" onclick="openLightbox('img/Anh%20Nhom/IMG_6127.jpg', 'Nhóm 6 tại khu Chuồng Cọp Côn Đảo', 'Ghi chép và tìm hiểu mô hình ngục tù thực dân Pháp và chiếc máy chém.')">
+          <div class="gallery-card-imgwrap">
+            <span class="gallery-card-category">Nhóm Thực Hiện</span>
+            <img src="img/Anh%20Nhom/IMG_6127.jpg" alt="Nhóm 6 tại Chuồng Cọp" loading="lazy">
+          </div>
+          <div class="gallery-card-info">
+            <h4 class="gallery-card-title">Nghiên cứu chứng tích lao tù</h4>
+            <p class="gallery-card-desc">Đối chiếu bài học giáo trình với hiện vật thực tế chế độ lao tù thực dân.</p>
+          </div>
+        </div>
+
+        <div class="gallery-card" data-category="nhom" onclick="openLightbox('img/Anh%20Nhom/IMG_6128.jpg', 'Tổng kết chuyến khảo sát thực địa', 'Các thành viên hoàn thành buổi điền dã kết nối lý luận lịch sử với thực tiễn.')">
+          <div class="gallery-card-imgwrap">
+            <span class="gallery-card-category">Nhóm Thực Hiện</span>
+            <img src="img/Anh%20Nhom/IMG_6128.jpg" alt="Tổng kết chuyến đi" loading="lazy">
+          </div>
+          <div class="gallery-card-info">
+            <h4 class="gallery-card-title">Hoàn thành buổi điền dã</h4>
+            <p class="gallery-card-desc">Tổng hợp tư liệu, hình ảnh và mã hiện vật phục vụ xây dựng website.</p>
+          </div>
+        </div>
+
+        <!-- CHUỒNG CỌP CÔN ĐẢO -->
+        <div class="gallery-card" data-category="nhatu" onclick="openLightbox('img/NhaTuConDaoP1/IMG_6066.jpg', 'Mô hình Chuồng Cọp Côn Đảo', 'Phục dựng không gian buồng giam chật hẹp chỉ 1,45m x 2,7m của thực dân Pháp tại Côn Đảo.')">
+          <div class="gallery-card-imgwrap">
+            <span class="gallery-card-category">Chuồng Cọp Côn Đảo</span>
+            <img src="img/NhaTuConDaoP1/IMG_6066.jpg" alt="Chuồng Cọp Côn Đảo" loading="lazy">
+          </div>
+          <div class="gallery-card-info">
+            <h4 class="gallery-card-title">Mô hình Chuồng Cọp Côn Đảo</h4>
+            <p class="gallery-card-desc">Nơi thực dân Pháp và tay sai giam cầm, tra tấn dã man tù chính trị.</p>
+          </div>
+        </div>
+
+        <div class="gallery-card" data-category="nhatu" onclick="openLightbox('img/NhaTuConDaoP1/IMG_6064.jpg', 'Xiềng xích và cùm chân sắt', 'Hiện vật cùm chân bằng sắt hoen gỉ qua hàng chục năm giam giữ các chiến sĩ cách mạng.')">
+          <div class="gallery-card-imgwrap">
+            <span class="gallery-card-category">Chuồng Cọp Côn Đảo</span>
+            <img src="img/NhaTuConDaoP1/IMG_6064.jpg" alt="Cùm chân sắt" loading="lazy">
+          </div>
+          <div class="gallery-card-info">
+            <h4 class="gallery-card-title">Xiềng xích & Cùm sắt tra tấn</h4>
+            <p class="gallery-card-desc">Dụng cụ kìm kẹp thể xác không thể khuất phục ý chí người cộng sản.</p>
+          </div>
+        </div>
+
+        <div class="gallery-card" data-category="nhatu" onclick="openLightbox('img/NhaTuConDaoP1/IMG_6067.jpg', 'Giàn song sắt tra tấn phía trên', 'Nơi cai ngục đi lại rắc vôi bột và thọc gậy bịt sắt thiêu đốt thân thể người tù.')">
+          <div class="gallery-card-imgwrap">
+            <span class="gallery-card-category">Chuồng Cọp Côn Đảo</span>
+            <img src="img/NhaTuConDaoP1/IMG_6067.jpg" alt="Giàn song sắt" loading="lazy">
+          </div>
+          <div class="gallery-card-info">
+            <h4 class="gallery-card-title">Giàn song sắt rắc vôi bột</h4>
+            <p class="gallery-card-desc">Thủ đoạn tra tấn dã man bậc nhất trong lịch sử ngục tù thực dân.</p>
+          </div>
+        </div>
+
+        <div class="gallery-card" data-category="nhatu" onclick="openLightbox('img/NhaTuConDaoP2/IMG_6088.jpg', 'Hệ thống buồng biệt giam', 'Khu biệt giam tối tăm thiếu không khí và ánh sáng nhằm bẻ gãy ý chí chiến sĩ cách mạng.')">
+          <div class="gallery-card-imgwrap">
+            <span class="gallery-card-category">Chuồng Cọp Côn Đảo</span>
+            <img src="img/NhaTuConDaoP2/IMG_6088.jpg" alt="Buồng biệt giam" loading="lazy">
+          </div>
+          <div class="gallery-card-info">
+            <h4 class="gallery-card-title">Khu phòng giam biệt lập</h4>
+            <p class="gallery-card-desc">Nơi tôi luyện khí tiết bất khuất của các nhà lãnh đạo tiền bối.</p>
+          </div>
+        </div>
+
+        <div class="gallery-card" data-category="nhatu" onclick="openLightbox('img/NhaTuConDaoP2/IMG_6091.jpg', 'Đấu tranh trong ngục tù', 'Tư liệu về các cuộc tuyệt thực và phong trào học tập chính trị bí mật biến nhà tù thành trường học cách mạng.')">
+          <div class="gallery-card-imgwrap">
+            <span class="gallery-card-category">Chuồng Cọp Côn Đảo</span>
+            <img src="img/NhaTuConDaoP2/IMG_6091.jpg" alt="Đấu tranh ngục tù" loading="lazy">
+          </div>
+          <div class="gallery-card-info">
+            <h4 class="gallery-card-title">Biến nhà tù thành trường học</h4>
+            <p class="gallery-card-desc">Tổ chức Đảng trong lao tù lãnh đạo đấu tranh bảo vệ khí tiết.</p>
+          </div>
+        </div>
+
+        <!-- TỘI ÁC CHIẾN TRANH & MÁY CHÉM -->
+        <div class="gallery-card" data-category="toiac" onclick="openLightbox('img/ToiAcChienTranh/IMG_6129.jpg', 'Chiếc máy chém thời thực dân Pháp', 'Hiện vật gốc máy chém thực dân (lưỡi dao 50kg, rơi từ độ cao 4m) do Pháp đưa sang Việt Nam và sau này được Diệm dùng theo Luật 10/59.')">
+          <div class="gallery-card-imgwrap">
+            <span class="gallery-card-category">Máy Chém & Tội Ác</span>
+            <img src="img/ToiAcChienTranh/IMG_6129.jpg" alt="Máy chém thời Pháp" loading="lazy">
+          </div>
+          <div class="gallery-card-info">
+            <h4 class="gallery-card-title">Hiện vật Máy Chém Thực Dân</h4>
+            <p class="gallery-card-desc">Chứng tích tội ác man rợ cướp đi sinh mạng của Lý Tự Trọng và hàng nghìn đồng chí.</p>
+          </div>
+        </div>
+
+        <div class="gallery-card" data-category="toiac" onclick="openLightbox('img/ToiAcChienTranh/IMG_6130.jpg', 'Cận cảnh khung máy chém', 'Chi tiết cấu trúc khung gỗ và ray trượt của chiếc máy chém nguyên bản được lưu giữ.')">
+          <div class="gallery-card-imgwrap">
+            <span class="gallery-card-category">Máy Chém & Tội Ác</span>
+            <img src="img/ToiAcChienTranh/IMG_6130.jpg" alt="Chi tiết máy chém" loading="lazy">
+          </div>
+          <div class="gallery-card-info">
+            <h4 class="gallery-card-title">Cận cảnh cỗ máy hành quyết</h4>
+            <p class="gallery-card-desc">Bằng chứng không thể chối cãi về chính sách khủng bố đẫm máu của đế quốc thực dân.</p>
+          </div>
+        </div>
+
+        <div class="gallery-card" data-category="toiac" onclick="openLightbox('img/ToiAcChienTranh/IMG_6131.jpg', 'Chứng tích thảm sát chiến tranh', 'Tư liệu hình ảnh về các vụ thảm sát thường dân vô tội trong chiến tranh xâm lược.')">
+          <div class="gallery-card-imgwrap">
+            <span class="gallery-card-category">Máy Chém & Tội Ác</span>
+            <img src="img/ToiAcChienTranh/IMG_6131.jpg" alt="Thảm sát chiến tranh" loading="lazy">
+          </div>
+          <div class="gallery-card-info">
+            <h4 class="gallery-card-title">Hồ sơ Tội ác Chiến tranh</h4>
+            <p class="gallery-card-desc">Nhắc nhở thế hệ hôm nay về cái giá máu xương để đổi lấy nền hòa bình.</p>
+          </div>
+        </div>
+
+        <!-- CHẤT ĐỘC DA CAM -->
+        <div class="gallery-card" data-category="dacam" onclick="openLightbox('img/ChatDocMauDaCam/IMG_6182.jpg', 'Phòng Trưng bày Hậu quả Da cam', 'Tầng 2 Bảo tàng — Không gian trưng bày toàn diện về chiến dịch Ranch Hand (1961–1971).')">
+          <div class="gallery-card-imgwrap">
+            <span class="gallery-card-category">Chất Độc Da Cam</span>
+            <img src="img/ChatDocMauDaCam/IMG_6182.jpg" alt="Phòng trưng bày Dioxin" loading="lazy">
+          </div>
+          <div class="gallery-card-info">
+            <h4 class="gallery-card-title">Chiến dịch Khai quang Ranch Hand</h4>
+            <p class="gallery-card-desc">Hơn 80 triệu lít chất độc chứa 366kg Dioxin hủy diệt hệ sinh thái và con người.</p>
+          </div>
+        </div>
+
+        <div class="gallery-card" data-category="dacam" onclick="openLightbox('img/ChatDocMauDaCam/IMG_6183.jpg', 'Bản đồ các tọa độ rải chất độc', 'Bản đồ chi tiết các vùng đất bị rải thảm Dioxin đậm đặc tại miền Trung và Nam Bộ.')">
+          <div class="gallery-card-imgwrap">
+            <span class="gallery-card-category">Chất Độc Da Cam</span>
+            <img src="img/ChatDocMauDaCam/IMG_6183.jpg" alt="Bản đồ rải hóa chất" loading="lazy">
+          </div>
+          <div class="gallery-card-info">
+            <h4 class="gallery-card-title">Bản đồ Tọa độ Rải Hóa chất</h4>
+            <p class="gallery-card-desc">Bằng chứng khoa học vạch trần quy mô tàn phá khổng lồ của chiến tranh hóa học.</p>
+          </div>
+        </div>
+
+        <div class="gallery-card" data-category="dacam" onclick="openLightbox('img/ChatDocMauDaCam/IMG_6184.jpg', 'Nỗi đau xuyên thế hệ', 'Hình ảnh các em nhỏ sinh ra với dị tật bẩm sinh do di chứng chất độc Dioxin từ ông cha.')">
+          <div class="gallery-card-imgwrap">
+            <span class="gallery-card-category">Chất Độc Da Cam</span>
+            <img src="img/ChatDocMauDaCam/IMG_6184.jpg" alt="Nạn nhân Da cam" loading="lazy">
+          </div>
+          <div class="gallery-card-info">
+            <h4 class="gallery-card-title">Di chứng qua các thế hệ</h4>
+            <p class="gallery-card-desc">Hơn 4,8 triệu người Việt Nam chịu ảnh hưởng trực tiếp và gián tiếp của Dioxin.</p>
+          </div>
+        </div>
+
+        <div class="gallery-card" data-category="dacam" onclick="openLightbox('img/ChatDocMauDaCam/IMG_6187.jpg', 'Tẩy độc & Xoa dịu nỗi đau Da cam', 'Các dự án tẩy độc đất đai tại sân bay Đà Nẵng, Biên Hòa và phong trào nhân đạo quốc tế.')">
+          <div class="gallery-card-imgwrap">
+            <span class="gallery-card-category">Chất Độc Da Cam</span>
+            <img src="img/ChatDocMauDaCam/IMG_6187.jpg" alt="Tẩy độc Da cam" loading="lazy">
+          </div>
+          <div class="gallery-card-info">
+            <h4 class="gallery-card-title">Hành trình Hàn gắn & Tẩy độc</h4>
+            <p class="gallery-card-desc">Nỗ lực không ngừng nghỉ của Nhà nước và các tổ chức thiện nguyện xoa dịu vết thương.</p>
+          </div>
+        </div>
+
+        <!-- HIỆP ĐỊNH PARIS & BÀ NGUYỄN THỊ BÌNH -->
+        <div class="gallery-card" data-category="paris" onclick="openLightbox('img/PhongNguyenThiBinh/IMG_6133.jpg', 'Đồng chí Nguyễn Thị Bình tại Hội nghị Paris', 'Chân dung và phong thái đàm phán tự tin, bản lĩnh của Madame Bình tại thủ đô nước Pháp.')">
+          <div class="gallery-card-imgwrap">
+            <span class="gallery-card-category">Hiệp Định Paris</span>
+            <img src="img/PhongNguyenThiBinh/IMG_6133.jpg" alt="Bà Nguyễn Thị Bình" loading="lazy">
+          </div>
+          <div class="gallery-card-info">
+            <h4 class="gallery-card-title">Bản lĩnh Madame Nguyễn Thị Bình</h4>
+            <p class="gallery-card-desc">Trưởng đoàn đàm phán Chính phủ Cách mạng lâm thời Cộng hòa miền Nam Việt Nam.</p>
+          </div>
+        </div>
+
+        <div class="gallery-card" data-category="paris" onclick="openLightbox('img/PhongNguyenThiBinh/IMG_6135.jpg', 'Lễ ký kết Hiệp định Paris 1973', 'Khoảnh khắc lịch sử ngày 27/1/1973 tại Trung tâm Hội nghị Quốc tế Kléber (Paris).')">
+          <div class="gallery-card-imgwrap">
+            <span class="gallery-card-category">Hiệp Định Paris</span>
+            <img src="img/PhongNguyenThiBinh/IMG_6135.jpg" alt="Lễ ký kết Paris" loading="lazy">
+          </div>
+          <div class="gallery-card-info">
+            <h4 class="gallery-card-title">Lễ Ký kết Hiệp Định Paris 1973</h4>
+            <p class="gallery-card-desc">Thắng lợi quyết định trên bàn ngoại giao buộc quân đội Mỹ rút hoàn toàn khỏi Việt Nam.</p>
+          </div>
+        </div>
+
+        <div class="gallery-card" data-category="paris" onclick="openLightbox('img/PhongNguyenThiBinh/IMG_6136.jpg', 'Phái đoàn đàm phán Việt Nam', 'Hình ảnh các thành viên đoàn đàm phán VNDCCH và CPCMLT CHMNVN gắn kết chặt chẽ.')">
+          <div class="gallery-card-imgwrap">
+            <span class="gallery-card-category">Hiệp Định Paris</span>
+            <img src="img/PhongNguyenThiBinh/IMG_6136.jpg" alt="Đoàn đàm phán" loading="lazy">
+          </div>
+          <div class="gallery-card-info">
+            <h4 class="gallery-card-title">Phái đoàn Đàm phán Lịch sử</h4>
+            <p class="gallery-card-desc">Sự phối hợp nhịp nhàng giữa đòn quân sự trên chiến trường và đòn ngoại giao quốc tế.</p>
+          </div>
+        </div>
+
+        <div class="gallery-card" data-category="paris" onclick="openLightbox('img/PhongNguyenThiBinh/IMG_6176.jpg', 'Di sản Ngoại giao Đổi mới', 'Tư liệu về những cống hiến của nguyên Phó Chủ tịch nước Nguyễn Thị Bình trong thời kỳ hội nhập.')">
+          <div class="gallery-card-imgwrap">
+            <span class="gallery-card-category">Hiệp Định Paris</span>
+            <img src="img/PhongNguyenThiBinh/IMG_6176.jpg" alt="Di sản Nguyễn Thị Bình" loading="lazy">
+          </div>
+          <div class="gallery-card-info">
+            <h4 class="gallery-card-title">Di sản Ngoại giao Đổi mới</h4>
+            <p class="gallery-card-desc">Tiền đề định hình trường phái 'Ngoại giao cây tre' của Đảng trong thế kỷ 21.</p>
+          </div>
+        </div>
+
+        <!-- ĐƯỜNG 1C HUYỀN THOẠI -->
+        <div class="gallery-card" data-category="duong1c" onclick="openLightbox('img/ThoiThanhXuanTrenTuyenDuong1C%20HuyenThoai/IMG_6243.jpg', 'Chuyên đề Tuyến đường 1C Huyền thoại', 'Khu trưng bày đặc biệt tái hiện tuyến chi viện vũ khí hào hùng của TNXP Tây Nam Bộ.')">
+          <div class="gallery-card-imgwrap">
+            <span class="gallery-card-category">Đường 1C Huyền Thoại</span>
+            <img src="img/ThoiThanhXuanTrenTuyenDuong1C%20HuyenThoai/IMG_6243.jpg" alt="Trưng bày Đường 1C" loading="lazy">
+          </div>
+          <div class="gallery-card-info">
+            <h4 class="gallery-card-title">Không gian Trưng bày Đường 1C</h4>
+            <p class="gallery-card-desc">Con đường máu lửa xuyên qua đầm lầy, kênh rạch Đồng Tháp Mười và U Minh.</p>
+          </div>
+        </div>
+
+        <div class="gallery-card" data-category="duong1c" onclick="openLightbox('img/ThoiThanhXuanTrenTuyenDuong1C%20HuyenThoai/IMG_6248.jpg', 'Kỷ vật Thanh niên Xung phong', 'Chiếc xuồng ba lá, bi đông nước và vật dụng gắn bó với tuổi thanh xuân trên tuyến lửa.')">
+          <div class="gallery-card-imgwrap">
+            <span class="gallery-card-category">Đường 1C Huyền Thoại</span>
+            <img src="img/ThoiThanhXuanTrenTuyenDuong1C%20HuyenThoai/IMG_6248.jpg" alt="Kỷ vật TNXP" loading="lazy">
+          </div>
+          <div class="gallery-card-info">
+            <h4 class="gallery-card-title">Kỷ vật Tuổi Thanh xuân TNXP</h4>
+            <p class="gallery-card-desc">Hiện vật mộc mạc làm nên kỳ tích vận chuyển 13.000 tấn vũ khí cho chiến trường.</p>
+          </div>
+        </div>
+
+        <div class="gallery-card" data-category="duong1c" onclick="openLightbox('img/ThoiThanhXuanTrenTuyenDuong1C%20HuyenThoai/IMG_6253.jpg', 'Ngâm mình tải đạn cho Tổng tiến công', 'Những bức ảnh tư liệu chân thực về tinh thần xả thân vì độc lập của tuổi trẻ miền Nam.')">
+          <div class="gallery-card-imgwrap">
+            <span class="gallery-card-category">Đường 1C Huyền Thoại</span>
+            <img src="img/ThoiThanhXuanTrenTuyenDuong1C%20HuyenThoai/IMG_6253.jpg" alt="Tải đạn chiến trường" loading="lazy">
+          </div>
+          <div class="gallery-card-info">
+            <h4 class="gallery-card-title">Vượt Đầm Lầy Tải Đạn Chi Viện</h4>
+            <p class="gallery-card-desc">Hơn 800 đội viên TNXP kiên cường giữ thông tuyến mạch máu giao thông chiến lược.</p>
+          </div>
+        </div>
+
+        <!-- QUỐC TẾ ỦNG HỘ VIỆT NAM -->
+        <div class="gallery-card" data-category="quocte" onclick="openLightbox('img/TheGioiUngHoVN%20KhangChien/IMG_6268.jpg', 'Áp phích phong trào quốc tế', 'Áp phích của nhân dân tiến bộ toàn cầu ủng hộ cuộc kháng chiến chính nghĩa của Việt Nam.')">
+          <div class="gallery-card-imgwrap">
+            <span class="gallery-card-category">Quốc Tế Ủng Hộ VN</span>
+            <img src="img/TheGioiUngHoVN%20KhangChien/IMG_6268.jpg" alt="Áp phích quốc tế" loading="lazy">
+          </div>
+          <div class="gallery-card-info">
+            <h4 class="gallery-card-title">Mặt Trận Nhân Dân Toàn Cầu</h4>
+            <p class="gallery-card-desc">Sức mạnh của công lý và lương tri thời đại kết đoàn cùng dân tộc Việt Nam.</p>
+          </div>
+        </div>
+
+        <div class="gallery-card" data-category="quocte" onclick="openLightbox('img/TheGioiUngHoVN%20KhangChien/IMG_6272.jpg', 'Làn sóng phản chiến tại Mỹ', 'Hàng triệu người dân Mỹ biểu tình tại Washington và New York đòi rút quân về nước.')">
+          <div class="gallery-card-imgwrap">
+            <span class="gallery-card-category">Quốc Tế Ủng Hộ VN</span>
+            <img src="img/TheGioiUngHoVN%20KhangChien/IMG_6272.jpg" alt="Biểu tình tại Mỹ" loading="lazy">
+          </div>
+          <div class="gallery-card-info">
+            <h4 class="gallery-card-title">Phong trào Phản chiến tại Mỹ</h4>
+            <p class="gallery-card-desc">Gây sức ép chính trị dữ dội buộc chính quyền Mỹ phải ngồi vào bàn đàm phán Paris.</p>
+          </div>
+        </div>
+
+        <div class="gallery-card" data-category="quocte" onclick="openLightbox('img/TheGioiUngHoVN%20KhangChien/IMG_6278.jpg', 'Hòa giải & Hợp tác tương lai', 'Tư liệu về các đoàn đại biểu quốc tế đến thăm bảo tàng, gửi gắm thông điệp hòa bình.')">
+          <div class="gallery-card-imgwrap">
+            <span class="gallery-card-category">Quốc Tế Ủng Hộ VN</span>
+            <img src="img/TheGioiUngHoVN%20KhangChien/IMG_6278.jpg" alt="Hòa giải tương lai" loading="lazy">
+          </div>
+          <div class="gallery-card-info">
+            <h4 class="gallery-card-title">Thông Điệp Hòa Bình & Hòa Giải</h4>
+            <p class="gallery-card-desc">Khép lại quá khứ đau thương, cùng hướng tới một thế giới hòa bình, hợp tác phát triển.</p>
+          </div>
+        </div>
+
+        <!-- KHÍ TÀI QUÂN SỰ NGOÀI TRỜI -->
+        <div class="gallery-card" data-category="khitai" onclick="openLightbox('img/ChuaBiet/IMG_6225.jpg', 'Máy bay cường kích A-37 Dragonfly & F-5', 'Các dòng máy bay chiến đấu phản lực hiện đại của quân lực Mỹ được trưng bày tại sân bảo tàng.')">
+          <div class="gallery-card-imgwrap">
+            <span class="gallery-card-category">Khí Tài Quân Sự</span>
+            <img src="img/ChuaBiet/IMG_6225.jpg" alt="Cường kích A-37" loading="lazy">
+          </div>
+          <div class="gallery-card-info">
+            <h4 class="gallery-card-title">Máy bay Cường kích A-37 & F-5</h4>
+            <p class="gallery-card-desc">Khí tài không quân hiện đại được trưng bày trực quan tại sân bảo tàng.</p>
+          </div>
+        </div>
+
+        <div class="gallery-card" data-category="khitai" onclick="openLightbox('img/ChuaBiet/IMG_6228.jpg', 'Xe tăng M48 & Thiết giáp M113', 'Hiện vật xe tăng hạng trung M48 Patton và thiết giáp lội nước M113.')">
+          <div class="gallery-card-imgwrap">
+            <span class="gallery-card-category">Khí Tài Quân Sự</span>
+            <img src="img/ChuaBiet/IMG_6228.jpg" alt="Xe tăng M48" loading="lazy">
+          </div>
+          <div class="gallery-card-info">
+            <h4 class="gallery-card-title">Xe tăng M48 & Thiết giáp M113</h4>
+            <p class="gallery-card-desc">Sức mạnh thiết giáp bị chiến thuật chiến tranh nhân dân quả cảm bẻ gãy.</p>
+          </div>
+        </div>
+
+        <div class="gallery-card" data-category="khitai" onclick="openLightbox('img/ChuaBiet/IMG_6230.jpg', 'Pháo tự hành 175mm M107 Vua chiến trường', 'Khẩu pháo tầm xa 32km được mệnh danh là Vua chiến trường của pháo binh Mỹ.')">
+          <div class="gallery-card-imgwrap">
+            <span class="gallery-card-category">Khí Tài Quân Sự</span>
+            <img src="img/ChuaBiet/IMG_6230.jpg" alt="Pháo 175mm" loading="lazy">
+          </div>
+          <div class="gallery-card-info">
+            <h4 class="gallery-card-title">Pháo Tự Hành 175mm M107</h4>
+            <p class="gallery-card-desc">Hiện vật kích thước khổng lồ minh chứng cho sức công phá tàn khốc của chiến tranh.</p>
+          </div>
+        </div>
+
+        <!-- PHÒNG HỒI NIỆM REQUIEM -->
+        <div class="gallery-card" data-category="hoiniem" onclick="openLightbox('img/PhongHoiNiem/IMG_6190.jpg', 'Phòng Trưng bày Hồi Niệm (Requiem)', 'Tưởng nhớ các phóng viên ảnh chiến trường Việt Nam và quốc tế đã hy sinh trong khi làm nhiệm vụ.')">
+          <div class="gallery-card-imgwrap">
+            <span class="gallery-card-category">Phòng Hồi Niệm</span>
+            <img src="img/PhongHoiNiem/IMG_6190.jpg" alt="Phòng Hồi Niệm" loading="lazy">
+          </div>
+          <div class="gallery-card-info">
+            <h4 class="gallery-card-title">Phòng Hồi Niệm (Requiem)</h4>
+            <p class="gallery-card-desc">Tôn vinh những phóng viên quả cảm hy sinh thân mình để đưa sự thật chiến tranh ra ánh sáng.</p>
+          </div>
+        </div>
+
+        <div class="gallery-card" data-category="hoiniem" onclick="openLightbox('img/PhongHoiNiem/IMG_6191.jpg', 'Ống kính Lịch sử & Hòa bình', 'Bộ sưu tập máy ảnh, nhật ký và những bức ảnh lịch sử đoạt giải Pulitzer về chiến tranh Việt Nam.')">
+          <div class="gallery-card-imgwrap">
+            <span class="gallery-card-category">Phòng Hồi Niệm</span>
+            <img src="img/PhongHoiNiem/IMG_6191.jpg" alt="Ống kính lịch sử" loading="lazy">
+          </div>
+          <div class="gallery-card-info">
+            <h4 class="gallery-card-title">Ống Kính Lịch Sử Về Chiến Tranh</h4>
+            <p class="gallery-card-desc">Những thước phim lay động trái tim nhân loại và thức tỉnh phong trào yêu chuộng hòa bình.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ═══════════════════════════════════════════════════════════════
+     REFLECTIONS & LEARNING OUTCOMES
+     ═══════════════════════════════════════════════════════════════ -->
+  <section style="background: var(--cream);">
+    <div class="section-container">
+      <div class="reveal">
+        <div class="section-label">
+          <span class="label-line"></span>
+          Thu hoạch nhận thức
+        </div>
+        <h2 class="section-title">Cảm nhận & Bài học sâu sắc<br>của sinh viên HCMUS</h2>
+        <p class="section-desc">
+          Những thu hoạch lý luận và cảm xúc chân thành của các thành viên sau quá trình nghiên cứu giáo trình và khảo
+          sát thực địa.
+        </p>
+      </div>
+
+      <div class="reflections-grid reveal">
+        <div class="reflection-box">
+          <h4 class="reflection-author">Thành viên 1 — Nhóm trưởng</h4>
+          <div class="reflection-sub">Thu hoạch về Bản lĩnh chính trị & Cương lĩnh</div>
+          <p class="reflection-text">
+            "Qua việc nghiên cứu Cương lĩnh 1930 và đối chiếu với chứng tích lao tù tại bảo tàng, em hiểu rằng độc lập
+            tự do không phải món quà từ trên trời rơi xuống.
+            Bản lĩnh của Đảng nằm ở chỗ luôn kiên định mục tiêu giải phóng dân tộc nhưng cực kỳ linh hoạt về sách lược.
+            Là sinh viên ngành Công nghệ Thông tin, em thấy mình cần rèn luyện bản lĩnh chính trị vững vàng, dùng tri
+            thức công nghệ để phụng sự Tổ quốc trong kỷ nguyên số."
+          </p>
+        </div>
+
+        <div class="reflection-box">
+          <h4 class="reflection-author">Thành viên 2</h4>
+          <div class="reflection-sub">Thu hoạch về Nghệ thuật Ngoại giao & Thời cơ</div>
+          <p class="reflection-text">
+            "Bài học 'Dĩ bất biến, ứng vạn biến' trong giai đoạn 1945–1946 và chiến thắng Điện Biên Phủ cho em bài học
+            lớn về nghệ thuật chớp thời cơ và cân bằng lực lượng.
+            Trong môi trường công nghệ biến động nhanh chóng hiện nay, tư duy biện chứng và kiên định giá trị cốt lõi
+            của Bác Hồ vẫn là kim chỉ nam vô giá cho thế hệ trẻ."
+          </p>
+        </div>
+
+        <div class="reflection-box">
+          <h4 class="reflection-author">Thành viên 3</h4>
+          <div class="reflection-sub">Thu hoạch về Sức mạnh Chiến tranh Nhân dân</div>
+          <p class="reflection-text">
+            "Đứng trước pháo tự hành 175mm và xe tăng M48 tại sân bảo tàng, em thực sự xúc động trước ý chí của thế hệ
+            cha anh.
+            Không có pháo đài thép nào thắng nổi lòng dân đoàn kết.
+            Trách nhiệm của thế hệ sinh viên hôm nay là phải bảo vệ vững chắc thành quả hòa bình mà lớp lớp cha anh đã
+            ngã xuống để giành lấy."
+          </p>
+        </div>
+
+        <div class="reflection-box">
+          <h4 class="reflection-author">Thành viên 4</h4>
+          <div class="reflection-sub">Thu hoạch về Kỷ nguyên Vươn mình 2030 – 2045</div>
+          <p class="reflection-text">
+            "Đường lối Đổi mới từ Đại hội VI đến Đại hội XIII đã đưa đất nước từ một nền kinh tế khủng hoảng vươn lên
+            quy mô hơn 500 tỷ USD.
+            Mục tiêu 2030 và 2045 không phải khẩu hiệu xa vời, mà là sứ mệnh trực tiếp của thế hệ sinh viên chúng em —
+            những kỹ sư công nghệ tương lai sẽ tham gia kiến tạo nền kinh tế số, công nghệ cao cho đất nước."
+          </p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ═══════════════════════════════════════════════════════════════
+     ACADEMIC BIBLIOGRAPHY (TÀI LIỆU THAM KHẢO CHÍNH THỐNG)
+     ═══════════════════════════════════════════════════════════════ -->
+  <section style="background: var(--cream-dark); padding: 5rem 0;" id="tailieu">
+    <div class="section-container">
+      <div class="reveal">
+        <div class="section-label">
+          <span class="label-line"></span>
+          Danh mục tài liệu
+        </div>
+        <h2 class="section-title">Tài liệu tham khảo chính thống</h2>
+        <p class="section-desc">
+          Đồ án được xây dựng dựa trên nguồn tài liệu chuẩn mực của Bộ Giáo dục & Đào tạo, các Văn kiện Đại hội Đảng
+          chính thức và tư liệu lưu trữ của Bảo tàng Chứng tích Chiến tranh.
+        </p>
+      </div>
+
+      <div class="biblio-box reveal">
+        <ul class="biblio-list">
+          <li class="biblio-item">
+            <div class="biblio-num">1</div>
+            <div>
+              <strong>Bộ Giáo dục và Đào tạo (2021)</strong>, <em>Giáo trình Lịch sử Đảng Cộng sản Việt Nam</em> (Dành
+              cho bậc đại học hệ không chuyên lý luận chính trị), Nxb. Chính trị quốc gia Sự thật, Hà Nội.
+            </div>
+          </li>
+          <li class="biblio-item">
+            <div class="biblio-num">2</div>
+            <div>
+              <strong>Đảng Cộng sản Việt Nam (2021)</strong>, <em>Văn kiện Đại hội đại biểu toàn quốc lần thứ XIII</em>,
+              Tập I và Tập II, Nxb. Chính trị quốc gia Sự thật, Hà Nội.
+            </div>
+          </li>
+          <li class="biblio-item">
+            <div class="biblio-num">3</div>
+            <div>
+              <strong>Đảng Cộng sản Việt Nam (2011)</strong>, <em>Cương lĩnh xây dựng đất nước trong thời kỳ quá độ lên
+                chủ nghĩa xã hội (Bổ sung, phát triển năm 2011)</em>, Nxb. Chính trị quốc gia, Hà Nội.
+            </div>
+          </li>
+          <li class="biblio-item">
+            <div class="biblio-num">4</div>
+            <div>
+              <strong>Hồ Chí Minh (2011)</strong>, <em>Toàn tập</em>, Tập 1 đến Tập 15, Nxb. Chính trị quốc gia Sự thật,
+              Hà Nội.
+            </div>
+          </li>
+          <li class="biblio-item">
+            <div class="biblio-num">5</div>
+            <div>
+              <strong>Nguyễn Phú Trọng (2023)</strong>, <em>Một số vấn đề lý luận và thực tiễn về chủ nghĩa xã hội và
+                con đường đi lên chủ nghĩa xã hội ở Việt Nam</em>, Nxb. Chính trị quốc gia Sự thật, Hà Nội.
+            </div>
+          </li>
+          <li class="biblio-item">
+            <div class="biblio-num">6</div>
+            <div>
+              <strong>Bảo tàng Chứng tích Chiến tranh (TP.HCM)</strong>, <em>Tư liệu, hình ảnh hiện vật các chuyên đề:
+                Chế độ lao tù thực dân, Tội ác chiến tranh xâm lược, Hậu quả chất độc da cam và Thế giới ủng hộ Việt Nam
+                kháng chiến</em>, Số 28 Võ Văn Tần, Q.3, TP.HCM.
+            </div>
+          </li>
+        </ul>
+      </div>
+    </div>
+  </section>
+
+  <!-- ═══════════════════════════════════════════════════════════════
+     FOOTER
+     ═══════════════════════════════════════════════════════════════ -->
+  <footer>
+    <div class="footer-container">
+      <div class="footer-grid">
+        <div>
+          <div class="footer-brand">Lịch sử Đảng Cộng sản Việt Nam — Nhóm 6</div>
+          <p class="footer-desc">
+            Đồ án môn học Lịch sử Đảng Cộng sản Việt Nam — Lớp 23C02, Trường Đại học Khoa học Tự nhiên, Đại học Quốc gia
+            TP. Hồ Chí Minh.
+            Kết hợp lý luận chính thống với chứng tích thực tiễn tại Bảo tàng Chứng tích Chiến tranh TP.HCM.
+          </p>
+        </div>
+        <div class="footer-col">
+          <h5>Tiến trình Lịch sử</h5>
+          <ul class="footer-links">
+            <li><a href="giai-doan-1.html">Giai đoạn 1 (1930 – 1945)</a></li>
+            <li><a href="giai-doan-2.html">Giai đoạn 2 (1945 – 1954)</a></li>
+            <li><a href="giai-doan-3.html">Giai đoạn 3 (1954 – 1975)</a></li>
+            <li><a href="giai-doan-4.html">Giai đoạn 4 (1975 – Nay)</a></li>
+          </ul>
+        </div>
+        <div class="footer-col">
+          <h5>Thông tin Đồ án</h5>
+          <ul class="footer-links">
+            <li><a href="index.html">Trang chủ tổng quan</a></li>
+            <li><a href="nhom-thuc-hien.html">Nhật ký bảo tàng & Nhóm 6</a></li>
+            <li><a href="#tailieu">Tài liệu tham khảo</a></li>
+            <li><a href="https://baotangchungtichchientranh.vn" target="_blank" rel="noopener">Bảo tàng Chứng tích Chiến
+                tranh</a></li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="footer-bottom">
+        <div>© 2026 Nhóm 6 — Lớp 23C02 — Khoa Công nghệ Thông tin, HCMUS. Bảo lưu mọi quyền.</div>
+        <div style="font-style: italic;">Giáo trình tham khảo chính: Giáo trình Lịch sử ĐCSVN (Nxb. Chính trị quốc gia
+          Sự thật, 2021)</div>
+      </div>
+    </div>
+  </footer>
+
+  <!-- ═══════════════════════════════════════════════════════════════
+       INTERACTIVE LIGHTBOX MODAL
+       ═══════════════════════════════════════════════════════════════ -->
+  <div class="lightbox-modal" id="lightboxModal" role="dialog" aria-modal="true" aria-label="Xem ảnh phóng to">
+    <button class="lightbox-close-btn" id="lightboxClose" aria-label="Đóng (ESC)">✕</button>
+    <button class="lightbox-nav-btn lightbox-prev-btn" id="lightboxPrev" aria-label="Ảnh trước (←)">❮</button>
+    <button class="lightbox-nav-btn lightbox-next-btn" id="lightboxNext" aria-label="Ảnh sau (→)">❯</button>
+    <div class="lightbox-content">
+      <div class="lightbox-img-wrapper">
+        <img id="lightboxImg" src="" alt="Ảnh tư liệu bảo tàng">
+      </div>
+      <div class="lightbox-caption-box">
+        <h3 class="lightbox-title" id="lightboxTitle"></h3>
+        <p class="lightbox-desc" id="lightboxDesc"></p>
+      </div>
+    </div>
+  </div>
+
+  <button class="back-to-top" id="backToTop" aria-label="Về đầu trang">
+    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"
+      stroke-linecap="round" stroke-linejoin="round">
+      <polyline points="18 15 12 9 6 15" />
+    </svg>
+  </button>
+
+  <script>
+    // ─── HERO PHOTO SWITCHER ──────────────────────────────────────
+    window.switchHeroPhoto = function(src, title, sub, btn) {
+      const mainImg = document.getElementById('heroMainPhoto');
+      const titleEl = document.getElementById('heroPhotoCaptionTitle');
+      const subEl = document.getElementById('heroPhotoCaptionSub');
+      gsap.to(mainImg, { opacity: 0, duration: 0.25, onComplete: () => {
+        mainImg.src = src;
+        titleEl.textContent = title;
+        subEl.textContent = sub;
+        gsap.to(mainImg, { opacity: 1, duration: 0.35 });
+      }});
+      document.querySelectorAll('.hero-thumb-btn').forEach(b => b.classList.remove('active'));
+      if (btn) btn.classList.add('active');
+    };
+
+    // ─── LIGHTBOX MODAL & GALLERY ────────────────────────────────
+    let currentGalleryItems = [];
+    let currentLightboxIndex = -1;
+
+    function buildGalleryList() {
+      currentGalleryItems = [];
+      document.querySelectorAll('.gallery-card, .diary-photo-item').forEach(el => {
+        const img = el.querySelector('img');
+        if (img) {
+          const onclickAttr = el.getAttribute('onclick') || '';
+          const match = onclickAttr.match(/openLightbox\('([^']+)',\s*'([^']*)',\s*'([^']*)'\)/);
+          if (match) {
+            currentGalleryItems.push({
+              src: match[1],
+              title: match[2],
+              desc: match[3]
+            });
+          }
+        }
+      });
+    }
+
+    window.openLightbox = function(src, title, desc) {
+      if (currentGalleryItems.length === 0) buildGalleryList();
+      currentLightboxIndex = currentGalleryItems.findIndex(item => item.src === src);
+      if (currentLightboxIndex === -1) {
+        currentGalleryItems.push({ src, title, desc });
+        currentLightboxIndex = currentGalleryItems.length - 1;
+      }
+      updateLightboxDisplay();
+      const modal = document.getElementById('lightboxModal');
+      modal.classList.add('active');
+      document.body.style.overflow = 'hidden';
+    };
+
+    function updateLightboxDisplay() {
+      if (currentLightboxIndex < 0 || currentLightboxIndex >= currentGalleryItems.length) return;
+      const item = currentGalleryItems[currentLightboxIndex];
+      const img = document.getElementById('lightboxImg');
+      const title = document.getElementById('lightboxTitle');
+      const desc = document.getElementById('lightboxDesc');
+      img.src = item.src;
+      title.textContent = item.title;
+      desc.textContent = item.desc;
+    }
+
+    function closeLightbox() {
+      const modal = document.getElementById('lightboxModal');
+      modal.classList.remove('active');
+      document.body.style.overflow = '';
+    }
+
+    function nextLightbox() {
+      if (currentGalleryItems.length === 0) return;
+      currentLightboxIndex = (currentLightboxIndex + 1) % currentGalleryItems.length;
+      updateLightboxDisplay();
+    }
+
+    function prevLightbox() {
+      if (currentGalleryItems.length === 0) return;
+      currentLightboxIndex = (currentLightboxIndex - 1 + currentGalleryItems.length) % currentGalleryItems.length;
+      updateLightboxDisplay();
+    }
+
+    // ─── GALLERY FILTERING ───────────────────────────────────────
+    window.filterGallery = function(category, btn) {
+      document.querySelectorAll('.gallery-filter-btn').forEach(b => b.classList.remove('active'));
+      if (btn) btn.classList.add('active');
+
+      const cards = document.querySelectorAll('#galleryGrid .gallery-card');
+      cards.forEach(card => {
+        const cat = card.getAttribute('data-category');
+        if (category === 'all' || cat === category) {
+          gsap.to(card, {
+            opacity: 1,
+            scale: 1,
+            duration: 0.4,
+            ease: 'power2.out',
+            onStart: () => card.style.display = 'flex'
+          });
+        } else {
+          gsap.to(card, {
+            opacity: 0,
+            scale: 0.9,
+            duration: 0.3,
+            ease: 'power2.in',
+            onComplete: () => card.style.display = 'none'
+          });
+        }
+      });
+    };
+
+    document.addEventListener('DOMContentLoaded', () => {
+      document.getElementById('lightboxClose').addEventListener('click', closeLightbox);
+      document.getElementById('lightboxNext').addEventListener('click', nextLightbox);
+      document.getElementById('lightboxPrev').addEventListener('click', prevLightbox);
+      document.getElementById('lightboxModal').addEventListener('click', (e) => {
+        if (e.target.id === 'lightboxModal') closeLightbox();
+      });
+
+      document.addEventListener('keydown', (e) => {
+        const modal = document.getElementById('lightboxModal');
+        if (!modal.classList.contains('active')) return;
+        if (e.key === 'Escape') closeLightbox();
+        if (e.key === 'ArrowRight') nextLightbox();
+        if (e.key === 'ArrowLeft') prevLightbox();
+      });
+      // ─── CANVAS PARTICLES ──────────────────────────────────────
+      const canvas = document.getElementById('particle-canvas');
+      const ctx = canvas.getContext('2d');
+      let W, H;
+      function resize() { W = canvas.width = window.innerWidth; H = canvas.height = window.innerHeight; }
+      resize();
+      window.addEventListener('resize', resize);
+
+      const colors = ['#D4AF37', '#8B0000', '#C41E3A', '#457B9D'];
+      const particles = [];
+      for (let i = 0; i < 85; i++) {
+        particles.push({
+          x: Math.random() * W, y: Math.random() * H,
+          vx: (Math.random() - 0.5) * 0.35, vy: (Math.random() - 0.5) * 0.35,
+          r: Math.random() * 2 + 0.8,
+          c: colors[Math.floor(Math.random() * colors.length)]
+        });
+      }
+
+      function loop() {
+        ctx.clearRect(0, 0, W, H);
+        for (let i = 0; i < particles.length; i++) {
+          const p = particles[i];
+          p.x += p.vx; p.y += p.vy;
+          if (p.x < 0) p.x = W; if (p.x > W) p.x = 0;
+          if (p.y < 0) p.y = H; if (p.y > H) p.y = 0;
+
+          ctx.beginPath();
+          ctx.arc(p.x, p.y, p.r, 0, Math.PI * 2);
+          ctx.fillStyle = p.c;
+          ctx.globalAlpha = 0.5;
+          ctx.fill();
+
+          for (let j = i + 1; j < particles.length; j++) {
+            const q = particles[j];
+            const dx = p.x - q.x, dy = p.y - q.y;
+            const d = Math.sqrt(dx * dx + dy * dy);
+            if (d < 120) {
+              ctx.beginPath();
+              ctx.moveTo(p.x, p.y);
+              ctx.lineTo(q.x, q.y);
+              ctx.strokeStyle = 'rgba(212, 175, 55, ' + (0.08 * (1 - d / 120)) + ')';
+              ctx.lineWidth = 0.5;
+              ctx.stroke();
+            }
+          }
+        }
+        requestAnimationFrame(loop);
+      }
+      loop();
+
+      // ─── SCROLL & NAVBAR ───────────────────────────────────────
+      const nav = document.getElementById('main-nav');
+      const navProgress = document.getElementById('navProgress');
+      const backToTop = document.getElementById('backToTop');
+
+      window.addEventListener('scroll', () => {
+        const s = window.scrollY;
+        const max = document.documentElement.scrollHeight - window.innerHeight;
+        navProgress.style.width = (s / max * 100) + '%';
+        nav.classList.toggle('scrolled', s > 60);
+        backToTop.classList.toggle('visible', s > 500);
+      }, { passive: true });
+
+      // Mobile menu
+      document.getElementById('navToggle').addEventListener('click', () => {
+        document.getElementById('navLinks').classList.toggle('open');
+      });
+
+      // Back to top
+      backToTop.addEventListener('click', () => {
+        gsap.to(window, { scrollTo: 0, duration: 1.2, ease: 'power3.inOut' });
+      });
+
+      // Hero CTA
+      document.getElementById('heroBtn').addEventListener('click', (e) => {
+        e.preventDefault();
+        gsap.to(window, { scrollTo: '#team', duration: 1.2, ease: 'power3.inOut' });
+      });
+
+      // Reveal observer
+      const obs = new IntersectionObserver((entries) => {
+        entries.forEach(e => {
+          if (e.isIntersecting) {
+            e.target.classList.add('visible');
+          }
+        });
+      }, { threshold: 0.12 });
+      document.querySelectorAll('.reveal').forEach(el => obs.observe(el));
+
+      // 3D Parallax Tilt
+      function addTilt(selector, maxTilt = 6, perspective = 800) {
+        document.querySelectorAll(selector).forEach(card => {
+          card.addEventListener('mousemove', (e) => {
+            const rect = card.getBoundingClientRect();
+            const x = (e.clientX - rect.left) / rect.width - 0.5;
+            const y = (e.clientY - rect.top) / rect.height - 0.5;
+            gsap.to(card, {
+              rotateY: x * maxTilt,
+              rotateX: -y * maxTilt,
+              transformPerspective: perspective,
+              duration: 0.35,
+              ease: 'power2.out'
+            });
+          });
+          card.addEventListener('mouseleave', () => {
+            gsap.to(card, { rotateY: 0, rotateX: 0, duration: 0.5, ease: 'power2.out' });
+          });
+        });
+      }
+
+      addTilt('.team-card', 6, 800);
+      addTilt('.diary-card', 4, 1000);
+      addTilt('.reflection-box', 5, 800);
+
+      // Smooth anchor scrolling
+      document.querySelectorAll('a[href^="#"]').forEach(a => {
+        a.addEventListener('click', (e) => {
+          const target = document.querySelector(a.getAttribute('href'));
+          if (target) {
+            e.preventDefault();
+            gsap.to(window, { scrollTo: target, duration: 1, ease: 'power3.inOut' });
+            document.getElementById('navLinks').classList.remove('open');
+          }
         });
       });
-      card.addEventListener('mouseleave', () => {
-        gsap.to(card, { rotateY: 0, rotateX: 0, duration: 0.5, ease: 'power2.out' });
-      });
     });
-  }
-
-  addTilt('.team-card', 6, 800);
-  addTilt('.diary-card', 4, 1000);
-  addTilt('.reflection-box', 5, 800);
-
-  // Smooth anchor scrolling
-  document.querySelectorAll('a[href^="#"]').forEach(a => {
-    a.addEventListener('click', (e) => {
-      const target = document.querySelector(a.getAttribute('href'));
-      if(target){
-        e.preventDefault();
-        gsap.to(window, { scrollTo: target, duration: 1, ease: 'power3.inOut' });
-        document.getElementById('navLinks').classList.remove('open');
-      }
-    });
-  });
-});
-</script>
+  </script>
 
 </body>
+
 </html>
