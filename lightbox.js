@@ -32,13 +32,6 @@
   var descEl = modal.querySelector('#lightboxDesc');
   var items = [];
 
-  function descFor(img) {
-    var scope = img.closest('.content-item, .museum-teaser-card, .content-block-body, .team-cta-box');
-    var p = scope ? scope.querySelector('p') : null;
-    if (!p) return '';
-    return p.textContent.replace(/\s+/g, ' ').trim().slice(0, 240);
-  }
-
   document.querySelectorAll('img').forEach(function (img) {
     if (img.id === 'lightboxImg') return;
     if (img.closest('a, button, [onclick]')) return;
@@ -49,7 +42,7 @@
     items.push({
       src: src,
       title: img.getAttribute('alt') || 'Ảnh tư liệu',
-      desc: descFor(img)
+      desc: img.getAttribute('data-desc') || ''
     });
     img.addEventListener('click', function (e) {
       e.preventDefault();
@@ -68,6 +61,7 @@
     imgEl.alt = item.title;
     titleEl.textContent = item.title;
     descEl.textContent = item.desc;
+    descEl.style.display = item.desc ? '' : 'none';
   }
 
   function open(i) {
