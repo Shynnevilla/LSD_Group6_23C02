@@ -1248,6 +1248,11 @@ footer .footer-ref {
 }
 
 @media (max-width: 768px) {
+  .reveal, .reveal-left, .reveal-right, .stagger, .stagger > *, .timeline-node, .vision-node {
+    opacity: 1 !important;
+    transform: none !important;
+    transition: none !important;
+  }
   .nav-toggle { display: block; }
   .nav-links {
     display: none;
@@ -1263,6 +1268,12 @@ footer .footer-ref {
     box-shadow: 0 10px 40px rgba(0, 0, 0, 0.1);
   }
   .nav-links.open { display: flex; }
+}
+
+@media (max-width: 500px) {
+  .museum-photo-strip {
+    grid-template-columns: 1fr;
+  }
 }
 
 /* Tooltip for timeline dots */
@@ -2014,9 +2025,10 @@ document.addEventListener('DOMContentLoaded', () => {
     entries.forEach(entry => {
       if (entry.isIntersecting) {
         entry.target.classList.add('visible');
+        revealObserver.unobserve(entry.target);
       }
     });
-  }, { threshold: 0.15, rootMargin: '0px 0px -50px 0px' });
+  }, { threshold: 0, rootMargin: '0px 0px -30px 0px' });
   
   document.querySelectorAll('.reveal, .reveal-left, .reveal-right, .stagger, .timeline-node, .vision-node').forEach(el => {
     revealObserver.observe(el);
@@ -2056,7 +2068,11 @@ document.addEventListener('DOMContentLoaded', () => {
       
       // Update panels
       document.querySelectorAll('.tab-panel').forEach(p => p.classList.remove('active'));
-      document.getElementById('tab-' + tabId).classList.add('active');
+      const targetPanel = document.getElementById('tab-' + tabId);
+      if (targetPanel) {
+        targetPanel.classList.add('active');
+        targetPanel.querySelectorAll('.reveal, .reveal-left, .reveal-right, .stagger').forEach(el => el.classList.add('visible'));
+      }
     });
   });
   

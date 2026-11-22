@@ -1392,6 +1392,12 @@
     }
 
     @media (max-width: 768px) {
+      .reveal, .reveal-left, .reveal-right, .stagger, .stagger > * {
+        opacity: 1 !important;
+        transform: none !important;
+        transition: none !important;
+      }
+
       .nav-links {
         display: none;
         position: absolute;
@@ -1420,6 +1426,15 @@
 
       .diary-card {
         padding: 1.8rem;
+      }
+    }
+
+    @media (max-width: 500px) {
+      .diary-photo-grid {
+        grid-template-columns: 1fr;
+      }
+      .gallery-grid {
+        grid-template-columns: 1fr;
       }
     }
   </style>
@@ -1536,7 +1551,7 @@
         </div>
         <h2 class="section-title">Nhóm 6 — Lớp 23C02<br>Khoa Công nghệ Thông tin (HCMUS) — 12 Thành Viên</h2>
         <p class="section-desc">
-          Tập thể 12 sinh viên Khoa CNTT (HCMUS) phối hợp thực hiện: Nguyễn Nhật Hoàng làm Trưởng nhóm điều phối chung; Phạm Minh Triết và Phạm Hồng Thái Dương đồng chủ trì nòng cốt kỹ thuật và nội dung; Nguyễn Tường Huy giữ trọng trách nghiên cứu lịch sử; cùng các thành viên nghiên cứu chuyên sâu từng giai đoạn và khảo sát thực địa tại Bảo tàng Chứng tích Chiến tranh TP.HCM.
+          Tập thể 12 sinh viên Khoa CNTT (HCMUS) phối hợp thực hiện: Nguyễn Nhật Hoàng làm Trưởng nhóm điều phối chung; Phạm Minh Triết và Phạm Hồng Thái Dương đồng chủ trì nòng cốt nghiên cứu nội dung và tư liệu lịch sử; Nguyễn Tường Huy giữ trọng trách nghiên cứu lịch sử; cùng các thành viên nghiên cứu chuyên sâu từng giai đoạn và khảo sát thực địa tại Bảo tàng Chứng tích Chiến tranh TP.HCM.
         </p>
       </div>
 
@@ -1564,15 +1579,15 @@
         <!-- 2. Phạm Minh Triết -->
         <div class="team-card">
           <div class="card-top gold-gradient">
-            <div class="card-avatar-badge">💻</div>
+            <div class="card-avatar-badge">🎖️</div>
           </div>
           <div class="card-content">
             <div>
-              <span class="member-role" style="color: var(--sky); background: rgba(69,123,157,0.12);">Đồng chủ trì Kỹ thuật & Nội dung</span>
+              <span class="member-role" style="color: #8B263E; background: rgba(139,38,62,0.12);">Đồng chủ trì Đồ án & Nghiên cứu GĐ3</span>
               <h3 class="member-name">Phạm Minh Triết</h3>
-              <div class="member-id">MSSV: 23127132 — Phụ trách Kỹ thuật hệ thống & GĐ3</div>
+              <div class="member-id">MSSV: 23127132 — Phụ trách Nghiên cứu Giai đoạn 3 (1954 – 1975)</div>
               <p class="member-duty">
-                <strong>Vai trò & Nhiệm vụ:</strong> Đồng chủ trì kỹ thuật toàn hệ thống (kiến trúc frontend dùng chung, canvas particle, GSAP ScrollTrigger, tối ưu hiệu năng); xây dựng trang chủ <code>index.html</code>; phụ trách nghiên cứu chuyên sâu Giai đoạn 3 (1954 – 1975), tuyến đường Trường Sơn 559, Mậu Thân 1968, Hiệp định Paris và Đại thắng mùa Xuân 1975.
+                <strong>Vai trò & Nhiệm vụ:</strong> Đồng chủ trì xây dựng đề cương và tổng thể đồ án; phụ trách nghiên cứu chuyên sâu Giai đoạn 3 (1954 – 1975) với các mốc son lịch sử: tuyến chi viện chiến lược đường Trường Sơn 559, cuộc Tổng tiến công và nổi dậy Xuân Mậu Thân 1968, đàm phán Hiệp định Paris 1973 và Đại thắng mùa Xuân 1975; tổng hợp tư liệu và đối chiếu hiện vật chiến tranh tại bảo tàng.
               </p>
             </div>
             <a href="giai-doan-3.html" class="member-era-tag">
@@ -2614,10 +2629,10 @@
         </div>
 
         <div class="reflection-box">
-          <h4 class="reflection-author">Phạm Minh Triết — Đồng chủ trì Kỹ thuật & GĐ3</h4>
-          <div class="reflection-sub">MSSV: 23127132 • Về Sức mạnh Chiến tranh Nhân dân & Công nghệ số</div>
+          <h4 class="reflection-author">Phạm Minh Triết — Đồng chủ trì Đồ án & GĐ3</h4>
+          <div class="reflection-sub">MSSV: 23127132 • Về Sức mạnh Chiến tranh Nhân dân & Khát vọng Hòa bình</div>
           <p class="reflection-text">
-            "Tận mắt chứng kiến những bức ảnh về chiến tranh cục bộ, máy bay B-52 và đối chiếu với khí tài thô sơ của quân dân ta, em nhận ra không pháo đài thép nào thắng nổi lòng dân đoàn kết dưới ngọn cờ của Đảng. Khi trực tiếp xây dựng hạ tầng kỹ thuật và trải nghiệm tương tác số cho toàn bộ website, em tự hào vì đã dùng chính chuyên môn CNTT của sinh viên HCMUS để làm sống động những trang sử hào hùng của dân tộc."
+            "Tận mắt chứng kiến những bức ảnh về chiến tranh cục bộ, máy bay B-52 và đối chiếu với khí tài thô sơ của quân dân ta, em nhận ra không pháo đài thép nào thắng nổi lòng dân đoàn kết dưới ngọn cờ của Đảng. Quá trình trực tiếp tổng hợp, phân tích các tài liệu lịch sử và biên soạn nội dung đồ án đã giúp em hiểu sâu sắc giá trị thiêng liêng của độc lập, tự do và trách nhiệm của thế hệ trẻ hôm nay."
           </p>
         </div>
 
