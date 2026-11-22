@@ -3008,14 +3008,19 @@
       });
 
       // Reveal observer
-      const obs = new IntersectionObserver((entries) => {
-        entries.forEach(e => {
-          if (e.isIntersecting) {
-            e.target.classList.add('visible');
-          }
-        });
-      }, { threshold: 0.12 });
-      document.querySelectorAll('.reveal').forEach(el => obs.observe(el));
+      if ('IntersectionObserver' in window) {
+        const obs = new IntersectionObserver((entries) => {
+          entries.forEach(e => {
+            if (e.isIntersecting) {
+              e.target.classList.add('visible');
+              obs.unobserve(e.target);
+            }
+          });
+        }, { threshold: 0, rootMargin: '0px 0px -40px 0px' });
+        document.querySelectorAll('.reveal').forEach(el => obs.observe(el));
+      } else {
+        document.querySelectorAll('.reveal').forEach(el => el.classList.add('visible'));
+      }
 
       // 3D Parallax Tilt
       function addTilt(selector, maxTilt = 6, perspective = 800) {
