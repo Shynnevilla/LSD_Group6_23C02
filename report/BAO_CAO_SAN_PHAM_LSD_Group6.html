@@ -35,7 +35,7 @@
   .cover .year { margin-top: 12mm; font-size: 12pt; font-weight: 700; }
   .page-break { page-break-before: always; }
   .small { font-size: 9.5pt; color: #555; }
-  table { width: 100%; border-collapse: collapse; margin: 0.6em 0 1em; font-size: 9.6pt; }
+  table { width: 100%; border-collapse: collapse; margin: 0.6em 0 0.4em; font-size: 9.6pt; }
   th, td { border: 1px solid #cfcfcf; padding: 5px 6px; vertical-align: top; }
   th { background: #7a0d0d; color: #fff; font-weight: 700; text-align: left; }
   tr:nth-child(even) td { background: #faf7f2; }
@@ -47,6 +47,9 @@
   .callout { border-left: 4px solid #c9a227; background: #fbf7ea; padding: 3mm 4mm; margin: 0.8em 0; font-size: 10.5pt; }
   .toc { font-size: 10.5pt; line-height: 1.9; }
   .toc span { color: #7a0d0d; font-weight: 700; }
+  .toc .sub { padding-left: 7mm; font-size: 10pt; line-height: 1.7; color: #444; }
+  .toc .sub span { font-weight: 400; }
+  .note { font-size: 9.3pt; color: #555; margin-top: 0; }
 </style>
 </head>
 <body>
@@ -75,18 +78,25 @@
   <div class="year">TP. Hồ Chí Minh — 2026</div>
 </div>
 
+<!-- ================= SUMMARY ================= -->
+<div class="callout">
+  <strong>Tóm tắt:</strong> Website gồm 6 phần: trang chủ, bốn giai đoạn lịch sử và trang Nhóm &amp; Nhật ký. Nội dung bám theo giáo trình, kết hợp sáu chuyên đề khảo sát tại Bảo tàng Chứng tích Chiến tranh và hơn 200 ảnh tư liệu. Sản phẩm truy cập trực tuyến, không cần cài đặt.
+</div>
+
 <!-- ================= TOC ================= -->
 <h2>Mục lục</h2>
 <div class="toc">
   <div><span>1.</span> Thành viên và phân công công việc</div>
   <div><span>2.</span> Đặt vấn đề và mục tiêu sản phẩm</div>
+  <div class="sub"><span>2.1</span> Phương pháp thực hiện</div>
   <div><span>3.</span> Tổng quan sản phẩm</div>
   <div><span>4.</span> Nội dung học thuật</div>
+  <div class="sub"><span>4.1</span> Các mốc chính bốn giai đoạn</div>
+  <div class="sub"><span>4.2</span> Sáu chuyên đề tại bảo tàng</div>
   <div><span>5.</span> Trải nghiệm sản phẩm</div>
   <div><span>6.</span> Kết quả và giá trị</div>
-  <div><span>7.</span> Hạn chế và hướng phát triển</div>
-  <div><span>8.</span> Tài liệu tham khảo</div>
-  <div><span>9.</span> Phụ lục — Hình ảnh sản phẩm</div>
+  <div><span>7.</span> Tài liệu tham khảo</div>
+  <div><span>8.</span> Phụ lục — Hình ảnh sản phẩm</div>
 </div>
 
 <!-- ================= 1 ================= -->
@@ -111,6 +121,7 @@
     <tr><td>12</td><td>Nguyễn Đức Nhật Minh</td><td>23127421</td><td>Nghiên cứu Giai đoạn 4</td><td>Đổi mới 1986–nay; tầm nhìn 2030–2045</td></tr>
   </tbody>
 </table>
+<p class="note">Bảng 1 — Phân công 12 thành viên. Nội dung chuyên môn được đối chiếu chéo trước khi đưa lên website.</p>
 
 <!-- ================= 2 ================= -->
 <h2>2. Đặt vấn đề và mục tiêu sản phẩm</h2>
@@ -120,6 +131,15 @@
   <strong>Mục tiêu:</strong> giúp người học hệ thống hóa bốn giai đoạn lịch sử; gắn sự kiện với chứng tích thực địa; tạo một sản phẩm dễ tra cứu, dễ ôn tập và có thể dùng để tham khảo hoặc trình bày trong lớp.
 </div>
 <p>Đối tượng sử dụng là sinh viên, giảng viên và những người quan tâm đến lịch sử Việt Nam hiện đại. Phạm vi nội dung từ năm 1930 đến nay, trọng tâm là bốn giai đoạn: 1930–1945, 1945–1954, 1954–1975 và 1975–nay.</p>
+<p>Sản phẩm không nhằm thay thế giáo trình. Website là công cụ hỗ trợ ôn tập và trình bày, còn giáo trình vẫn là nguồn nội dung nền tảng.</p>
+
+<h3>2.1 Phương pháp thực hiện</h3>
+<ol>
+  <li><strong>Nghiên cứu tài liệu:</strong> bám theo cấu trúc giáo trình, lập đề cương bốn giai đoạn và xác định các mốc sự kiện bắt buộc.</li>
+  <li><strong>Khảo sát thực địa:</strong> ghi chép hiện vật, chụp ảnh và thu thập thông tin tại Bảo tàng Chứng tích Chiến tranh TP.HCM; phân loại tư liệu theo sáu chuyên đề.</li>
+  <li><strong>Biên soạn và đối chiếu:</strong> viết nội dung từng giai đoạn, kiểm tra chéo mốc thời gian, số liệu và tên gọi với giáo trình và nguồn chính thống.</li>
+  <li><strong>Thiết kế và kiểm thử:</strong> xây dựng giao diện, trục thời gian, kho ảnh và các tương tác; kiểm thử trên máy tính, điện thoại và bàn phím.</li>
+</ol>
 
 <!-- ================= 3 ================= -->
 <h2>3. Tổng quan sản phẩm</h2>
@@ -135,7 +155,9 @@
     <tr><td>Nhóm &amp; Nhật ký</td><td>Hồ sơ 12 thành viên, 6 chuyên đề khảo sát, kho ảnh tư liệu, cảm nhận và tài liệu tham khảo.</td></tr>
   </tbody>
 </table>
+<p class="note">Bảng 2 — Sáu phần nội dung của sản phẩm.</p>
 <p>Mỗi giai đoạn được trình bày theo cùng một cấu trúc: phần mở đầu, trục thời gian các mốc chính, ba nội dung trọng tâm, bốn số liệu nổi bật, chứng tích bảo tàng và liên hệ quốc tế. Cách trình bày này giúp người xem vừa nắm được mạch lịch sử, vừa có thể dừng lại ở từng sự kiện để đọc sâu hơn.</p>
+<p>Sáu phần dùng chung một hệ thống trình bày: màu sắc, kiểu chữ, thanh điều hướng và cách bố trí hình ảnh. Trang chủ dẫn vào bốn giai đoạn; trang Nhóm &amp; Nhật ký lưu hồ sơ, kho ảnh và cảm nhận của nhóm. Website là sản phẩm tĩnh, truy cập trực tiếp bằng trình duyệt, không cần cài đặt; khi nội dung được cập nhật, bản trực tuyến thay đổi theo cùng một địa chỉ.</p>
 
 <figure>
   <img src="assets/01-home.png" alt="Trang chủ sản phẩm">
@@ -149,6 +171,20 @@
 <!-- ================= 4 ================= -->
 <h2>4. Nội dung học thuật</h2>
 <p>Nội dung bốn giai đoạn được biên soạn dựa trên <em>Giáo trình Lịch sử Đảng Cộng sản Việt Nam</em> (NXB Chính trị Quốc gia Sự thật, 2021). Cấu trúc ba chương của giáo trình được giữ nguyên; riêng Chương 2 (1945–1975) được tách tại mốc 1954 để người đọc dễ tra cứu, không làm thay đổi nội dung lịch sử.</p>
+
+<h3>4.1 Các mốc chính bốn giai đoạn</h3>
+<table>
+  <thead><tr><th style="width:18%">Giai đoạn</th><th style="width:44%">Mốc tiêu biểu</th><th>Trọng tâm</th></tr></thead>
+  <tbody>
+    <tr><td>1930–1945</td><td>3/2/1930 thành lập Đảng; 10/1930 Luận cương chính trị; 1930–1931 Xô viết Nghệ Tĩnh; 1936–1939 Mặt trận Dân chủ; 1941 Việt Minh; 8/1945 Cách mạng Tháng Tám; 2/9/1945 Tuyên ngôn Độc lập.</td><td>Con đường cứu nước, vai trò lãnh đạo của Đảng và sự chuẩn bị cho tổng khởi nghĩa.</td></tr>
+    <tr><td>1945–1954</td><td>1945 chính quyền non trẻ; 1946 Toàn quốc kháng chiến; 1947 Việt Bắc; 1950 Biên giới; 1954 Điện Biên Phủ; 21/7/1954 Hiệp định Giơnevơ.</td><td>Bảo vệ chính quyền, đường lối kháng chiến toàn dân, toàn diện và thắng lợi quyết định.</td></tr>
+    <tr><td>1954–1975</td><td>1954–1959 đấu tranh giữ hòa bình; 1960 Đồng khởi; 1960 Mặt trận Dân tộc Giải phóng; 1965–1968 chiến tranh cục bộ; 1968 Mậu Thân; 1972 Điện Biên Phủ trên không; 1973 Hiệp định Paris; 1975 Đại thắng mùa Xuân.</td><td>Hai miền, bốn chiến lược chiến tranh, ngoại giao kết hợp quân sự và thống nhất đất nước.</td></tr>
+    <tr><td>1975–nay</td><td>1976 thống nhất nhà nước; 1979–1986 các bước đột phá; 1986 Đổi mới; 1991 và 2011 Cương lĩnh; 2021 Đại hội XIII; tầm nhìn 2030–2045.</td><td>Khắc phục hậu quả chiến tranh, bảo vệ Tổ quốc, Đổi mới và hội nhập.</td></tr>
+  </tbody>
+</table>
+<p class="note">Bảng 3 — Các mốc chính dùng để tổ chức trục thời gian. Danh sách không thay thế nội dung đầy đủ của giáo trình.</p>
+
+<h3>4.2 Sáu chuyên đề tại bảo tàng</h3>
 <p>Bên cạnh nội dung giáo trình, nhóm khai thác sáu chuyên đề tại Bảo tàng Chứng tích Chiến tranh:</p>
 <table>
   <thead><tr><th style="width:6%">STT</th><th style="width:30%">Chuyên đề</th><th>Nội dung chính</th></tr></thead>
@@ -161,6 +197,7 @@
     <tr><td>6</td><td>Quốc tế ủng hộ Việt Nam</td><td>Phong trào phản chiến tại Mỹ, châu Âu và các nước; tình cảm quốc tế với Việt Nam.</td></tr>
   </tbody>
 </table>
+<p class="note">Bảng 4 — Sáu chuyên đề khảo sát tại bảo tàng.</p>
 <p>Trước khi đưa vào sản phẩm, nhóm đã kiểm tra lại các mốc thời gian và số liệu, đối chiếu với giáo trình, tư liệu bảo tàng và các nguồn chính thống để bảo đảm nội dung thống nhất.</p>
 
 <figure>
@@ -178,6 +215,15 @@
 <p>Các thẻ “Nội dung trọng tâm” được trình bày như ba cột mốc phân tích, giúp người đọc nhanh chóng nắm được ý chính của giai đoạn. Phần “Con số biết nói” tập trung vào bốn chỉ số tiêu biểu, tạo điểm nhấn trực quan và dễ nhớ.</p>
 <p>Trang <strong>Nhóm &amp; Nhật ký</strong> ghi lại quá trình khảo sát thực địa: hồ sơ 12 thành viên, sáu chuyên đề nghiên cứu, kho ảnh tư liệu và phần cảm nhận sau chuyến đi. Đây là phần kết nối giữa nội dung lịch sử với trải nghiệm học tập thực tế của nhóm.</p>
 <p>Về hình thức, sản phẩm sử dụng tông màu đỏ – vàng, hình ảnh bảo tàng và kiểu chữ trang trọng, phù hợp với chủ đề lịch sử. Các trang được thiết kế để đọc thuận tiện trên cả máy tính và điện thoại.</p>
+
+<h3>Cách sử dụng</h3>
+<ol>
+  <li>Từ trang chủ, chọn giai đoạn cần xem.</li>
+  <li>Đọc phần mở đầu, sau đó theo trục thời gian từ mốc đầu đến mốc cuối.</li>
+  <li>Nhấn vào một mốc để mở phần diễn biến; nhấn lại để đóng.</li>
+  <li>Xem thêm “Nội dung trọng tâm”, “Con số biết nói”, “Chứng tích bảo tàng” và “Liên hệ quốc tế”.</li>
+  <li>Dùng ba tab ở trang chủ để xem chứng tích, so sánh bốn giai đoạn và tầm nhìn 2030–2045; vào trang Nhóm &amp; Nhật ký để xem hồ sơ, kho ảnh và cảm nhận.</li>
+</ol>
 
 <div class="two-col">
   <figure>
@@ -197,6 +243,7 @@
   <a href="https://shynnevilla.github.io/LSD_Group6_23C02/">https://shynnevilla.github.io/LSD_Group6_23C02/</a>
 </div>
 <p>Trước khi hoàn thiện, nhóm đã kiểm tra nội dung, hình ảnh và các mục tương tác trên cả máy tính và điện thoại. Các trang hiển thị ổn định; nội dung bốn giai đoạn được trình bày đầy đủ, đúng cấu trúc.</p>
+
 <h3>Giá trị học tập</h3>
 <ul>
   <li><strong>Hệ thống hóa kiến thức:</strong> bốn giai đoạn lịch sử được sắp xếp theo trục thời gian, dễ theo dõi và ôn tập.</li>
@@ -206,16 +253,7 @@
 </ul>
 
 <!-- ================= 7 ================= -->
-<h2>7. Hạn chế và hướng phát triển</h2>
-<ul>
-  <li>Nội dung hiện cập nhật đến năm 2026; nhóm sẽ bổ sung khi có thêm tư liệu và sự kiện mới.</li>
-  <li>Có thể bổ sung câu hỏi ôn tập, bài kiểm tra ngắn hoặc trò chơi học tập theo từng giai đoạn.</li>
-  <li>Có thể mở rộng kho ảnh, thêm bản đồ tư liệu và bản tiếng Anh để phục vụ nhiều đối tượng hơn.</li>
-  <li>Một số chuyên đề tại bảo tàng còn có thể khai thác sâu hơn, đặc biệt là phần hiện vật và câu chuyện cá nhân.</li>
-</ul>
-
-<!-- ================= 8 ================= -->
-<h2>8. Tài liệu tham khảo</h2>
+<h2>7. Tài liệu tham khảo</h2>
 <ol class="small">
   <li>Bộ Giáo dục và Đào tạo (2021), <em>Giáo trình Lịch sử Đảng Cộng sản Việt Nam</em>, NXB Chính trị Quốc gia Sự thật.</li>
   <li>Đảng Cộng sản Việt Nam (2021), <em>Văn kiện Đại hội đại biểu toàn quốc lần thứ XIII</em>, NXB Chính trị Quốc gia Sự thật.</li>
@@ -224,12 +262,16 @@
   <li>Nguyễn Phú Trọng (2023), <em>Một số vấn đề lý luận và thực tiễn về CNXH và con đường đi lên CNXH ở Việt Nam</em>.</li>
   <li>Bảo tàng Chứng tích Chiến tranh TP.HCM — tư liệu hiện vật và ghi chép điền dã.</li>
   <li>Báo Nhân Dân, Báo Quân đội nhân dân, Báo Chính phủ — các bài tổng kết lịch sử.</li>
+  <li>Sản phẩm trực tuyến: <a href="https://shynnevilla.github.io/LSD_Group6_23C02/">https://shynnevilla.github.io/LSD_Group6_23C02/</a>.</li>
 </ol>
 
-<!-- ================= 9 ================= -->
-<h2 class="page-break">9. Phụ lục — Hình ảnh sản phẩm</h2>
+<!-- ================= 8 ================= -->
+<h2 class="page-break">8. Phụ lục — Hình ảnh sản phẩm</h2>
+<p>Các hình dưới đây được chụp trực tiếp từ website đang chạy, dùng cùng một phiên bản với địa chỉ công khai ở trên.</p>
 <figure><img src="assets/05-team.png" alt="Hồ sơ thành viên"><figcaption>Hình 7 — Hồ sơ 12 thành viên và phân công.</figcaption></figure>
-<figure><img src="assets/06-gallery.png" alt="Kho ảnh tư liệu"><figcaption>Hình 8 — Kho ảnh tư liệu và phần xem ảnh phóng to.</figcaption></figure>
+<figure><img src="assets/06-gallery.png" alt="Kho ảnh tư liệu"><figcaption>Hình 8 — Kho ảnh tư liệu và bộ lọc theo chuyên đề.</figcaption></figure>
+<figure><img src="assets/09-phase-3-desktop.png" alt="Giao diện Giai đoạn 3 trên máy tính"><figcaption>Hình 9 — Giao diện Giai đoạn 3 trên máy tính.</figcaption></figure>
+<figure><img src="assets/10-lightbox.png" alt="Hộp xem ảnh phóng to"><figcaption>Hình 10 — Hộp xem ảnh phóng to và phần chú thích.</figcaption></figure>
 
 </body>
 </html>
