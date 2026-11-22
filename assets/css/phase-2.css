@@ -1,0 +1,187 @@
+:root {
+  --red-deep: #8b0000;
+  --red-primary: #c41e3a;
+  --red-bright: #e63946;
+  --gold-primary: #d4af37;
+  --gold-light: #f0d060;
+  --gold-dark: #b8960c;
+  --cream: #fdfbf7;
+  --cream-dark: #f5f0e6;
+  --ink: #1a1a1a;
+  --ink-light: #3a3a3a;
+  --ink-muted: #6b6b6b;
+  --bamboo-green: #2d6a4f;
+  --bamboo-light: #74c69d;
+  --bamboo-dark: #1b4332;
+  --sky: #457b9d;
+  --sky-light: #a8dadc;
+  --navy-deep: #162b40;
+  --transition-smooth: cubic-bezier(0.22, 1, 0.36, 1);
+  --transition-bounce: cubic-bezier(0.34, 1.56, 0.64, 1);
+}
+
+.hero {
+  position: relative;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+  padding: calc(64px + 2.5rem) 1.5rem 3.5rem;
+  box-sizing: border-box;
+  background: linear-gradient(
+    165deg,
+    #09131c 0%,
+    #132437 30%,
+    #20141d 70%,
+    #080d14 100%
+  );
+}
+
+.hero-bg-pattern {
+  position: absolute;
+  inset: 0;
+  opacity: 0.06;
+  background-image:
+    radial-gradient(
+      circle at 20% 50%,
+      var(--gold-primary) 1px,
+      transparent 1px
+    ),
+    radial-gradient(circle at 80% 20%, var(--sky) 1px, transparent 1px),
+    radial-gradient(
+      circle at 60% 80%,
+      var(--gold-light) 0.5px,
+      transparent 0.5px
+    );
+  background-size:
+    60px 60px,
+    80px 80px,
+    40px 40px;
+}
+
+.hero-glow.glow-1 {
+  background: var(--navy-deep);
+  top: -200px;
+  left: -100px;
+  opacity: 0.28;
+}
+
+.hero-glow.glow-2 {
+  background: var(--gold-primary);
+  bottom: -200px;
+  right: -100px;
+  opacity: 0.12;
+}
+
+.hero-glow.glow-3 {
+  background: var(--red-deep);
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  opacity: 0.08;
+  width: 800px;
+  height: 800px;
+}
+
+.highlight-section {
+  background: linear-gradient(170deg, #09131c 0%, #15273c 50%, #080d14 100%);
+  position: relative;
+  overflow: hidden;
+}
+
+.highlight-section .bg-bamboo {
+  position: absolute;
+  inset: 0;
+  opacity: 0.03;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='80' height='200'%3E%3Crect x='38' y='0' width='4' height='200' fill='%23A8DADC'/%3E%3Ccircle cx='40' cy='50' r='8' fill='none' stroke='%23A8DADC' stroke-width='1'/%3E%3Ccircle cx='40' cy='120' r='8' fill='none' stroke='%23A8DADC' stroke-width='1'/%3E%3C/svg%3E");
+  background-size: 80px 200px;
+}
+
+.highlight-card {
+  position: relative;
+  background: rgba(255, 255, 255, 0.04);
+  border: 1px solid rgba(168, 218, 220, 0.15);
+  border-radius: 20px;
+  padding: 2.2rem;
+  backdrop-filter: blur(10px);
+  transition: all 0.5s var(--transition-smooth);
+  overflow: hidden;
+  cursor: default;
+}
+
+.highlight-card::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(
+    135deg,
+    rgba(69, 123, 157, 0.1) 0%,
+    transparent 60%
+  );
+  opacity: 0;
+  transition: opacity 0.4s ease;
+}
+
+.highlight-card:hover {
+  border-color: rgba(168, 218, 220, 0.35);
+  box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+}
+
+.highlight-icon.icon-congress {
+  background: linear-gradient(
+    135deg,
+    rgba(196, 30, 58, 0.2),
+    rgba(139, 0, 0, 0.3)
+  );
+  color: var(--red-bright);
+}
+
+.highlight-icon.icon-bamboo {
+  background: linear-gradient(
+    135deg,
+    rgba(69, 123, 157, 0.25),
+    rgba(22, 43, 64, 0.4)
+  );
+  color: var(--sky-light);
+}
+
+.highlight-icon.icon-vision {
+  background: linear-gradient(
+    135deg,
+    rgba(212, 175, 55, 0.2),
+    rgba(184, 150, 12, 0.3)
+  );
+  color: var(--gold-light);
+}
+
+.highlight-card .bamboo-quote {
+  margin-top: 1.5rem;
+  padding: 1.2rem 1.4rem;
+  background: rgba(69, 123, 157, 0.15);
+  border-left: 3px solid var(--sky-light);
+  border-radius: 0 12px 12px 0;
+  position: relative;
+  z-index: 1;
+}
+
+.bamboo-quote p {
+  font-family: "Noto Serif", serif;
+  font-style: italic;
+  font-size: 0.95rem;
+  color: var(--sky-light);
+  line-height: 1.7;
+}
+
+.bamboo-quote cite {
+  display: block;
+  margin-top: 0.5rem;
+  font-size: 0.78rem;
+  font-style: normal;
+  color: rgba(168, 218, 220, 0.6);
+  font-weight: 500;
+}

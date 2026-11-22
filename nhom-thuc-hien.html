@@ -5,1444 +5,21 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Nhóm Thực Hiện & Nhật Ký Thực Địa Bảo Tàng — HCMUS Nhóm 6</title>
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js"></script>
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollToPlugin.min.js"></script>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link
     href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,600;0,700;0,800;0,900;1,400;1,600&family=Inter:wght@300;400;500;600;700;800&family=Noto+Serif:ital,wght@0,400;0,600;0,700;1,400&display=swap"
     rel="stylesheet">
-  <style>
-    /* ═══════════════════════════════════════════════════════════════
-   ROOT & DESIGN TOKENS (CHUẨN 100% GIAI ĐOẠN 4)
-   ═══════════════════════════════════════════════════════════════ */
-    *,
-    *::before,
-    *::after {
-      margin: 0;
-      padding: 0;
-      box-sizing: border-box;
-    }
-
-    :root {
-      --red-deep: #8B0000;
-      --red-primary: #C41E3A;
-      --red-bright: #E63946;
-      --gold-primary: #D4AF37;
-      --gold-light: #F0D060;
-      --gold-dark: #B8960C;
-      --cream: #FDFBF7;
-      --cream-dark: #F5F0E6;
-      --ink: #1A1A1A;
-      --ink-light: #3A3A3A;
-      --ink-muted: #6B6B6B;
-      --bamboo-green: #2D6A4F;
-      --bamboo-light: #74C69D;
-      --bamboo-dark: #1B4332;
-      --sky: #457B9D;
-      --sky-light: #A8DADC;
-      --transition-smooth: cubic-bezier(0.22, 1, 0.36, 1);
-      --transition-bounce: cubic-bezier(0.34, 1.56, 0.64, 1);
-    }
-
-    html {
-      scroll-behavior: smooth;
-      scrollbar-width: thin;
-      scrollbar-color: var(--gold-primary) var(--cream-dark);
-    }
-
-    body {
-      font-family: 'Inter', system-ui, -apple-system, sans-serif;
-      background: var(--cream);
-      color: var(--ink);
-      overflow-x: hidden;
-      line-height: 1.7;
-      -webkit-font-smoothing: antialiased;
-    }
-
-    ::selection {
-      background: var(--gold-primary);
-      color: var(--ink);
-    }
-
-    /* ═══════════════════════════════════════════════════════════════
-   CANVAS BACKGROUND — PARTICLE SYSTEM
-   ═══════════════════════════════════════════════════════════════ */
-    #particle-canvas {
-      position: fixed;
-      top: 0;
-      left: 0;
-      width: 100vw;
-      height: 100vh;
-      z-index: 0;
-      pointer-events: none;
-      opacity: 0.38;
-    }
-
-    /* ═══════════════════════════════════════════════════════════════
-   FROSTED GLASS NAVIGATION BAR
-   ═══════════════════════════════════════════════════════════════ */
-    nav {
-      position: fixed;
-      top: 0;
-      left: 0;
-      right: 0;
-      z-index: 1000;
-      padding: 0 2rem;
-      height: 64px;
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      background: rgba(253, 251, 247, 0.88);
-      backdrop-filter: blur(20px) saturate(1.8);
-      -webkit-backdrop-filter: blur(20px) saturate(1.8);
-      border-bottom: 1px solid rgba(212, 175, 55, 0.18);
-      transition: all 0.4s var(--transition-smooth);
-    }
-
-    nav.scrolled {
-      background: rgba(253, 251, 247, 0.96);
-      box-shadow: 0 4px 30px rgba(139, 0, 0, 0.08);
-      height: 56px;
-    }
-
-    .nav-brand {
-      font-family: 'Playfair Display', serif;
-      font-weight: 800;
-      font-size: 1.15rem;
-      color: var(--red-deep);
-      display: flex;
-      align-items: center;
-      gap: 0.65rem;
-      text-decoration: none;
-      letter-spacing: 0.01em;
-    }
-
-    .nav-brand .brand-icon {
-      width: 30px;
-      height: 30px;
-      background: var(--red-deep);
-      border-radius: 8px;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      color: var(--gold-primary);
-      font-size: 0.85rem;
-      font-weight: 900;
-      box-shadow: 0 2px 10px rgba(139, 0, 0, 0.28);
-    }
-
-    .nav-links {
-      display: flex;
-      gap: 0.35rem;
-      list-style: none;
-    }
-
-    .nav-links a {
-      font-size: 0.84rem;
-      font-weight: 500;
-      color: var(--ink-muted);
-      text-decoration: none;
-      padding: 0.45rem 0.85rem;
-      border-radius: 8px;
-      transition: all 0.3s var(--transition-smooth);
-      position: relative;
-    }
-
-    .nav-links a:hover,
-    .nav-links a.active {
-      color: var(--red-deep);
-      background: rgba(139, 0, 0, 0.06);
-    }
-
-    .nav-links a.active::after {
-      content: '';
-      position: absolute;
-      bottom: 2px;
-      left: 50%;
-      transform: translateX(-50%);
-      width: 18px;
-      height: 2px;
-      background: var(--gold-primary);
-      border-radius: 2px;
-    }
-
-    .nav-progress {
-      position: absolute;
-      bottom: 0;
-      left: 0;
-      height: 2.5px;
-      background: linear-gradient(90deg, var(--red-deep), var(--gold-primary), var(--red-bright));
-      width: 0%;
-      transition: width 0.15s linear;
-    }
-
-    .nav-toggle {
-      display: none;
-      background: none;
-      border: none;
-      cursor: pointer;
-      padding: 0.5rem;
-      color: var(--ink);
-    }
-
-    /* ═══════════════════════════════════════════════════════════════
-   CINEMATIC HERO SECTION
-   ═══════════════════════════════════════════════════════════════ */
-    .hero {
-      position: relative;
-      min-height: 90vh;
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      justify-content: center;
-      overflow: hidden;
-      background: linear-gradient(165deg, #0A0D14 0%, #151C2C 35%, #1C2B3E 70%, #0D1622 100%);
-      padding: calc(64px + 2.5rem) 1.5rem 3.5rem;
-      box-sizing: border-box;
-    }
-
-    .hero-bg-pattern {
-      position: absolute;
-      inset: 0;
-      opacity: 0.07;
-      background-image:
-        radial-gradient(circle at 20% 50%, var(--gold-primary) 1.2px, transparent 1.2px),
-        radial-gradient(circle at 80% 25%, var(--sky-light) 1.2px, transparent 1.2px),
-        radial-gradient(circle at 50% 80%, var(--gold-light) 0.8px, transparent 0.8px);
-      background-size: 50px 50px, 70px 70px, 35px 35px;
-      animation: drift 75s linear infinite;
-    }
-
-    @keyframes drift {
-      0% {
-        transform: translate(0, 0);
-      }
-
-      100% {
-        transform: translate(-70px, -70px);
-      }
-    }
-
-    .hero-glow {
-      position: absolute;
-      border-radius: 50%;
-      filter: blur(130px);
-      pointer-events: none;
-    }
-
-    .hero-glow.g1 {
-      width: 550px;
-      height: 550px;
-      background: #1C3144;
-      opacity: 0.35;
-      top: -150px;
-      left: -100px;
-    }
-
-    .hero-glow.g2 {
-      width: 500px;
-      height: 500px;
-      background: var(--gold-primary);
-      opacity: 0.18;
-      bottom: -120px;
-      right: -80px;
-    }
-
-    .hero-glow.g3 {
-      width: 700px;
-      height: 700px;
-      background: var(--red-deep);
-      opacity: 0.18;
-      top: 40%;
-      left: 50%;
-      transform: translate(-50%, -50%);
-    }
-
-    .hero-content {
-      position: relative;
-      z-index: 10;
-      text-align: center;
-      max-width: 950px;
-      padding: 2rem 1rem;
-    }
-
-    .hero-epoch {
-      display: inline-flex;
-      align-items: center;
-      gap: 0.75rem;
-      padding: 0.5rem 1.6rem;
-      border: 1px solid rgba(212, 175, 55, 0.35);
-      border-radius: 100px;
-      margin-bottom: 1.6rem;
-      color: var(--gold-primary);
-      font-size: 0.82rem;
-      font-weight: 600;
-      letter-spacing: 0.14em;
-      text-transform: uppercase;
-      backdrop-filter: blur(12px);
-      background: rgba(212, 175, 55, 0.08);
-    }
-
-    .hero-epoch .dot {
-      width: 7px;
-      height: 7px;
-      border-radius: 50%;
-      background: var(--gold-primary);
-      animation: pulse-dot 2s ease-in-out infinite;
-    }
-
-    @keyframes pulse-dot {
-
-      0%,
-      100% {
-        opacity: 1;
-        transform: scale(1);
-      }
-
-      50% {
-        opacity: 0.3;
-        transform: scale(0.6);
-      }
-    }
-
-    .hero h1 {
-      font-family: 'Playfair Display', 'Noto Serif', serif;
-      font-size: clamp(2.6rem, 5.5vw, 5.2rem);
-      font-weight: 900;
-      line-height: 1.28;
-      color: var(--cream);
-      margin-bottom: 1.5rem;
-      letter-spacing: -0.005em;
-    }
-
-    .hero h1 .accent {
-      background: linear-gradient(135deg, var(--gold-primary), var(--gold-light));
-      -webkit-background-clip: text;
-      -webkit-text-fill-color: transparent;
-      background-clip: text;
-    }
-
-    .hero-subtitle {
-      font-family: 'Noto Serif', serif;
-      font-size: clamp(1rem, 2vw, 1.25rem);
-      color: rgba(253, 251, 247, 0.75);
-      max-width: 760px;
-      margin: 0 auto 2.8rem;
-      line-height: 1.85;
-    }
-
-    .hero-actions {
-      display: flex;
-      gap: 1.2rem;
-      justify-content: center;
-      flex-wrap: wrap;
-    }
-
-    .hero-cta {
-      display: inline-flex;
-      align-items: center;
-      gap: 0.75rem;
-      padding: 0.95rem 2.2rem;
-      background: linear-gradient(135deg, var(--red-deep), var(--red-primary));
-      color: var(--cream);
-      border-radius: 12px;
-      font-size: 0.92rem;
-      font-weight: 600;
-      text-decoration: none;
-      transition: all 0.4s var(--transition-smooth);
-      box-shadow: 0 6px 25px rgba(196, 30, 58, 0.35);
-    }
-
-    .hero-cta:hover {
-      transform: translateY(-3px);
-      box-shadow: 0 10px 35px rgba(196, 30, 58, 0.5);
-    }
-
-    .hero-cta-secondary {
-      display: inline-flex;
-      align-items: center;
-      gap: 0.6rem;
-      padding: 0.95rem 2rem;
-      background: rgba(255, 255, 255, 0.06);
-      border: 1px solid rgba(212, 175, 55, 0.35);
-      color: var(--cream);
-      border-radius: 12px;
-      font-size: 0.92rem;
-      font-weight: 600;
-      text-decoration: none;
-      backdrop-filter: blur(10px);
-      transition: all 0.3s var(--transition-smooth);
-    }
-
-    .hero-cta-secondary:hover {
-      background: rgba(212, 175, 55, 0.16);
-      border-color: var(--gold-primary);
-      transform: translateY(-3px);
-    }
-
-    /* ═══════════════════════════════════════════════════════════════
-   SECTION HEADERS
-   ═══════════════════════════════════════════════════════════════ */
-    section {
-      position: relative;
-      z-index: 1;
-    }
-
-    .section-container {
-      max-width: 1140px;
-      margin: 0 auto;
-      padding: 6rem 2rem;
-    }
-
-    .section-label {
-      display: inline-flex;
-      align-items: center;
-      gap: 0.6rem;
-      font-size: 0.74rem;
-      font-weight: 700;
-      letter-spacing: 0.2em;
-      text-transform: uppercase;
-      color: var(--red-deep);
-      margin-bottom: 1rem;
-    }
-
-    .section-label .label-line {
-      width: 36px;
-      height: 2px;
-      background: linear-gradient(90deg, var(--red-deep), var(--gold-primary));
-      border-radius: 2px;
-    }
-
-    .section-title {
-      font-family: 'Playfair Display', 'Noto Serif', serif;
-      font-size: clamp(2.1rem, 4vw, 3.2rem);
-      font-weight: 800;
-      color: var(--ink);
-      line-height: 1.3;
-      margin-bottom: 1.2rem;
-      letter-spacing: normal;
-    }
-
-    .section-desc {
-      font-size: 1.05rem;
-      color: var(--ink-muted);
-      max-width: 760px;
-      line-height: 1.8;
-      margin-bottom: 3.5rem;
-    }
-
-    /* ═══════════════════════════════════════════════════════════════
-   PROFILE CARDS (THÀNH VIÊN NHÓM 6)
-   ═══════════════════════════════════════════════════════════════ */
-    .team-grid {
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
-      gap: 2rem;
-    }
-
-    .team-card {
-      background: #fff;
-      border-radius: 22px;
-      overflow: hidden;
-      border: 1px solid rgba(212, 175, 55, 0.18);
-      box-shadow: 0 4px 25px rgba(0, 0, 0, 0.04);
-      transition: all 0.4s var(--transition-smooth);
-      display: flex;
-      flex-direction: column;
-    }
-
-    .team-card:hover {
-      transform: translateY(-8px);
-      border-color: rgba(212, 175, 55, 0.45);
-      box-shadow: 0 20px 50px rgba(0, 0, 0, 0.1);
-    }
-
-    .card-top {
-      height: 90px;
-      background: linear-gradient(135deg, var(--red-deep), #5C0000);
-      position: relative;
-      display: flex;
-      align-items: center;
-      justify-content: flex-end;
-      padding: 1.2rem;
-    }
-
-    .card-top.gold-gradient {
-      background: linear-gradient(135deg, #1C3144, #2B4C6F);
-    }
-
-    .card-top.green-gradient {
-      background: linear-gradient(135deg, #1B3B2B, #2E6045);
-    }
-
-    .card-top.purple-gradient {
-      background: linear-gradient(135deg, #3D2645, #623B6B);
-    }
-
-    .card-top.navy-gradient {
-      background: linear-gradient(135deg, #0F2027, #203A43, #2C5364);
-    }
-
-    .card-top.bronze-gradient {
-      background: linear-gradient(135deg, #4A2E18, #8B5A2B);
-    }
-
-    .card-top.teal-gradient {
-      background: linear-gradient(135deg, #134E5E, #288070);
-    }
-
-    .card-top.wine-gradient {
-      background: linear-gradient(135deg, #4A0E17, #721C24);
-    }
-
-    .card-top.slate-gradient {
-      background: linear-gradient(135deg, #24292E, #444D56);
-    }
-
-    .card-top.amber-gradient {
-      background: linear-gradient(135deg, #78350F, #B45309);
-    }
-
-    .card-top.indigo-gradient {
-      background: linear-gradient(135deg, #1E1B4B, #3730A3);
-    }
-
-    .card-top.emerald-gradient {
-      background: linear-gradient(135deg, #064E3B, #047857);
-    }
-
-    .card-avatar-badge {
-      position: absolute;
-      bottom: -32px;
-      left: 1.8rem;
-      width: 64px;
-      height: 64px;
-      border-radius: 18px;
-      background: #fff;
-      border: 3px solid #fff;
-      box-shadow: 0 6px 20px rgba(0, 0, 0, 0.15);
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      font-size: 1.8rem;
-    }
-
-    .card-content {
-      padding: 3.2rem 1.8rem 1.8rem;
-      flex: 1;
-      display: flex;
-      flex-direction: column;
-      justify-content: space-between;
-    }
-
-    .member-role {
-      display: inline-block;
-      padding: 0.2rem 0.75rem;
-      border-radius: 50px;
-      font-size: 0.74rem;
-      font-weight: 700;
-      text-transform: uppercase;
-      letter-spacing: 0.06em;
-      background: rgba(139, 0, 0, 0.08);
-      color: var(--red-primary);
-      margin-bottom: 0.6rem;
-      align-self: flex-start;
-    }
-
-    .member-name {
-      font-family: 'Playfair Display', 'Noto Serif', serif;
-      font-size: 1.35rem;
-      font-weight: 800;
-      color: var(--ink);
-      line-height: 1.35;
-      margin-bottom: 0.25rem;
-    }
-
-    .member-id {
-      font-size: 0.82rem;
-      color: var(--gold-dark);
-      font-weight: 600;
-      margin-bottom: 1rem;
-    }
-
-    .member-duty {
-      font-size: 0.88rem;
-      color: var(--ink-muted);
-      line-height: 1.7;
-      margin-bottom: 1.5rem;
-    }
-
-    .member-duty strong {
-      color: var(--ink);
-    }
-
-    .member-era-tag {
-      display: inline-flex;
-      align-items: center;
-      gap: 0.5rem;
-      padding: 0.5rem 1rem;
-      border-radius: 10px;
-      background: var(--cream-dark);
-      border: 1px solid rgba(212, 175, 55, 0.2);
-      color: var(--ink);
-      font-size: 0.82rem;
-      font-weight: 600;
-      text-decoration: none;
-      transition: all 0.3s ease;
-    }
-
-    .member-era-tag:hover {
-      background: var(--red-deep);
-      color: #fff;
-      border-color: var(--red-deep);
-    }
-
-    /* ═══════════════════════════════════════════════════════════════
-   MUSEUM FIELDWORK DIARY (NHẬT KÝ THỰC ĐỊA BẢO TÀNG)
-   ═══════════════════════════════════════════════════════════════ */
-    .diary-section {
-      background: linear-gradient(165deg, #0A0D14 0%, #151C2C 50%, #0F1420 100%);
-      color: #fff;
-      position: relative;
-      overflow: hidden;
-    }
-
-    .diary-section::before {
-      content: '';
-      position: absolute;
-      inset: 0;
-      opacity: 0.04;
-      background-image: radial-gradient(#fff 1px, transparent 1px);
-      background-size: 32px 32px;
-    }
-
-    .diary-overview-box {
-      background: rgba(255, 255, 255, 0.04);
-      border: 1px solid rgba(212, 175, 55, 0.25);
-      border-radius: 20px;
-      padding: 2.2rem 2.5rem;
-      margin-bottom: 3.5rem;
-      backdrop-filter: blur(12px);
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
-      gap: 1.8rem;
-    }
-
-    .diary-meta-item {
-      display: flex;
-      flex-direction: column;
-      gap: 0.35rem;
-    }
-
-    .diary-meta-lbl {
-      font-size: 0.76rem;
-      color: var(--gold-primary);
-      text-transform: uppercase;
-      letter-spacing: 0.1em;
-      font-weight: 700;
-    }
-
-    .diary-meta-val {
-      font-size: 1.05rem;
-      color: #fff;
-      font-weight: 600;
-      font-family: 'Noto Serif', serif;
-    }
-
-    /* Diary Timeline Nodes */
-    .diary-nodes {
-      display: flex;
-      flex-direction: column;
-      gap: 2.5rem;
-    }
-
-    .diary-card {
-      background: rgba(255, 255, 255, 0.03);
-      border: 1px solid rgba(255, 255, 255, 0.08);
-      border-radius: 22px;
-      padding: 2.5rem;
-      backdrop-filter: blur(10px);
-      transition: all 0.4s var(--transition-smooth);
-    }
-
-    .diary-card:hover {
-      transform: translateY(-5px);
-      border-color: rgba(212, 175, 55, 0.4);
-      background: rgba(255, 255, 255, 0.06);
-      box-shadow: 0 16px 45px rgba(0, 0, 0, 0.35);
-    }
-
-    .diary-header {
-      display: flex;
-      justify-content: space-between;
-      align-items: flex-start;
-      flex-wrap: wrap;
-      gap: 1rem;
-      margin-bottom: 1.2rem;
-      border-bottom: 1px solid rgba(255, 255, 255, 0.08);
-      padding-bottom: 1rem;
-    }
-
-    .diary-room-title {
-      font-family: 'Playfair Display', 'Noto Serif', serif;
-      font-size: 1.5rem;
-      font-weight: 800;
-      color: var(--cream);
-      line-height: 1.35;
-    }
-
-    .diary-badge {
-      padding: 0.3rem 0.9rem;
-      border-radius: 50px;
-      font-size: 0.76rem;
-      font-weight: 700;
-      color: var(--gold-light);
-      background: rgba(212, 175, 55, 0.15);
-      border: 1px solid rgba(212, 175, 55, 0.3);
-    }
-
-    .diary-body {
-      font-size: 0.95rem;
-      color: rgba(253, 251, 247, 0.75);
-      line-height: 1.85;
-    }
-
-    .diary-body strong {
-      color: var(--cream);
-    }
-
-    .diary-notes-box {
-      margin-top: 1.5rem;
-      padding: 1.2rem 1.5rem;
-      border-radius: 12px;
-      background: rgba(139, 0, 0, 0.15);
-      border-left: 3px solid var(--red-bright);
-    }
-
-    .diary-notes-box p {
-      font-size: 0.9rem;
-      color: rgba(253, 251, 247, 0.85);
-      font-style: italic;
-      font-family: 'Noto Serif', serif;
-    }
-
-    /* ═══════════════════════════════════════════════════════════════
-   REFLECTIONS & LEARNING OUTCOMES (THU HOẠCH HỌC TẬP)
-   ═══════════════════════════════════════════════════════════════ */
-    .reflections-grid {
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
-      gap: 2rem;
-    }
-
-    .reflection-box {
-      background: #fff;
-      border-radius: 20px;
-      padding: 2.5rem;
-      border: 1px solid rgba(212, 175, 55, 0.18);
-      box-shadow: 0 4px 20px rgba(0, 0, 0, 0.03);
-      position: relative;
-      overflow: hidden;
-      transition: all 0.4s var(--transition-smooth);
-    }
-
-    .reflection-box:hover {
-      transform: translateY(-6px);
-      border-color: rgba(212, 175, 55, 0.4);
-      box-shadow: 0 16px 45px rgba(0, 0, 0, 0.08);
-    }
-
-    .reflection-box::before {
-      content: '\201C';
-      position: absolute;
-      top: -10px;
-      right: 20px;
-      font-family: 'Playfair Display', serif;
-      font-size: 6rem;
-      color: rgba(212, 175, 55, 0.12);
-      line-height: 1;
-      pointer-events: none;
-      user-select: none;
-    }
-
-    .reflection-author {
-      font-family: 'Playfair Display', serif;
-      font-size: 1.2rem;
-      font-weight: 800;
-      color: var(--red-deep);
-      margin-bottom: 0.2rem;
-    }
-
-    .reflection-sub {
-      font-size: 0.78rem;
-      color: var(--ink-muted);
-      font-weight: 600;
-      text-transform: uppercase;
-      letter-spacing: 0.08em;
-      margin-bottom: 1.2rem;
-    }
-
-    .reflection-text {
-      font-family: 'Noto Serif', serif;
-      font-size: 0.94rem;
-      color: var(--ink-light);
-      line-height: 1.85;
-    }
-
-    /* ═══════════════════════════════════════════════════════════════
-   BIBLIOGRAPHY (TÀI LIỆU THAM KHẢO CHÍNH THỐNG)
-   ═══════════════════════════════════════════════════════════════ */
-    .biblio-box {
-      background: #fff;
-      border-radius: 24px;
-      padding: 3rem;
-      border: 1px solid rgba(212, 175, 55, 0.2);
-      box-shadow: 0 6px 30px rgba(0, 0, 0, 0.03);
-    }
-
-    .biblio-list {
-      list-style: none;
-      display: flex;
-      flex-direction: column;
-      gap: 1.4rem;
-    }
-
-    .biblio-item {
-      display: flex;
-      align-items: flex-start;
-      gap: 1rem;
-      font-size: 0.92rem;
-      line-height: 1.75;
-      color: var(--ink-light);
-    }
-
-    .biblio-num {
-      min-width: 28px;
-      height: 28px;
-      border-radius: 8px;
-      background: rgba(139, 0, 0, 0.08);
-      color: var(--red-deep);
-      font-weight: 800;
-      font-size: 0.8rem;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      margin-top: 0.15rem;
-    }
-
-    /* ═══════════════════════════════════════════════════════════════
-       HERO GROUP PHOTO SHOWCASE
-       ═══════════════════════════════════════════════════════════════ */
-    .hero-photo-showcase {
-      margin-top: 3rem;
-      position: relative;
-      max-width: 860px;
-      margin-left: auto;
-      margin-right: auto;
-    }
-
-    .hero-photo-frame {
-      border-radius: 22px;
-      overflow: hidden;
-      border: 2px solid rgba(212, 175, 55, 0.45);
-      box-shadow: 0 24px 65px rgba(0, 0, 0, 0.5);
-      position: relative;
-      background: #000;
-      cursor: pointer;
-    }
-
-    .hero-photo-frame img {
-      width: 100%;
-      height: auto;
-      max-height: 480px;
-      object-fit: cover;
-      display: block;
-      transition: transform 0.6s var(--transition-smooth);
-    }
-
-    .hero-photo-frame:hover img {
-      transform: scale(1.025);
-    }
-
-    .hero-photo-caption {
-      position: absolute;
-      bottom: 0;
-      left: 0;
-      right: 0;
-      padding: 1.8rem 2rem 1.4rem;
-      background: linear-gradient(to top, rgba(10, 13, 20, 0.96) 0%, rgba(10, 13, 20, 0.65) 60%, transparent 100%);
-      display: flex;
-      justify-content: space-between;
-      align-items: flex-end;
-      flex-wrap: wrap;
-      gap: 1rem;
-    }
-
-    .hero-photo-caption h4 {
-      font-family: 'Playfair Display', 'Noto Serif', serif;
-      color: var(--cream);
-      font-size: 1.25rem;
-      font-weight: 700;
-      line-height: 1.35;
-      margin-bottom: 0.3rem;
-      text-align: left;
-    }
-
-    .hero-photo-caption p {
-      font-size: 0.86rem;
-      color: rgba(253, 251, 247, 0.75);
-      text-align: left;
-    }
-
-    .hero-photo-thumbs {
-      display: flex;
-      gap: 0.75rem;
-      margin-top: 1.2rem;
-      justify-content: center;
-    }
-
-    .hero-thumb-btn {
-      width: 70px;
-      height: 48px;
-      border-radius: 10px;
-      overflow: hidden;
-      border: 2px solid rgba(255, 255, 255, 0.25);
-      cursor: pointer;
-      opacity: 0.65;
-      transition: all 0.3s ease;
-      background: none;
-      padding: 0;
-    }
-
-    .hero-thumb-btn.active, .hero-thumb-btn:hover {
-      opacity: 1;
-      border-color: var(--gold-primary);
-      transform: translateY(-2px);
-      box-shadow: 0 4px 15px rgba(212, 175, 55, 0.35);
-    }
-
-    .hero-thumb-btn img {
-      width: 100%;
-      height: 100%;
-      object-fit: cover;
-    }
-
-    /* ═══════════════════════════════════════════════════════════════
-       DIARY PHOTO GRIDS (INSIDE ROOM CARDS)
-       ═══════════════════════════════════════════════════════════════ */
-    .diary-photo-grid {
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
-      gap: 1.2rem;
-      margin: 1.8rem 0 1.2rem;
-    }
-
-    .diary-photo-item {
-      position: relative;
-      border-radius: 16px;
-      overflow: hidden;
-      border: 1px solid rgba(255, 255, 255, 0.12);
-      background: rgba(0, 0, 0, 0.45);
-      cursor: pointer;
-      aspect-ratio: 4 / 3;
-      transition: all 0.4s var(--transition-smooth);
-    }
-
-    .diary-photo-item:hover {
-      transform: translateY(-5px);
-      border-color: var(--gold-primary);
-      box-shadow: 0 14px 35px rgba(0, 0, 0, 0.45);
-    }
-
-    .diary-photo-item img {
-      width: 100%;
-      height: 100%;
-      object-fit: cover;
-      display: block;
-      transition: transform 0.5s var(--transition-smooth);
-    }
-
-    .diary-photo-item:hover img {
-      transform: scale(1.08);
-    }
-
-    .diary-photo-overlay {
-      position: absolute;
-      inset: 0;
-      background: linear-gradient(to top, rgba(0, 0, 0, 0.85) 0%, transparent 60%);
-      display: flex;
-      flex-direction: column;
-      justify-content: flex-end;
-      padding: 0.9rem 1.1rem;
-      opacity: 0.95;
-      transition: opacity 0.3s ease;
-    }
-
-    .diary-photo-overlay .photo-title {
-      font-size: 0.84rem;
-      font-weight: 600;
-      color: #fff;
-      line-height: 1.35;
-    }
-
-    .diary-photo-overlay .zoom-badge {
-      position: absolute;
-      top: 0.65rem;
-      right: 0.65rem;
-      background: rgba(0, 0, 0, 0.65);
-      backdrop-filter: blur(4px);
-      border-radius: 6px;
-      padding: 0.2rem 0.55rem;
-      font-size: 0.72rem;
-      font-weight: 600;
-      color: var(--gold-primary);
-      border: 1px solid rgba(212, 175, 55, 0.4);
-    }
-
-    /* ═══════════════════════════════════════════════════════════════
-       MUSEUM FULL GALLERY & FILTER TABS
-       ═══════════════════════════════════════════════════════════════ */
-    .gallery-section {
-      background: #090C12;
-      color: #fff;
-      position: relative;
-      border-top: 1px solid rgba(212, 175, 55, 0.2);
-    }
-
-    .gallery-filter-bar {
-      display: flex;
-      flex-wrap: wrap;
-      gap: 0.65rem;
-      margin-bottom: 2.8rem;
-      justify-content: center;
-    }
-
-    .gallery-filter-btn {
-      padding: 0.55rem 1.25rem;
-      border-radius: 50px;
-      background: rgba(255, 255, 255, 0.05);
-      border: 1px solid rgba(255, 255, 255, 0.12);
-      color: rgba(253, 251, 247, 0.72);
-      font-size: 0.84rem;
-      font-weight: 600;
-      cursor: pointer;
-      transition: all 0.3s var(--transition-smooth);
-    }
-
-    .gallery-filter-btn:hover {
-      background: rgba(255, 255, 255, 0.12);
-      color: #fff;
-      border-color: rgba(212, 175, 55, 0.4);
-    }
-
-    .gallery-filter-btn.active {
-      background: linear-gradient(135deg, var(--red-deep), var(--red-primary));
-      border-color: var(--gold-primary);
-      color: #fff;
-      box-shadow: 0 4px 18px rgba(196, 30, 58, 0.4);
-    }
-
-    .gallery-grid {
-      display: grid;
-      grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
-      gap: 1.8rem;
-    }
-
-    .gallery-card {
-      background: rgba(255, 255, 255, 0.035);
-      border: 1px solid rgba(255, 255, 255, 0.08);
-      border-radius: 20px;
-      overflow: hidden;
-      cursor: pointer;
-      transition: all 0.4s var(--transition-smooth);
-      display: flex;
-      flex-direction: column;
-    }
-
-    .gallery-card:hover {
-      transform: translateY(-7px);
-      border-color: rgba(212, 175, 55, 0.45);
-      box-shadow: 0 18px 45px rgba(0, 0, 0, 0.4);
-      background: rgba(255, 255, 255, 0.07);
-    }
-
-    .gallery-card-imgwrap {
-      width: 100%;
-      aspect-ratio: 16 / 10;
-      overflow: hidden;
-      position: relative;
-      background: #0d121c;
-    }
-
-    .gallery-card-imgwrap img {
-      width: 100%;
-      height: 100%;
-      object-fit: cover;
-      display: block;
-      transition: transform 0.5s var(--transition-smooth);
-    }
-
-    .gallery-card:hover .gallery-card-imgwrap img {
-      transform: scale(1.08);
-    }
-
-    .gallery-card-category {
-      position: absolute;
-      top: 0.8rem;
-      left: 0.8rem;
-      padding: 0.25rem 0.75rem;
-      border-radius: 6px;
-      font-size: 0.72rem;
-      font-weight: 700;
-      background: rgba(10, 13, 20, 0.8);
-      backdrop-filter: blur(4px);
-      color: var(--gold-primary);
-      border: 1px solid rgba(212, 175, 55, 0.35);
-    }
-
-    .gallery-card-info {
-      padding: 1.4rem;
-      flex: 1;
-      display: flex;
-      flex-direction: column;
-      justify-content: space-between;
-    }
-
-    .gallery-card-title {
-      font-family: 'Playfair Display', serif;
-      font-size: 1.12rem;
-      font-weight: 700;
-      color: var(--cream);
-      margin-bottom: 0.45rem;
-      line-height: 1.35;
-    }
-
-    .gallery-card-desc {
-      font-size: 0.84rem;
-      color: rgba(253, 251, 247, 0.68);
-      line-height: 1.6;
-    }
-
-    /* ═══════════════════════════════════════════════════════════════
-       INTERACTIVE LIGHTBOX MODAL
-       ═══════════════════════════════════════════════════════════════ */
-    .lightbox-modal {
-      position: fixed;
-      inset: 0;
-      z-index: 9999;
-      background: rgba(5, 7, 12, 0.95);
-      backdrop-filter: blur(18px);
-      display: none;
-      align-items: center;
-      justify-content: center;
-      padding: 2rem;
-      animation: fadeInModal 0.3s ease forwards;
-    }
-
-    .lightbox-modal.active {
-      display: flex;
-    }
-
-    @keyframes fadeInModal {
-      from { opacity: 0; }
-      to { opacity: 1; }
-    }
-
-    .lightbox-content {
-      position: relative;
-      max-width: 1150px;
-      width: 100%;
-      max-height: 92vh;
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-    }
-
-    .lightbox-img-wrapper {
-      max-width: 100%;
-      max-height: 72vh;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      border-radius: 16px;
-      overflow: hidden;
-      border: 1px solid rgba(212, 175, 55, 0.35);
-      box-shadow: 0 30px 80px rgba(0, 0, 0, 0.7);
-      background: #000;
-    }
-
-    .lightbox-img-wrapper img {
-      max-width: 100%;
-      max-height: 72vh;
-      object-fit: contain;
-      display: block;
-    }
-
-    .lightbox-caption-box {
-      margin-top: 1.4rem;
-      text-align: center;
-      max-width: 820px;
-    }
-
-    .lightbox-title {
-      font-family: 'Playfair Display', serif;
-      font-size: 1.35rem;
-      font-weight: 700;
-      color: var(--gold-light);
-      margin-bottom: 0.4rem;
-    }
-
-    .lightbox-desc {
-      font-size: 0.92rem;
-      color: rgba(253, 251, 247, 0.85);
-      line-height: 1.65;
-    }
-
-    .lightbox-close-btn {
-      position: absolute;
-      top: 16px;
-      right: 16px;
-      background: rgba(255, 255, 255, 0.12);
-      border: 1px solid rgba(255, 255, 255, 0.25);
-      color: #fff;
-      width: 42px;
-      height: 42px;
-      border-radius: 50%;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      cursor: pointer;
-      font-size: 1.3rem;
-      transition: all 0.3s ease;
-    }
-
-    .lightbox-close-btn:hover {
-      background: var(--red-deep);
-      border-color: var(--red-primary);
-      transform: rotate(90deg);
-    }
-
-    .lightbox-nav-btn {
-      position: absolute;
-      top: 50%;
-      transform: translateY(-50%);
-      background: rgba(0, 0, 0, 0.65);
-      border: 1px solid rgba(212, 175, 55, 0.35);
-      color: var(--gold-primary);
-      width: 52px;
-      height: 52px;
-      border-radius: 50%;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      cursor: pointer;
-      font-size: 1.5rem;
-      transition: all 0.3s ease;
-      z-index: 10;
-    }
-
-    .lightbox-nav-btn:hover {
-      background: var(--gold-primary);
-      color: #000;
-      box-shadow: 0 0 25px rgba(212, 175, 55, 0.6);
-      transform: translateY(-50%) scale(1.1);
-    }
-
-    .lightbox-prev-btn { left: 16px; }
-    .lightbox-next-btn { right: 16px; }
-
-    @media (max-width: 900px) {
-      .lightbox-prev-btn { left: 8px; }
-      .lightbox-next-btn { right: 8px; }
-      .lightbox-close-btn { top: 8px; right: 8px; }
-    }
-
-    /* ═══════════════════════════════════════════════════════════════
-   FOOTER
-   ═══════════════════════════════════════════════════════════════ */
-    footer {
-      background: #11141A;
-      color: rgba(253, 251, 247, 0.6);
-      padding: 4.5rem 2rem 2.5rem;
-      position: relative;
-      z-index: 1;
-      border-top: 1px solid rgba(255, 255, 255, 0.08);
-    }
-
-    .footer-container {
-      max-width: 1140px;
-      margin: 0 auto;
-    }
-
-    .footer-grid {
-      display: grid;
-      grid-template-columns: 2fr 1fr 1fr;
-      gap: 3rem;
-      margin-bottom: 3rem;
-    }
-
-    .footer-brand {
-      font-family: 'Playfair Display', serif;
-      font-size: 1.35rem;
-      font-weight: 800;
-      color: var(--gold-primary);
-      margin-bottom: 0.8rem;
-    }
-
-    .footer-desc {
-      font-size: 0.88rem;
-      line-height: 1.8;
-      color: rgba(253, 251, 247, 0.55);
-      max-width: 440px;
-    }
-
-    .footer-col h5 {
-      color: #fff;
-      font-size: 0.92rem;
-      font-weight: 700;
-      letter-spacing: 0.08em;
-      text-transform: uppercase;
-      margin-bottom: 1.2rem;
-    }
-
-    .footer-links {
-      list-style: none;
-      display: flex;
-      flex-direction: column;
-      gap: 0.6rem;
-    }
-
-    .footer-links a {
-      color: rgba(253, 251, 247, 0.6);
-      text-decoration: none;
-      font-size: 0.85rem;
-      transition: all 0.2s ease;
-    }
-
-    .footer-links a:hover {
-      color: var(--gold-light);
-      transform: translateX(4px);
-    }
-
-    .footer-bottom {
-      padding-top: 2rem;
-      border-top: 1px solid rgba(255, 255, 255, 0.06);
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      flex-wrap: wrap;
-      gap: 1rem;
-      font-size: 0.82rem;
-      color: rgba(253, 251, 247, 0.4);
-    }
-
-    .back-to-top {
-      position: fixed;
-      bottom: 2rem;
-      right: 2rem;
-      width: 48px;
-      height: 48px;
-      border-radius: 14px;
-      background: var(--red-deep);
-      color: #fff;
-      border: 1px solid rgba(212, 175, 55, 0.3);
-      cursor: pointer;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      opacity: 0;
-      transform: translateY(20px);
-      transition: all 0.4s var(--transition-smooth);
-      z-index: 999;
-      box-shadow: 0 6px 20px rgba(139, 0, 0, 0.35);
-    }
-
-    .back-to-top.visible {
-      opacity: 1;
-      transform: translateY(0);
-    }
-
-    .back-to-top:hover {
-      background: var(--red-primary);
-      transform: translateY(-3px);
-    }
-
-    .reveal {
-      opacity: 0;
-      transform: translateY(35px);
-      transition: all 0.8s var(--transition-smooth);
-    }
-
-    .reveal.visible {
-      opacity: 1;
-      transform: translateY(0);
-    }
-
-    @media (max-width: 900px) {
-      .footer-grid {
-        grid-template-columns: 1fr;
-        gap: 2rem;
-      }
-
-      .diary-overview-box {
-        grid-template-columns: 1fr;
-      }
-    }
-
-    @media (max-width: 768px) {
-      .reveal, .reveal-left, .reveal-right, .stagger, .stagger > * {
-        opacity: 1 !important;
-        transform: none !important;
-        transition: none !important;
-      }
-
-      .nav-links {
-        display: none;
-        position: absolute;
-        top: 100%;
-        left: 0;
-        right: 0;
-        flex-direction: column;
-        background: rgba(253, 251, 247, 0.98);
-        backdrop-filter: blur(20px);
-        padding: 1.2rem;
-        border-bottom: 1px solid rgba(212, 175, 55, 0.15);
-        box-shadow: 0 10px 40px rgba(0, 0, 0, 0.1);
-      }
-
-      .nav-links.open {
-        display: flex;
-      }
-
-      .nav-toggle {
-        display: block;
-      }
-
-      .biblio-box {
-        padding: 2rem 1.5rem;
-      }
-
-      .diary-card {
-        padding: 1.8rem;
-      }
-    }
-
-    @media (max-width: 500px) {
-      .diary-photo-grid {
-        grid-template-columns: 1fr;
-      }
-      .gallery-grid {
-        grid-template-columns: 1fr;
-      }
-    }
-  </style>
+  <link rel="stylesheet" href="assets/css/base.css">
+<link rel="stylesheet" href="assets/css/team.css">
+<link rel="stylesheet" href="assets/css/lightbox.css">
+<script src="assets/js/site.js" defer></script>
+<script src="assets/js/lightbox.js" defer></script>
 </head>
 
-<body>
+<body data-page="team">
 
-  <canvas id="particle-canvas"></canvas>
+  <canvas id="particle-canvas" aria-hidden="true"></canvas>
 
   <!-- Top Navigation -->
   <nav id="main-nav">
@@ -1493,7 +70,7 @@
         Kết nối nghiên cứu giáo trình chính thống với trải nghiệm thực tế sống động tại Bảo tàng Chứng tích Chiến tranh.
       </p>
       <div class="hero-actions">
-        <a href="#team" class="hero-cta" id="heroBtn">
+        <a href="#team" class="hero-cta" id="heroBtn" data-scroll-target="#team">
           Thông tin 12 thành viên
           <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"
             stroke-linecap="round" stroke-linejoin="round">
@@ -1511,8 +88,8 @@
 
       <!-- Group Photo Showcase Frame -->
       <div class="hero-photo-showcase reveal">
-        <div class="hero-photo-frame" onclick="openLightbox('img/Anh%20Nhom/IMG_6125.jpg', 'Tập thể 12 thành viên Nhóm 6 — Gian trưng bày vũ khí quân sự', 'Tập thể 12 thành viên Nhóm 6 (Lớp 23C02, Khoa CNTT - HCMUS) bên gian trưng bày vũ khí quân sự tại Bảo tàng Chứng tích Chiến tranh (28 Võ Văn Tần, Q.3, TP.HCM).')">
-          <img id="heroMainPhoto" src="img/Anh%20Nhom/IMG_6125.jpg" alt="12 thành viên Nhóm 6 bên gian trưng bày vũ khí quân sự">
+        <div class="hero-photo-frame" data-lightbox data-lightbox-src="img/Anh%20Nhom/IMG_6125.jpg" data-lightbox-title="Tập thể 12 thành viên Nhóm 6 — Gian trưng bày vũ khí quân sự" data-lightbox-desc="Tập thể 12 thành viên Nhóm 6 (Lớp 23C02, Khoa CNTT - HCMUS) bên gian trưng bày vũ khí quân sự tại Bảo tàng Chứng tích Chiến tranh (28 Võ Văn Tần, Q.3, TP.HCM).">
+          <img decoding="async" id="heroMainPhoto" src="img/Anh%20Nhom/IMG_6125.jpg" alt="12 thành viên Nhóm 6 bên gian trưng bày vũ khí quân sự">
           <div class="hero-photo-caption">
             <div>
               <h4 id="heroPhotoCaptionTitle">Tập thể 12 thành viên Nhóm 6 — Gian trưng bày vũ khí quân sự</h4>
@@ -1522,17 +99,17 @@
           </div>
         </div>
         <div class="hero-photo-thumbs">
-          <button class="hero-thumb-btn active" onclick="switchHeroPhoto('img/Anh%20Nhom/IMG_6125.jpg', 'Tập thể 12 thành viên Nhóm 6 — Gian trưng bày vũ khí quân sự', 'Góc chụp chính diện tập thể 12 thành viên bên dãy tủ kính trưng bày vũ khí và súng trường chiến đấu.', this)" title="Ảnh nhóm 1">
-            <img src="img/Anh%20Nhom/IMG_6125.jpg" alt="Ảnh nhóm 1 — Góc chính diện bên gian vũ khí">
+          <button class="hero-thumb-btn active" data-photo-src="img/Anh%20Nhom/IMG_6125.jpg" data-photo-full="img/Anh%20Nhom/IMG_6125.jpg" data-photo-title="Tập thể 12 thành viên Nhóm 6 — Gian trưng bày vũ khí quân sự" data-photo-subtitle="Góc chụp chính diện tập thể 12 thành viên bên dãy tủ kính trưng bày vũ khí và súng trường chiến đấu." title="Ảnh nhóm 1">
+            <img decoding="async" src="img/Anh%20Nhom/IMG_6125.jpg" alt="Ảnh nhóm 1 — Góc chính diện bên gian vũ khí">
           </button>
-          <button class="hero-thumb-btn" onclick="switchHeroPhoto('img/Anh%20Nhom/IMG_6126.jpg', 'Tập thể 12 thành viên Nhóm 6 — Toàn cảnh gian trưng bày vũ khí', 'Toàn cảnh 12 thành viên lưu niệm trước khu trưng bày vũ khí bộ binh tại tầng bảo tàng.', this)" title="Ảnh nhóm 2">
-            <img src="img/Anh%20Nhom/IMG_6126.jpg" alt="Ảnh nhóm 2 — Toàn cảnh gian vũ khí">
+          <button class="hero-thumb-btn" data-photo-src="img/Anh%20Nhom/IMG_6126.jpg" data-photo-full="img/Anh%20Nhom/IMG_6126.jpg" data-photo-title="Tập thể 12 thành viên Nhóm 6 — Toàn cảnh gian trưng bày vũ khí" data-photo-subtitle="Toàn cảnh 12 thành viên lưu niệm trước khu trưng bày vũ khí bộ binh tại tầng bảo tàng." title="Ảnh nhóm 2">
+            <img decoding="async" src="img/Anh%20Nhom/IMG_6126.jpg" alt="Ảnh nhóm 2 — Toàn cảnh gian vũ khí">
           </button>
-          <button class="hero-thumb-btn" onclick="switchHeroPhoto('img/Anh%20Nhom/IMG_6127.jpg', 'Tập thể 12 thành viên Nhóm 6 — Góc kỷ niệm bên tủ súng trưng bày', 'Góc chụp kỷ niệm các thành viên cùng thảo luận trước gian trưng bày vũ khí quân sự.', this)" title="Ảnh nhóm 3">
-            <img src="img/Anh%20Nhom/IMG_6127.jpg" alt="Ảnh nhóm 3 — Góc kỷ niệm bên tủ súng">
+          <button class="hero-thumb-btn" data-photo-src="img/Anh%20Nhom/IMG_6127.jpg" data-photo-full="img/Anh%20Nhom/IMG_6127.jpg" data-photo-title="Tập thể 12 thành viên Nhóm 6 — Góc kỷ niệm bên tủ súng trưng bày" data-photo-subtitle="Góc chụp kỷ niệm các thành viên cùng thảo luận trước gian trưng bày vũ khí quân sự." title="Ảnh nhóm 3">
+            <img decoding="async" src="img/Anh%20Nhom/IMG_6127.jpg" alt="Ảnh nhóm 3 — Góc kỷ niệm bên tủ súng">
           </button>
-          <button class="hero-thumb-btn" onclick="switchHeroPhoto('img/Anh%20Nhom/IMG_6128.jpg', 'Tập thể 12 thành viên Nhóm 6 — Khoảnh khắc khảo sát hiện vật vũ khí', 'Khoảnh khắc hoàn thành đợt khảo sát thực tế bên dãy hiện vật súng và vũ khí bảo tàng.', this)" title="Ảnh nhóm 4">
-            <img src="img/Anh%20Nhom/IMG_6128.jpg" alt="Ảnh nhóm 4 — Khoảnh khắc khảo sát vũ khí">
+          <button class="hero-thumb-btn" data-photo-src="img/Anh%20Nhom/IMG_6128.jpg" data-photo-full="img/Anh%20Nhom/IMG_6128.jpg" data-photo-title="Tập thể 12 thành viên Nhóm 6 — Khoảnh khắc khảo sát hiện vật vũ khí" data-photo-subtitle="Khoảnh khắc hoàn thành đợt khảo sát thực tế bên dãy hiện vật súng và vũ khí bảo tàng." title="Ảnh nhóm 4">
+            <img decoding="async" src="img/Anh%20Nhom/IMG_6128.jpg" alt="Ảnh nhóm 4 — Khoảnh khắc khảo sát vũ khí">
           </button>
         </div>
       </div>
@@ -1864,22 +441,22 @@
               Đặc biệt, hiện vật <strong>chiếc máy chém thời Pháp</strong> (lưỡi dao nặng 50kg rơi từ độ cao 4m) khiến toàn bộ thành viên lặng người trước sự hy sinh kiên cường của các chiến sĩ cách mạng tiền bối như Trần Phú, Lý Tự Trọng, Lê Hồng Phong, Nguyễn Thị Minh Khai...
             </p>
             <div class="diary-photo-grid">
-              <div class="diary-photo-item" onclick="openLightbox('img/NhaTuConDaoP1/IMG_6067.jpg', 'Bảng thông tin Máy chém thời Pháp', 'Bảng giới thiệu máy chém cao 4,5 m, lưỡi dao nặng 50 kg, được Pháp đưa sang Việt Nam đầu thế kỷ XX để đàn áp phong trào cách mạng.')">
-                <img src="img/NhaTuConDaoP1/IMG_6067.jpg" alt="Bảng thông tin Máy chém" loading="lazy">
+              <div class="diary-photo-item" data-lightbox data-lightbox-src="img/NhaTuConDaoP1/IMG_6067.jpg" data-lightbox-title="Bảng thông tin Máy chém thời Pháp" data-lightbox-desc="Bảng giới thiệu máy chém cao 4,5 m, lưỡi dao nặng 50 kg, được Pháp đưa sang Việt Nam đầu thế kỷ XX để đàn áp phong trào cách mạng.">
+                <img decoding="async" src="img/NhaTuConDaoP1/IMG_6067.jpg" alt="Bảng thông tin Máy chém" loading="lazy">
                 <div class="diary-photo-overlay">
                   <span class="photo-title">Bảng thông tin Máy chém</span>
                   <span class="zoom-badge">🔍 Phóng to</span>
                 </div>
               </div>
-              <div class="diary-photo-item" onclick="openLightbox('img/NhaTuConDaoP1/IMG_6064.jpg', 'Hiện vật gốc Máy chém thời thực dân Pháp', 'Hiện vật gốc máy chém thực dân (lưỡi dao thép nặng 50kg, thả rơi từ khung gỗ 4m) dùng đàn áp phong trào cách mạng đầu thế kỷ XX và sau này được chính quyền Diệm lê đi khắp miền Nam.')">
-                <img src="img/NhaTuConDaoP1/IMG_6064.jpg" alt="Máy chém thời Pháp" loading="lazy">
+              <div class="diary-photo-item" data-lightbox data-lightbox-src="img/NhaTuConDaoP1/IMG_6064.jpg" data-lightbox-title="Hiện vật gốc Máy chém thời thực dân Pháp" data-lightbox-desc="Hiện vật gốc máy chém thực dân (lưỡi dao thép nặng 50kg, thả rơi từ khung gỗ 4m) dùng đàn áp phong trào cách mạng đầu thế kỷ XX và sau này được chính quyền Diệm lê đi khắp miền Nam.">
+                <img decoding="async" src="img/NhaTuConDaoP1/IMG_6064.jpg" alt="Máy chém thời Pháp" loading="lazy">
                 <div class="diary-photo-overlay">
                   <span class="photo-title">Hiện vật Máy chém thời Pháp</span>
                   <span class="zoom-badge">🔍 Phóng to</span>
                 </div>
               </div>
-              <div class="diary-photo-item" onclick="openLightbox('img/NhaTuConDaoP1/IMG_6066.jpg', 'Máng đỡ và Giỏ mây hứng đầu tử tội', 'Chi tiết chiếc giỏ mây hứng đầu và máng gỗ của cỗ máy chém nguyên bản được lưu giữ tại bảo tàng.')">
-                <img src="img/NhaTuConDaoP1/IMG_6066.jpg" alt="Giỏ mây máy chém" loading="lazy">
+              <div class="diary-photo-item" data-lightbox data-lightbox-src="img/NhaTuConDaoP1/IMG_6066.jpg" data-lightbox-title="Máng đỡ và Giỏ mây hứng đầu tử tội" data-lightbox-desc="Chi tiết chiếc giỏ mây hứng đầu và máng gỗ của cỗ máy chém nguyên bản được lưu giữ tại bảo tàng.">
+                <img decoding="async" src="img/NhaTuConDaoP1/IMG_6066.jpg" alt="Giỏ mây máy chém" loading="lazy">
                 <div class="diary-photo-overlay">
                   <span class="photo-title">Giỏ mây máy chém</span>
                   <span class="zoom-badge">🔍 Phóng to</span>
@@ -1906,22 +483,22 @@
               Nhóm nghiên cứu hệ thống hình ảnh và hiện vật ghi dấu các bước ngoặt của cuộc kháng chiến chống Mỹ: Từ Hội nghị Giơnevơ 1954, sự ra đời của <strong>Mặt trận Dân tộc Giải phóng miền Nam (20/12/1960)</strong>, các nỗ lực leo thang của các chiến lược "Chiến tranh đặc biệt", "Chiến tranh cục bộ" của Mỹ, cho đến đỉnh cao lịch sử trưa ngày <strong>30/4/1975</strong> khi xe tăng quân Giải phóng húc đổ cổng Dinh Độc Lập, giải phóng hoàn toàn miền Nam, thống nhất non sông.
             </p>
             <div class="diary-photo-grid">
-              <div class="diary-photo-item" onclick="openLightbox('img/ChuaBiet/IMG_6225.jpg', 'Đại hội thống nhất Mặt trận miền Nam', 'Bảng ảnh Hồ Chí Minh tại Đại hội thống nhất Mặt trận miền Nam: các đại biểu giơ tay biểu quyết trước diễn đàn.')">
-                <img src="img/ChuaBiet/IMG_6225.jpg" alt="Đại hội thống nhất Mặt trận miền Nam" loading="lazy">
+              <div class="diary-photo-item" data-lightbox data-lightbox-src="img/ChuaBiet/IMG_6225.jpg" data-lightbox-title="Đại hội thống nhất Mặt trận miền Nam" data-lightbox-desc="Bảng ảnh Hồ Chí Minh tại Đại hội thống nhất Mặt trận miền Nam: các đại biểu giơ tay biểu quyết trước diễn đàn.">
+                <img decoding="async" src="img/ChuaBiet/IMG_6225.jpg" alt="Đại hội thống nhất Mặt trận miền Nam" loading="lazy">
                 <div class="diary-photo-overlay">
                   <span class="photo-title">Đại hội thống nhất Mặt trận miền Nam</span>
                   <span class="zoom-badge">🔍 Phóng to</span>
                 </div>
               </div>
-              <div class="diary-photo-item" onclick="openLightbox('img/ChuaBiet/IMG_6230.jpg', 'Johnson thăm lính Mỹ (10/1966)', 'Ảnh Tổng thống Johnson thăm lính Mỹ tại Cam Ranh (10/1966) và McNamara cùng Tướng Westmoreland thị sát căn cứ.')">
-                <img src="img/ChuaBiet/IMG_6230.jpg" alt="Johnson thăm lính Mỹ" loading="lazy">
+              <div class="diary-photo-item" data-lightbox data-lightbox-src="img/ChuaBiet/IMG_6230.jpg" data-lightbox-title="Johnson thăm lính Mỹ (10/1966)" data-lightbox-desc="Ảnh Tổng thống Johnson thăm lính Mỹ tại Cam Ranh (10/1966) và McNamara cùng Tướng Westmoreland thị sát căn cứ.">
+                <img decoding="async" src="img/ChuaBiet/IMG_6230.jpg" alt="Johnson thăm lính Mỹ" loading="lazy">
                 <div class="diary-photo-overlay">
                   <span class="photo-title">Johnson thăm lính Mỹ (1966)</span>
                   <span class="zoom-badge">🔍 Phóng to</span>
                 </div>
               </div>
-              <div class="diary-photo-item" onclick="openLightbox('img/ChuaBiet/IMG_6240.jpg', 'Đại thắng Mùa Xuân 30/4/1975 & Lời sám hối McNamara', 'Xe tăng giải phóng tiến vào Dinh Độc Lập trưa 30/4/1975 và lời thú nhận sai lầm lịch sử của Cựu Bộ trưởng Quốc phòng Mỹ McNamara.')">
-                <img src="img/ChuaBiet/IMG_6240.jpg" alt="Đại thắng 30/4/1975" loading="lazy">
+              <div class="diary-photo-item" data-lightbox data-lightbox-src="img/ChuaBiet/IMG_6240.jpg" data-lightbox-title="Đại thắng Mùa Xuân 30/4/1975 &amp; Lời sám hối McNamara" data-lightbox-desc="Xe tăng giải phóng tiến vào Dinh Độc Lập trưa 30/4/1975 và lời thú nhận sai lầm lịch sử của Cựu Bộ trưởng Quốc phòng Mỹ McNamara.">
+                <img decoding="async" src="img/ChuaBiet/IMG_6240.jpg" alt="Đại thắng 30/4/1975" loading="lazy">
                 <div class="diary-photo-overlay">
                   <span class="photo-title">Đại thắng 30/4/1975</span>
                   <span class="zoom-badge">🔍 Phóng to</span>
@@ -1955,22 +532,22 @@
               trào chung tay xoa dịu nỗi đau da cam của nhân dân ta.
             </p>
             <div class="diary-photo-grid">
-              <div class="diary-photo-item" onclick="openLightbox('img/ChatDocMauDaCam/IMG_6182.jpg', 'Chiến dịch Khai quang Ranch Hand', 'Ảnh máy bay C-123 phun rải chất độc hóa học xuống cánh rừng, kèm bảng giới thiệu Chiến dịch Ranch Hand.')">
-                <img src="img/ChatDocMauDaCam/IMG_6182.jpg" alt="Máy bay C-123 rải chất độc hóa học" loading="lazy">
+              <div class="diary-photo-item" data-lightbox data-lightbox-src="img/ChatDocMauDaCam/IMG_6182.jpg" data-lightbox-title="Chiến dịch Khai quang Ranch Hand" data-lightbox-desc="Ảnh máy bay C-123 phun rải chất độc hóa học xuống cánh rừng, kèm bảng giới thiệu Chiến dịch Ranch Hand.">
+                <img decoding="async" src="img/ChatDocMauDaCam/IMG_6182.jpg" alt="Máy bay C-123 rải chất độc hóa học" loading="lazy">
                 <div class="diary-photo-overlay">
                   <span class="photo-title">Hồ sơ Chiến dịch Ranch Hand</span>
                   <span class="zoom-badge">🔍 Phóng to</span>
                 </div>
               </div>
-              <div class="diary-photo-item" onclick="openLightbox('img/ChatDocMauDaCam/IMG_6184.jpg', 'Chứng tích nỗi đau thế hệ nạn nhân Da cam', 'Di chứng quái thai bẩm sinh và những tổn thương cơ thể vĩnh viễn qua 3 thế hệ gia đình Việt Nam.')">
-                <img src="img/ChatDocMauDaCam/IMG_6184.jpg" alt="Nạn nhân Da cam" loading="lazy">
+              <div class="diary-photo-item" data-lightbox data-lightbox-src="img/ChatDocMauDaCam/IMG_6184.jpg" data-lightbox-title="Chứng tích nỗi đau thế hệ nạn nhân Da cam" data-lightbox-desc="Di chứng quái thai bẩm sinh và những tổn thương cơ thể vĩnh viễn qua 3 thế hệ gia đình Việt Nam.">
+                <img decoding="async" src="img/ChatDocMauDaCam/IMG_6184.jpg" alt="Nạn nhân Da cam" loading="lazy">
                 <div class="diary-photo-overlay">
                   <span class="photo-title">Nỗi đau qua 3 thế hệ</span>
                   <span class="zoom-badge">🔍 Phóng to</span>
                 </div>
               </div>
-              <div class="diary-photo-item" onclick="openLightbox('img/ChatDocMauDaCam/IMG_6187.jpg', 'Phong trào xoa dịu nỗi đau Da cam', 'Hành trình vượt lên số phận của nạn nhân và nỗ lực tẩy độc môi trường, khép lại nỗi đau chiến tranh.')">
-                <img src="img/ChatDocMauDaCam/IMG_6187.jpg" alt="Xoa dịu nỗi đau" loading="lazy">
+              <div class="diary-photo-item" data-lightbox data-lightbox-src="img/ChatDocMauDaCam/IMG_6187.jpg" data-lightbox-title="Phong trào xoa dịu nỗi đau Da cam" data-lightbox-desc="Hành trình vượt lên số phận của nạn nhân và nỗ lực tẩy độc môi trường, khép lại nỗi đau chiến tranh.">
+                <img decoding="async" src="img/ChatDocMauDaCam/IMG_6187.jpg" alt="Xoa dịu nỗi đau" loading="lazy">
                 <div class="diary-photo-overlay">
                   <span class="photo-title">Hàn gắn & Tẩy độc môi trường</span>
                   <span class="zoom-badge">🔍 Phóng to</span>
@@ -2007,22 +584,22 @@
               của Đảng và Nhà nước ta.
             </p>
             <div class="diary-photo-grid">
-              <div class="diary-photo-item" onclick="openLightbox('img/TheGioiUngHoVN%20KhangChien/IMG_6268.jpg', 'Bảng trưng bày ‘Thế giới ủng hộ Việt Nam’', 'Bảng trưng bày ‘Thế giới ủng hộ Việt Nam kháng chiến chống Mỹ 1954–1975’ với tủ hiện vật và ánh sáng sân khấu.')">
-                <img src="img/TheGioiUngHoVN%20KhangChien/IMG_6268.jpg" alt="Bảng trưng bày Thế giới ủng hộ Việt Nam" loading="lazy">
+              <div class="diary-photo-item" data-lightbox data-lightbox-src="img/TheGioiUngHoVN%20KhangChien/IMG_6268.jpg" data-lightbox-title="Bảng trưng bày ‘Thế giới ủng hộ Việt Nam’" data-lightbox-desc="Bảng trưng bày ‘Thế giới ủng hộ Việt Nam kháng chiến chống Mỹ 1954–1975’ với tủ hiện vật và ánh sáng sân khấu.">
+                <img decoding="async" src="img/TheGioiUngHoVN%20KhangChien/IMG_6268.jpg" alt="Bảng trưng bày Thế giới ủng hộ Việt Nam" loading="lazy">
                 <div class="diary-photo-overlay">
                   <span class="photo-title">Bảng trưng bày Thế giới ủng hộ Việt Nam</span>
                   <span class="zoom-badge">🔍 Phóng to</span>
                 </div>
               </div>
-              <div class="diary-photo-item" onclick="openLightbox('img/TheGioiUngHoVN%20KhangChien/IMG_6272.jpg', 'Mít tinh ủng hộ Việt Nam tại Prague (1/5/1966)', 'Nhân dân Tiệp Khắc xuống đường ủng hộ Việt Nam, khẩu hiệu ‘Hòa bình cho nhân dân Việt Nam’.')">
-                <img src="img/TheGioiUngHoVN%20KhangChien/IMG_6272.jpg" alt="Mít tinh tại Prague" loading="lazy">
+              <div class="diary-photo-item" data-lightbox data-lightbox-src="img/TheGioiUngHoVN%20KhangChien/IMG_6272.jpg" data-lightbox-title="Mít tinh ủng hộ Việt Nam tại Prague (1/5/1966)" data-lightbox-desc="Nhân dân Tiệp Khắc xuống đường ủng hộ Việt Nam, khẩu hiệu ‘Hòa bình cho nhân dân Việt Nam’.">
+                <img decoding="async" src="img/TheGioiUngHoVN%20KhangChien/IMG_6272.jpg" alt="Mít tinh tại Prague" loading="lazy">
                 <div class="diary-photo-overlay">
                   <span class="photo-title">Mít tinh tại Prague</span>
                   <span class="zoom-badge">🔍 Phóng to</span>
                 </div>
               </div>
-              <div class="diary-photo-item" onclick="openLightbox('img/TheGioiUngHoVN%20KhangChien/IMG_6275.jpg', 'Ủng hộ Việt Nam — Lương tri nhân loại', 'Đoàn biểu tình ủng hộ Việt Nam tại Quảng trường Thiên An Môn, Bắc Kinh, Trung Quốc, ngày 22/7/1966 — một trong những cuộc tuần hành quốc tế lớn nhất phản đối chiến tranh Việt Nam.')">
-                <img src="img/TheGioiUngHoVN%20KhangChien/IMG_6275.jpg" alt="Biểu tình ủng hộ Việt Nam tại Thiên An Môn, 1966" loading="lazy">
+              <div class="diary-photo-item" data-lightbox data-lightbox-src="img/TheGioiUngHoVN%20KhangChien/IMG_6275.jpg" data-lightbox-title="Ủng hộ Việt Nam — Lương tri nhân loại" data-lightbox-desc="Đoàn biểu tình ủng hộ Việt Nam tại Quảng trường Thiên An Môn, Bắc Kinh, Trung Quốc, ngày 22/7/1966 — một trong những cuộc tuần hành quốc tế lớn nhất phản đối chiến tranh Việt Nam.">
+                <img decoding="async" src="img/TheGioiUngHoVN%20KhangChien/IMG_6275.jpg" alt="Biểu tình ủng hộ Việt Nam tại Thiên An Môn, 1966" loading="lazy">
                 <div class="diary-photo-overlay">
                   <span class="photo-title">Khối đoàn kết lương tri</span>
                   <span class="zoom-badge">🔍 Phóng to</span>
@@ -2052,22 +629,22 @@
               Với phong thái ung dung, lập luận sắc bén và nụ cười tự tin, "Madame Bình" đã làm rung động truyền thông quốc tế, góp phần quyết định vào việc ký kết Hiệp định Paris ngày 27/1/1973 buộc quân Mỹ phải cuốn cờ rút về nước.
             </p>
             <div class="diary-photo-grid">
-              <div class="diary-photo-item" onclick="openLightbox('img/PhongNguyenThiBinh/IMG_6141.jpg', 'Nguyễn Thị Bình tại Trafalgar Square (1969)', 'Bà Nguyễn Thị Bình phát biểu trước đông đảo nhân dân London, Anh, tháng 4/1969, với khẩu hiệu ‘Đoàn kết với Việt Nam!’.')">
-                <img src="img/PhongNguyenThiBinh/IMG_6141.jpg" alt="Nguyễn Thị Bình tại Trafalgar Square" loading="lazy">
+              <div class="diary-photo-item" data-lightbox data-lightbox-src="img/PhongNguyenThiBinh/IMG_6141.jpg" data-lightbox-title="Nguyễn Thị Bình tại Trafalgar Square (1969)" data-lightbox-desc="Bà Nguyễn Thị Bình phát biểu trước đông đảo nhân dân London, Anh, tháng 4/1969, với khẩu hiệu ‘Đoàn kết với Việt Nam!’.">
+                <img decoding="async" src="img/PhongNguyenThiBinh/IMG_6141.jpg" alt="Nguyễn Thị Bình tại Trafalgar Square" loading="lazy">
                 <div class="diary-photo-overlay">
                   <span class="photo-title">Nguyễn Thị Bình tại Trafalgar Square</span>
                   <span class="zoom-badge">🔍 Phóng to</span>
                 </div>
               </div>
-              <div class="diary-photo-item" onclick="openLightbox('img/PhongNguyenThiBinh/IMG_6135.jpg', 'Chân dung Nguyễn Thị Bình', 'Chân dung bà Nguyễn Thị Bình bên những dòng hồi tưởng về phong trào đoàn kết quốc tế và cuộc đàm phán Paris.')">
-                <img src="img/PhongNguyenThiBinh/IMG_6135.jpg" alt="Chân dung Nguyễn Thị Bình" loading="lazy">
+              <div class="diary-photo-item" data-lightbox data-lightbox-src="img/PhongNguyenThiBinh/IMG_6135.jpg" data-lightbox-title="Chân dung Nguyễn Thị Bình" data-lightbox-desc="Chân dung bà Nguyễn Thị Bình bên những dòng hồi tưởng về phong trào đoàn kết quốc tế và cuộc đàm phán Paris.">
+                <img decoding="async" src="img/PhongNguyenThiBinh/IMG_6135.jpg" alt="Chân dung Nguyễn Thị Bình" loading="lazy">
                 <div class="diary-photo-overlay">
                   <span class="photo-title">Chân dung Nguyễn Thị Bình</span>
                   <span class="zoom-badge">🔍 Phóng to</span>
                 </div>
               </div>
-              <div class="diary-photo-item" onclick="openLightbox('img/PhongNguyenThiBinh/IMG_6176.jpg', 'Cảm xúc ngày thống nhất (5/1975)', 'Trích hồi tưởng của bà Nguyễn Thị Bình về những ngày tháng 5/1975 tại Sài Gòn.')">
-                <img src="img/PhongNguyenThiBinh/IMG_6176.jpg" alt="Cảm xúc ngày thống nhất" loading="lazy">
+              <div class="diary-photo-item" data-lightbox data-lightbox-src="img/PhongNguyenThiBinh/IMG_6176.jpg" data-lightbox-title="Cảm xúc ngày thống nhất (5/1975)" data-lightbox-desc="Trích hồi tưởng của bà Nguyễn Thị Bình về những ngày tháng 5/1975 tại Sài Gòn.">
+                <img decoding="async" src="img/PhongNguyenThiBinh/IMG_6176.jpg" alt="Cảm xúc ngày thống nhất" loading="lazy">
                 <div class="diary-photo-overlay">
                   <span class="photo-title">Cảm xúc ngày thống nhất</span>
                   <span class="zoom-badge">🔍 Phóng to</span>
@@ -2095,22 +672,22 @@
               Hơn 800 thanh niên xung phong (đa số là các cô gái tuổi đời mười tám, đôi mươi) đã dũng cảm bám trụ dưới làn mưa bom B-52, chất độc hóa học và tàu chiến địch, vận chuyển hơn 13.000 tấn vũ khí, đưa đón hàng vạn lượt cán bộ, thương binh an toàn.
             </p>
             <div class="diary-photo-grid">
-              <div class="diary-photo-item" onclick="openLightbox('img/ThoiThanhXuanTrenTuyenDuong1C%20HuyenThoai/IMG_6243.jpg', 'Không gian Trưng bày Tuyến đường 1C', 'Tái hiện gian khổ và lòng dũng cảm phi thường của lực lượng TNXP Tây Nam Bộ bám trụ huyết mạch vận tải.')">
-                <img src="img/ThoiThanhXuanTrenTuyenDuong1C%20HuyenThoai/IMG_6243.jpg" alt="Tuyến đường 1C" loading="lazy">
+              <div class="diary-photo-item" data-lightbox data-lightbox-src="img/ThoiThanhXuanTrenTuyenDuong1C%20HuyenThoai/IMG_6243.jpg" data-lightbox-title="Không gian Trưng bày Tuyến đường 1C" data-lightbox-desc="Tái hiện gian khổ và lòng dũng cảm phi thường của lực lượng TNXP Tây Nam Bộ bám trụ huyết mạch vận tải.">
+                <img decoding="async" src="img/ThoiThanhXuanTrenTuyenDuong1C%20HuyenThoai/IMG_6243.jpg" alt="Tuyến đường 1C" loading="lazy">
                 <div class="diary-photo-overlay">
                   <span class="photo-title">Thống khổ trên huyết mạch giao liên 1C</span>
                   <span class="zoom-badge">🔍 Phóng to</span>
                 </div>
               </div>
-              <div class="diary-photo-item" onclick="openLightbox('img/ThoiThanhXuanTrenTuyenDuong1C%20HuyenThoai/IMG_6248.jpg', 'Thanh niên Xung phong vận chuyển trên tuyến 1C', 'Ảnh tư liệu TNXP Tây Nam Bộ vận chuyển hàng hóa, vũ khí bằng thuyền và xe đạp thồ trên tuyến 1C.')">
-                <img src="img/ThoiThanhXuanTrenTuyenDuong1C%20HuyenThoai/IMG_6248.jpg" alt="TNXP vận chuyển trên tuyến 1C" loading="lazy">
+              <div class="diary-photo-item" data-lightbox data-lightbox-src="img/ThoiThanhXuanTrenTuyenDuong1C%20HuyenThoai/IMG_6248.jpg" data-lightbox-title="Thanh niên Xung phong vận chuyển trên tuyến 1C" data-lightbox-desc="Ảnh tư liệu TNXP Tây Nam Bộ vận chuyển hàng hóa, vũ khí bằng thuyền và xe đạp thồ trên tuyến 1C.">
+                <img decoding="async" src="img/ThoiThanhXuanTrenTuyenDuong1C%20HuyenThoai/IMG_6248.jpg" alt="TNXP vận chuyển trên tuyến 1C" loading="lazy">
                 <div class="diary-photo-overlay">
                   <span class="photo-title">TNXP vận chuyển trên tuyến 1C</span>
                   <span class="zoom-badge">🔍 Phóng to</span>
                 </div>
               </div>
-              <div class="diary-photo-item" onclick="openLightbox('img/ThoiThanhXuanTrenTuyenDuong1C%20HuyenThoai/IMG_6253.jpg', 'Đường 1C & Đoàn 195 (19/5/1966)', 'Bảng giới thiệu tuyến vận tải 1C và Đoàn 195 thành lập ngày 19/5/1966 tại Kampot, Campuchia, nối liền chi viện cho chiến trường Tây Nam Bộ.')">
-                <img src="img/ThoiThanhXuanTrenTuyenDuong1C%20HuyenThoai/IMG_6253.jpg" alt="Đường 1C và Đoàn 195" loading="lazy">
+              <div class="diary-photo-item" data-lightbox data-lightbox-src="img/ThoiThanhXuanTrenTuyenDuong1C%20HuyenThoai/IMG_6253.jpg" data-lightbox-title="Đường 1C &amp; Đoàn 195 (19/5/1966)" data-lightbox-desc="Bảng giới thiệu tuyến vận tải 1C và Đoàn 195 thành lập ngày 19/5/1966 tại Kampot, Campuchia, nối liền chi viện cho chiến trường Tây Nam Bộ.">
+                <img decoding="async" src="img/ThoiThanhXuanTrenTuyenDuong1C%20HuyenThoai/IMG_6253.jpg" alt="Đường 1C và Đoàn 195" loading="lazy">
                 <div class="diary-photo-overlay">
                   <span class="photo-title">Đường 1C & Đoàn 195</span>
                   <span class="zoom-badge">🔍 Phóng to</span>
@@ -2148,25 +725,25 @@
 
       <!-- Filter Bar -->
       <div class="gallery-filter-bar reveal">
-        <button class="gallery-filter-btn active" onclick="filterGallery('all', this)">Tất cả (38 ảnh tiêu biểu)</button>
-        <button class="gallery-filter-btn" onclick="filterGallery('nhom', this)">📸 Nhóm Thực Hiện</button>
-        <button class="gallery-filter-btn" onclick="filterGallery('nhatu', this)">⛓️ Chuồng Cọp & Máy Chém</button>
-        <button class="gallery-filter-btn" onclick="filterGallery('toiac', this)">⚔️ Tội Ác Chiến Tranh & Sơn Mỹ</button>
-        <button class="gallery-filter-btn" onclick="filterGallery('khangchien', this)">🎖️ Tiến Trình Kháng Chiến (1954–1975)</button>
-        <button class="gallery-filter-btn" onclick="filterGallery('dacam', this)">☢️ Chất Độc Da Cam</button>
-        <button class="gallery-filter-btn" onclick="filterGallery('paris', this)">🕊️ Hiệp Định Paris 1973</button>
-        <button class="gallery-filter-btn" onclick="filterGallery('duong1c', this)">🌿 Đường 1C Huyền Thoại</button>
-        <button class="gallery-filter-btn" onclick="filterGallery('quocte', this)">🌍 Quốc Tế Ủng Hộ VN</button>
-        <button class="gallery-filter-btn" onclick="filterGallery('hoiniem', this)">📷 Phòng Hồi Niệm</button>
+        <button class="gallery-filter-btn active" data-filter="all">Tất cả (38 ảnh tiêu biểu)</button>
+        <button class="gallery-filter-btn" data-filter="nhom">📸 Nhóm Thực Hiện</button>
+        <button class="gallery-filter-btn" data-filter="nhatu">⛓️ Chuồng Cọp & Máy Chém</button>
+        <button class="gallery-filter-btn" data-filter="toiac">⚔️ Tội Ác Chiến Tranh & Sơn Mỹ</button>
+        <button class="gallery-filter-btn" data-filter="khangchien">🎖️ Tiến Trình Kháng Chiến (1954–1975)</button>
+        <button class="gallery-filter-btn" data-filter="dacam">☢️ Chất Độc Da Cam</button>
+        <button class="gallery-filter-btn" data-filter="paris">🕊️ Hiệp Định Paris 1973</button>
+        <button class="gallery-filter-btn" data-filter="duong1c">🌿 Đường 1C Huyền Thoại</button>
+        <button class="gallery-filter-btn" data-filter="quocte">🌍 Quốc Tế Ủng Hộ VN</button>
+        <button class="gallery-filter-btn" data-filter="hoiniem">📷 Phòng Hồi Niệm</button>
       </div>
 
       <!-- Gallery Grid -->
       <div class="gallery-grid reveal" id="galleryGrid">
         <!-- NHÓM THỰC HIỆN (Toàn bộ ảnh chụp bên gian trưng bày vũ khí quân sự) -->
-        <div class="gallery-card" data-category="nhom" onclick="openLightbox('img/Anh%20Nhom/IMG_6125.jpg', '12 Thành viên bên gian vũ khí (Chính diện)', 'Ảnh tập thể 12 thành viên chụp lưu niệm bên gian trưng bày súng và khí tài quân sự bảo tàng.')">
+        <div class="gallery-card" data-category="nhom" data-lightbox data-lightbox-src="img/Anh%20Nhom/IMG_6125.jpg" data-lightbox-title="12 Thành viên bên gian vũ khí (Chính diện)" data-lightbox-desc="Ảnh tập thể 12 thành viên chụp lưu niệm bên gian trưng bày súng và khí tài quân sự bảo tàng.">
           <div class="gallery-card-imgwrap">
             <span class="gallery-card-category">Nhóm Thực Hiện</span>
-            <img src="img/Anh%20Nhom/IMG_6125.jpg" alt="12 thành viên Nhóm 6 bên gian vũ khí" loading="lazy">
+            <img decoding="async" src="img/Anh%20Nhom/IMG_6125.jpg" alt="12 thành viên Nhóm 6 bên gian vũ khí" loading="lazy">
           </div>
           <div class="gallery-card-info">
             <h4 class="gallery-card-title">12 Thành viên bên gian vũ khí (Chính diện)</h4>
@@ -2174,10 +751,10 @@
           </div>
         </div>
 
-        <div class="gallery-card" data-category="nhom" onclick="openLightbox('img/Anh%20Nhom/IMG_6126.jpg', '12 Thành viên bên gian vũ khí (Toàn cảnh)', 'Góc chụp toàn cảnh 12 thành viên ghi nhận hiện vật vũ khí và súng bộ binh trong chuyến điền dã.')">
+        <div class="gallery-card" data-category="nhom" data-lightbox data-lightbox-src="img/Anh%20Nhom/IMG_6126.jpg" data-lightbox-title="12 Thành viên bên gian vũ khí (Toàn cảnh)" data-lightbox-desc="Góc chụp toàn cảnh 12 thành viên ghi nhận hiện vật vũ khí và súng bộ binh trong chuyến điền dã.">
           <div class="gallery-card-imgwrap">
             <span class="gallery-card-category">Nhóm Thực Hiện</span>
-            <img src="img/Anh%20Nhom/IMG_6126.jpg" alt="Toàn cảnh 12 thành viên bên gian vũ khí" loading="lazy">
+            <img decoding="async" src="img/Anh%20Nhom/IMG_6126.jpg" alt="Toàn cảnh 12 thành viên bên gian vũ khí" loading="lazy">
           </div>
           <div class="gallery-card-info">
             <h4 class="gallery-card-title">12 Thành viên bên gian vũ khí (Toàn cảnh)</h4>
@@ -2185,10 +762,10 @@
           </div>
         </div>
 
-        <div class="gallery-card" data-category="nhom" onclick="openLightbox('img/Anh%20Nhom/IMG_6127.jpg', 'Thảo luận trước gian trưng bày vũ khí', 'Ảnh nhóm 12 thành viên trước các tủ kính trưng bày súng và vũ khí bộ binh; nhiều bạn đeo thẻ tên của buổi khảo sát.')">
+        <div class="gallery-card" data-category="nhom" data-lightbox data-lightbox-src="img/Anh%20Nhom/IMG_6127.jpg" data-lightbox-title="Thảo luận trước gian trưng bày vũ khí" data-lightbox-desc="Ảnh nhóm 12 thành viên trước các tủ kính trưng bày súng và vũ khí bộ binh; nhiều bạn đeo thẻ tên của buổi khảo sát.">
           <div class="gallery-card-imgwrap">
             <span class="gallery-card-category">Nhóm Thực Hiện</span>
-            <img src="img/Anh%20Nhom/IMG_6127.jpg" alt="Góc kỷ niệm bên gian trưng bày vũ khí" loading="lazy">
+            <img decoding="async" src="img/Anh%20Nhom/IMG_6127.jpg" alt="Góc kỷ niệm bên gian trưng bày vũ khí" loading="lazy">
           </div>
           <div class="gallery-card-info">
             <h4 class="gallery-card-title">Thảo luận trước gian trưng bày vũ khí</h4>
@@ -2196,10 +773,10 @@
           </div>
         </div>
 
-        <div class="gallery-card" data-category="nhom" onclick="openLightbox('img/Anh%20Nhom/IMG_6128.jpg', 'Kết thúc khảo sát thực địa', 'Tập thể 12 thành viên lưu niệm trước gian vũ khí, kết thúc buổi khảo sát thực địa tại bảo tàng.')">
+        <div class="gallery-card" data-category="nhom" data-lightbox data-lightbox-src="img/Anh%20Nhom/IMG_6128.jpg" data-lightbox-title="Kết thúc khảo sát thực địa" data-lightbox-desc="Tập thể 12 thành viên lưu niệm trước gian vũ khí, kết thúc buổi khảo sát thực địa tại bảo tàng.">
           <div class="gallery-card-imgwrap">
             <span class="gallery-card-category">Nhóm Thực Hiện</span>
-            <img src="img/Anh%20Nhom/IMG_6128.jpg" alt="Hoàn thành khảo sát bên gian vũ khí" loading="lazy">
+            <img decoding="async" src="img/Anh%20Nhom/IMG_6128.jpg" alt="Hoàn thành khảo sát bên gian vũ khí" loading="lazy">
           </div>
           <div class="gallery-card-info">
             <h4 class="gallery-card-title">Kết thúc khảo sát thực địa</h4>
@@ -2208,10 +785,10 @@
         </div>
 
         <!-- CHUỒNG CỌP CÔN ĐẢO & MÁY CHÉM -->
-        <div class="gallery-card" data-category="nhatu" onclick="openLightbox('img/NhaTuConDaoP1/IMG_6064.jpg', 'Hiện vật gốc Máy Chém Thực Dân', 'Cỗ máy chém nguyên bản bằng gỗ và thép, lưỡi dao nặng 50 kg, được trưng bày trong khu lao tù.')">
+        <div class="gallery-card" data-category="nhatu" data-lightbox data-lightbox-src="img/NhaTuConDaoP1/IMG_6064.jpg" data-lightbox-title="Hiện vật gốc Máy Chém Thực Dân" data-lightbox-desc="Cỗ máy chém nguyên bản bằng gỗ và thép, lưỡi dao nặng 50 kg, được trưng bày trong khu lao tù.">
           <div class="gallery-card-imgwrap">
             <span class="gallery-card-category">Chuồng Cọp & Máy Chém</span>
-            <img src="img/NhaTuConDaoP1/IMG_6064.jpg" alt="Hiện vật Máy chém thời Pháp" loading="lazy">
+            <img decoding="async" src="img/NhaTuConDaoP1/IMG_6064.jpg" alt="Hiện vật Máy chém thời Pháp" loading="lazy">
           </div>
           <div class="gallery-card-info">
             <h4 class="gallery-card-title">Hiện vật gốc Máy Chém Thực Dân</h4>
@@ -2219,10 +796,10 @@
           </div>
         </div>
 
-        <div class="gallery-card" data-category="nhatu" onclick="openLightbox('img/NhaTuConDaoP1/IMG_6066.jpg', 'Giỏ mây hứng đầu máy chém', 'Máng đỡ và giỏ mây hứng đầu của máy chém, phần chi tiết còn lại của cỗ máy hành quyết.')">
+        <div class="gallery-card" data-category="nhatu" data-lightbox data-lightbox-src="img/NhaTuConDaoP1/IMG_6066.jpg" data-lightbox-title="Giỏ mây hứng đầu máy chém" data-lightbox-desc="Máng đỡ và giỏ mây hứng đầu của máy chém, phần chi tiết còn lại của cỗ máy hành quyết.">
           <div class="gallery-card-imgwrap">
             <span class="gallery-card-category">Chuồng Cọp & Máy Chém</span>
-            <img src="img/NhaTuConDaoP1/IMG_6066.jpg" alt="Giỏ mây máy chém" loading="lazy">
+            <img decoding="async" src="img/NhaTuConDaoP1/IMG_6066.jpg" alt="Giỏ mây máy chém" loading="lazy">
           </div>
           <div class="gallery-card-info">
             <h4 class="gallery-card-title">Giỏ mây hứng đầu máy chém</h4>
@@ -2230,10 +807,10 @@
           </div>
         </div>
 
-        <div class="gallery-card" data-category="nhatu" onclick="openLightbox('img/NhaTuConDaoP1/IMG_6067.jpg', 'Bảng thông tin Máy chém', 'Bảng giới thiệu máy chém cao 4,5 m, lưỡi dao 50 kg, được Pháp đưa sang Việt Nam đầu thế kỷ XX để đàn áp phong trào cách mạng.')">
+        <div class="gallery-card" data-category="nhatu" data-lightbox data-lightbox-src="img/NhaTuConDaoP1/IMG_6067.jpg" data-lightbox-title="Bảng thông tin Máy chém" data-lightbox-desc="Bảng giới thiệu máy chém cao 4,5 m, lưỡi dao 50 kg, được Pháp đưa sang Việt Nam đầu thế kỷ XX để đàn áp phong trào cách mạng.">
           <div class="gallery-card-imgwrap">
             <span class="gallery-card-category">Chuồng Cọp & Máy Chém</span>
-            <img src="img/NhaTuConDaoP1/IMG_6067.jpg" alt="Bảng thông tin Máy chém" loading="lazy">
+            <img decoding="async" src="img/NhaTuConDaoP1/IMG_6067.jpg" alt="Bảng thông tin Máy chém" loading="lazy">
           </div>
           <div class="gallery-card-info">
             <h4 class="gallery-card-title">Bảng thông tin Máy chém</h4>
@@ -2241,10 +818,10 @@
           </div>
         </div>
 
-        <div class="gallery-card" data-category="nhatu" onclick="openLightbox('img/NhaTuConDaoP2/IMG_6090.jpg', 'Khu buồng biệt giam Chuồng Cọp', 'Bảng trưng bày về Chuồng Cọp: hành lang xà lim, phóng sự LIFE 17/7/1970 và lời kể của tù nhân về điều kiện giam cầm.')">
+        <div class="gallery-card" data-category="nhatu" data-lightbox data-lightbox-src="img/NhaTuConDaoP2/IMG_6090.jpg" data-lightbox-title="Khu buồng biệt giam Chuồng Cọp" data-lightbox-desc="Bảng trưng bày về Chuồng Cọp: hành lang xà lim, phóng sự LIFE 17/7/1970 và lời kể của tù nhân về điều kiện giam cầm.">
           <div class="gallery-card-imgwrap">
             <span class="gallery-card-category">Chuồng Cọp & Máy Chém</span>
-            <img src="img/NhaTuConDaoP2/IMG_6090.jpg" alt="Chuồng Cọp Côn Đảo" loading="lazy">
+            <img decoding="async" src="img/NhaTuConDaoP2/IMG_6090.jpg" alt="Chuồng Cọp Côn Đảo" loading="lazy">
           </div>
           <div class="gallery-card-info">
             <h4 class="gallery-card-title">Khu buồng biệt giam Chuồng Cọp</h4>
@@ -2252,10 +829,10 @@
           </div>
         </div>
 
-        <div class="gallery-card" data-category="nhatu" onclick="openLightbox('img/NhaTuConDaoP2/IMG_6089.jpg', 'Biến nhà tù thành trường học', 'Bảng trưng bày về phong trào đấu tranh của tù nhân Côn Đảo, trong đó có việc biến nhà tù thành trường học cách mạng.')">
+        <div class="gallery-card" data-category="nhatu" data-lightbox data-lightbox-src="img/NhaTuConDaoP2/IMG_6089.jpg" data-lightbox-title="Biến nhà tù thành trường học" data-lightbox-desc="Bảng trưng bày về phong trào đấu tranh của tù nhân Côn Đảo, trong đó có việc biến nhà tù thành trường học cách mạng.">
           <div class="gallery-card-imgwrap">
             <span class="gallery-card-category">Chuồng Cọp & Máy Chém</span>
-            <img src="img/NhaTuConDaoP2/IMG_6089.jpg" alt="Trường học trong ngục tù Côn Đảo" loading="lazy">
+            <img decoding="async" src="img/NhaTuConDaoP2/IMG_6089.jpg" alt="Trường học trong ngục tù Côn Đảo" loading="lazy">
           </div>
           <div class="gallery-card-info">
             <h4 class="gallery-card-title">Biến nhà tù thành trường học</h4>
@@ -2264,10 +841,10 @@
         </div>
 
         <!-- TỘI ÁC CHIẾN TRANH & SƠN MỸ -->
-        <div class="gallery-card" data-category="toiac" onclick="openLightbox('img/ToiAcChienTranh/IMG_6129.jpg', 'Tội ác ném bom tàn sát dân thường', 'Bảng ảnh sáu vụ ném bom của Mỹ ở Hà Tĩnh, Hà Nội, Hải Phòng, Thanh Hóa (1968–1972), kèm số người chết và bị thương.')">
+        <div class="gallery-card" data-category="toiac" data-lightbox data-lightbox-src="img/ToiAcChienTranh/IMG_6129.jpg" data-lightbox-title="Tội ác ném bom tàn sát dân thường" data-lightbox-desc="Bảng ảnh sáu vụ ném bom của Mỹ ở Hà Tĩnh, Hà Nội, Hải Phòng, Thanh Hóa (1968–1972), kèm số người chết và bị thương.">
           <div class="gallery-card-imgwrap">
             <span class="gallery-card-category">Tội Ác Chiến Tranh & Sơn Mỹ</span>
-            <img src="img/ToiAcChienTranh/IMG_6129.jpg" alt="Tội ác ném bom" loading="lazy">
+            <img decoding="async" src="img/ToiAcChienTranh/IMG_6129.jpg" alt="Tội ác ném bom" loading="lazy">
           </div>
           <div class="gallery-card-info">
             <h4 class="gallery-card-title">Tội ác ném bom tàn sát dân thường</h4>
@@ -2275,10 +852,10 @@
           </div>
         </div>
 
-        <div class="gallery-card" data-category="toiac" onclick="openLightbox('img/ToiAcChienTranh/IMG_6130.jpg', 'Hồ sơ Thảm sát Mỹ Lai (1968)', 'Trang nhất The Plain Dealer (20/11/1969) đăng những bức ảnh đầu tiên của Ronald Haeberle về vụ thảm sát Mỹ Lai.')">
+        <div class="gallery-card" data-category="toiac" data-lightbox data-lightbox-src="img/ToiAcChienTranh/IMG_6130.jpg" data-lightbox-title="Hồ sơ Thảm sát Mỹ Lai (1968)" data-lightbox-desc="Trang nhất The Plain Dealer (20/11/1969) đăng những bức ảnh đầu tiên của Ronald Haeberle về vụ thảm sát Mỹ Lai.">
           <div class="gallery-card-imgwrap">
             <span class="gallery-card-category">Tội Ác Chiến Tranh & Sơn Mỹ</span>
-            <img src="img/ToiAcChienTranh/IMG_6130.jpg" alt="Thảm sát Mỹ Lai trên báo chí quốc tế" loading="lazy">
+            <img decoding="async" src="img/ToiAcChienTranh/IMG_6130.jpg" alt="Thảm sát Mỹ Lai trên báo chí quốc tế" loading="lazy">
           </div>
           <div class="gallery-card-info">
             <h4 class="gallery-card-title">Hồ sơ Thảm sát Mỹ Lai (1968)</h4>
@@ -2286,10 +863,10 @@
           </div>
         </div>
 
-        <div class="gallery-card" data-category="toiac" onclick="openLightbox('img/ToiAcChienTranh/IMG_6131.jpg', 'Thiêu rụi & Triệt phá làng mạc', 'Bảng ảnh về lính thủy đánh bộ Mỹ đốt nhà ở Cẩm Lệ (Quảng Nam, 8/1965) và cảnh làng Bến Súc bị tàn phá.')">
+        <div class="gallery-card" data-category="toiac" data-lightbox data-lightbox-src="img/ToiAcChienTranh/IMG_6131.jpg" data-lightbox-title="Thiêu rụi &amp; Triệt phá làng mạc" data-lightbox-desc="Bảng ảnh về lính thủy đánh bộ Mỹ đốt nhà ở Cẩm Lệ (Quảng Nam, 8/1965) và cảnh làng Bến Súc bị tàn phá.">
           <div class="gallery-card-imgwrap">
             <span class="gallery-card-category">Tội Ác Chiến Tranh & Sơn Mỹ</span>
-            <img src="img/ToiAcChienTranh/IMG_6131.jpg" alt="Đốt sạch làng mạc" loading="lazy">
+            <img decoding="async" src="img/ToiAcChienTranh/IMG_6131.jpg" alt="Đốt sạch làng mạc" loading="lazy">
           </div>
           <div class="gallery-card-info">
             <h4 class="gallery-card-title">Thiêu rụi & Triệt phá làng mạc</h4>
@@ -2297,10 +874,10 @@
           </div>
         </div>
 
-        <div class="gallery-card" data-category="toiac" onclick="openLightbox('img/ToiAcChienTranh/IMG_6132.jpg', 'San phẳng làng Bến Súc', 'Ảnh lính Mỹ thuộc Sư đoàn 1 Bộ binh dùng lửa thiêu hủy làng Bến Súc (Bình Dương), minh họa chính sách ‘đốt sạch’.')">
+        <div class="gallery-card" data-category="toiac" data-lightbox data-lightbox-src="img/ToiAcChienTranh/IMG_6132.jpg" data-lightbox-title="San phẳng làng Bến Súc" data-lightbox-desc="Ảnh lính Mỹ thuộc Sư đoàn 1 Bộ binh dùng lửa thiêu hủy làng Bến Súc (Bình Dương), minh họa chính sách ‘đốt sạch’.">
           <div class="gallery-card-imgwrap">
             <span class="gallery-card-category">Tội Ác Chiến Tranh & Sơn Mỹ</span>
-            <img src="img/ToiAcChienTranh/IMG_6132.jpg" alt="Triệt hạ làng Bến Súc" loading="lazy">
+            <img decoding="async" src="img/ToiAcChienTranh/IMG_6132.jpg" alt="Triệt hạ làng Bến Súc" loading="lazy">
           </div>
           <div class="gallery-card-info">
             <h4 class="gallery-card-title">San phẳng làng Bến Súc</h4>
@@ -2309,10 +886,10 @@
         </div>
 
         <!-- TIẾN TRÌNH KHÁNG CHIẾN CHỐNG MỸ (1954–1975) -->
-        <div class="gallery-card" data-category="khangchien" onclick="openLightbox('img/ChuaBiet/IMG_6222.jpg', 'Tuyên ngôn Độc lập & Chính phủ VNDCCH', 'Bảng ảnh về Tuyên ngôn Độc lập 2/9/1945 và Quốc hội Khóa I (1946): quảng trường Ba Đình, phiên họp Quốc hội và Chính phủ lâm thời.')">
+        <div class="gallery-card" data-category="khangchien" data-lightbox data-lightbox-src="img/ChuaBiet/IMG_6222.jpg" data-lightbox-title="Tuyên ngôn Độc lập &amp; Chính phủ VNDCCH" data-lightbox-desc="Bảng ảnh về Tuyên ngôn Độc lập 2/9/1945 và Quốc hội Khóa I (1946): quảng trường Ba Đình, phiên họp Quốc hội và Chính phủ lâm thời.">
           <div class="gallery-card-imgwrap">
             <span class="gallery-card-category">Kháng Chiến (1954–1975)</span>
-            <img src="img/ChuaBiet/IMG_6222.jpg" alt="Tuyên ngôn Độc lập & Quốc hội Khóa I" loading="lazy">
+            <img decoding="async" src="img/ChuaBiet/IMG_6222.jpg" alt="Tuyên ngôn Độc lập & Quốc hội Khóa I" loading="lazy">
           </div>
           <div class="gallery-card-info">
             <h4 class="gallery-card-title">Tuyên ngôn Độc lập & Chính phủ VNDCCH</h4>
@@ -2320,10 +897,10 @@
           </div>
         </div>
 
-        <div class="gallery-card" data-category="khangchien" onclick="openLightbox('img/ChuaBiet/IMG_6228.jpg', 'Hội nghị Giơnevơ & Pháp rút quân 1955', 'Bảng ảnh Hội nghị Giơnevơ và cảnh đơn vị viễn chinh Pháp cuối cùng xuống tàu về nước ngày 16/5/1955.')">
+        <div class="gallery-card" data-category="khangchien" data-lightbox data-lightbox-src="img/ChuaBiet/IMG_6228.jpg" data-lightbox-title="Hội nghị Giơnevơ &amp; Pháp rút quân 1955" data-lightbox-desc="Bảng ảnh Hội nghị Giơnevơ và cảnh đơn vị viễn chinh Pháp cuối cùng xuống tàu về nước ngày 16/5/1955.">
           <div class="gallery-card-imgwrap">
             <span class="gallery-card-category">Kháng Chiến (1954–1975)</span>
-            <img src="img/ChuaBiet/IMG_6228.jpg" alt="Hiệp định Giơnevơ & Pháp rút quân" loading="lazy">
+            <img decoding="async" src="img/ChuaBiet/IMG_6228.jpg" alt="Hiệp định Giơnevơ & Pháp rút quân" loading="lazy">
           </div>
           <div class="gallery-card-info">
             <h4 class="gallery-card-title">Hội nghị Giơnevơ & Pháp rút quân 1955</h4>
@@ -2331,10 +908,10 @@
           </div>
         </div>
 
-        <div class="gallery-card" data-category="khangchien" onclick="openLightbox('img/ChuaBiet/IMG_6223.jpg', 'Mỹ bảo trợ Diệm & Võ Song Nhơn', 'Ảnh Tướng Collins trao cho Ngô Đình Diệm tấm ngân phiếu viện trợ 28,5 triệu USD (11/1954) và chiến sĩ Võ Song Nhơn trước máy chém.')">
+        <div class="gallery-card" data-category="khangchien" data-lightbox data-lightbox-src="img/ChuaBiet/IMG_6223.jpg" data-lightbox-title="Mỹ bảo trợ Diệm &amp; Võ Song Nhơn" data-lightbox-desc="Ảnh Tướng Collins trao cho Ngô Đình Diệm tấm ngân phiếu viện trợ 28,5 triệu USD (11/1954) và chiến sĩ Võ Song Nhơn trước máy chém.">
           <div class="gallery-card-imgwrap">
             <span class="gallery-card-category">Kháng Chiến (1954–1975)</span>
-            <img src="img/ChuaBiet/IMG_6223.jpg" alt="Mỹ bảo trợ Diệm & Anh Võ Song Nhơn" loading="lazy">
+            <img decoding="async" src="img/ChuaBiet/IMG_6223.jpg" alt="Mỹ bảo trợ Diệm & Anh Võ Song Nhơn" loading="lazy">
           </div>
           <div class="gallery-card-info">
             <h4 class="gallery-card-title">Mỹ bảo trợ Diệm & Võ Song Nhơn</h4>
@@ -2342,10 +919,10 @@
           </div>
         </div>
 
-        <div class="gallery-card" data-category="khangchien" onclick="openLightbox('img/ChuaBiet/IMG_6224.jpg', 'Thành lập Mặt trận DTGP (20/12/1960)', 'Bảng ảnh Lễ thành lập Mặt trận Dân tộc Giải phóng miền Nam Việt Nam ngày 20/12/1960, với đoàn người giơ tay biểu quyết.')">
+        <div class="gallery-card" data-category="khangchien" data-lightbox data-lightbox-src="img/ChuaBiet/IMG_6224.jpg" data-lightbox-title="Thành lập Mặt trận DTGP (20/12/1960)" data-lightbox-desc="Bảng ảnh Lễ thành lập Mặt trận Dân tộc Giải phóng miền Nam Việt Nam ngày 20/12/1960, với đoàn người giơ tay biểu quyết.">
           <div class="gallery-card-imgwrap">
             <span class="gallery-card-category">Kháng Chiến (1954–1975)</span>
-            <img src="img/ChuaBiet/IMG_6224.jpg" alt="Lễ thành lập Mặt trận Dân tộc Giải phóng" loading="lazy">
+            <img decoding="async" src="img/ChuaBiet/IMG_6224.jpg" alt="Lễ thành lập Mặt trận Dân tộc Giải phóng" loading="lazy">
           </div>
           <div class="gallery-card-info">
             <h4 class="gallery-card-title">Thành lập Mặt trận DTGP (20/12/1960)</h4>
@@ -2353,10 +930,10 @@
           </div>
         </div>
 
-        <div class="gallery-card" data-category="khangchien" onclick="openLightbox('img/ChuaBiet/IMG_6225.jpg', 'Đại hội thống nhất Mặt trận miền Nam', 'Bảng ảnh Hồ Chí Minh tại Đại hội thống nhất Mặt trận miền Nam: các đại biểu giơ tay biểu quyết trước diễn đàn.')">
+        <div class="gallery-card" data-category="khangchien" data-lightbox data-lightbox-src="img/ChuaBiet/IMG_6225.jpg" data-lightbox-title="Đại hội thống nhất Mặt trận miền Nam" data-lightbox-desc="Bảng ảnh Hồ Chí Minh tại Đại hội thống nhất Mặt trận miền Nam: các đại biểu giơ tay biểu quyết trước diễn đàn.">
           <div class="gallery-card-imgwrap">
             <span class="gallery-card-category">Kháng Chiến (1954–1975)</span>
-            <img src="img/ChuaBiet/IMG_6225.jpg" alt="Đại hội Mặt trận DTGP lần I" loading="lazy">
+            <img decoding="async" src="img/ChuaBiet/IMG_6225.jpg" alt="Đại hội Mặt trận DTGP lần I" loading="lazy">
           </div>
           <div class="gallery-card-info">
             <h4 class="gallery-card-title">Đại hội thống nhất Mặt trận miền Nam</h4>
@@ -2364,10 +941,10 @@
           </div>
         </div>
 
-        <div class="gallery-card" data-category="khangchien" onclick="openLightbox('img/ChuaBiet/IMG_6226.jpg', 'Kennedy & ‘Chiến tranh đặc biệt’ (1961)', 'Ảnh Kennedy, McNamara và Rusk họp bàn Chiến tranh đặc biệt; bên dưới là bảng giới thiệu chiến lược và vũ khí.')">
+        <div class="gallery-card" data-category="khangchien" data-lightbox data-lightbox-src="img/ChuaBiet/IMG_6226.jpg" data-lightbox-title="Kennedy &amp; ‘Chiến tranh đặc biệt’ (1961)" data-lightbox-desc="Ảnh Kennedy, McNamara và Rusk họp bàn Chiến tranh đặc biệt; bên dưới là bảng giới thiệu chiến lược và vũ khí.">
           <div class="gallery-card-imgwrap">
             <span class="gallery-card-category">Kháng Chiến (1954–1975)</span>
-            <img src="img/ChuaBiet/IMG_6226.jpg" alt="Kennedy bàn Chiến tranh đặc biệt" loading="lazy">
+            <img decoding="async" src="img/ChuaBiet/IMG_6226.jpg" alt="Kennedy bàn Chiến tranh đặc biệt" loading="lazy">
           </div>
           <div class="gallery-card-info">
             <h4 class="gallery-card-title">Kennedy & ‘Chiến tranh đặc biệt’ (1961)</h4>
@@ -2375,10 +952,10 @@
           </div>
         </div>
 
-        <div class="gallery-card" data-category="khangchien" onclick="openLightbox('img/ChuaBiet/IMG_6230.jpg', 'Johnson thăm lính Mỹ (10/1966)', 'Ảnh Tổng thống Johnson thăm lính Mỹ tại Cam Ranh (10/1966) và McNamara cùng Tướng Westmoreland thị sát căn cứ.')">
+        <div class="gallery-card" data-category="khangchien" data-lightbox data-lightbox-src="img/ChuaBiet/IMG_6230.jpg" data-lightbox-title="Johnson thăm lính Mỹ (10/1966)" data-lightbox-desc="Ảnh Tổng thống Johnson thăm lính Mỹ tại Cam Ranh (10/1966) và McNamara cùng Tướng Westmoreland thị sát căn cứ.">
           <div class="gallery-card-imgwrap">
             <span class="gallery-card-category">Kháng Chiến (1954–1975)</span>
-            <img src="img/ChuaBiet/IMG_6230.jpg" alt="Johnson & McNamara leo thang chiến tranh" loading="lazy">
+            <img decoding="async" src="img/ChuaBiet/IMG_6230.jpg" alt="Johnson & McNamara leo thang chiến tranh" loading="lazy">
           </div>
           <div class="gallery-card-info">
             <h4 class="gallery-card-title">Johnson thăm lính Mỹ (10/1966)</h4>
@@ -2386,10 +963,10 @@
           </div>
         </div>
 
-        <div class="gallery-card" data-category="khangchien" onclick="openLightbox('img/ChuaBiet/IMG_6232.jpg', 'Chiến dịch không kích ‘Sấm Rền’', 'Bảng ảnh Chiến dịch Sấm Rền: tàu sân bay, F-4 Phantom, máy bay ném bom và biểu đồ số phi vụ 1965–1968.')">
+        <div class="gallery-card" data-category="khangchien" data-lightbox data-lightbox-src="img/ChuaBiet/IMG_6232.jpg" data-lightbox-title="Chiến dịch không kích ‘Sấm Rền’" data-lightbox-desc="Bảng ảnh Chiến dịch Sấm Rền: tàu sân bay, F-4 Phantom, máy bay ném bom và biểu đồ số phi vụ 1965–1968.">
           <div class="gallery-card-imgwrap">
             <span class="gallery-card-category">Kháng Chiến (1954–1975)</span>
-            <img src="img/ChuaBiet/IMG_6232.jpg" alt="Chiến dịch Rolling Thunder" loading="lazy">
+            <img decoding="async" src="img/ChuaBiet/IMG_6232.jpg" alt="Chiến dịch Rolling Thunder" loading="lazy">
           </div>
           <div class="gallery-card-info">
             <h4 class="gallery-card-title">Chiến dịch không kích ‘Sấm Rền’</h4>
@@ -2397,10 +974,10 @@
           </div>
         </div>
 
-        <div class="gallery-card" data-category="khangchien" onclick="openLightbox('img/ChuaBiet/IMG_6235.jpg', 'Nixon & ‘Việt Nam hóa chiến tranh’', 'Ảnh Nội các chiến tranh của Nixon (Helms, Kissinger, Rogers, Laird) và bài phát biểu ngày 30/4/1970 về việc mở rộng chiến tranh sang Campuchia.')">
+        <div class="gallery-card" data-category="khangchien" data-lightbox data-lightbox-src="img/ChuaBiet/IMG_6235.jpg" data-lightbox-title="Nixon &amp; ‘Việt Nam hóa chiến tranh’" data-lightbox-desc="Ảnh Nội các chiến tranh của Nixon (Helms, Kissinger, Rogers, Laird) và bài phát biểu ngày 30/4/1970 về việc mở rộng chiến tranh sang Campuchia.">
           <div class="gallery-card-imgwrap">
             <span class="gallery-card-category">Kháng Chiến (1954–1975)</span>
-            <img src="img/ChuaBiet/IMG_6235.jpg" alt="Nixon & Việt Nam hóa chiến tranh" loading="lazy">
+            <img decoding="async" src="img/ChuaBiet/IMG_6235.jpg" alt="Nixon & Việt Nam hóa chiến tranh" loading="lazy">
           </div>
           <div class="gallery-card-info">
             <h4 class="gallery-card-title">Nixon & ‘Việt Nam hóa chiến tranh’</h4>
@@ -2408,10 +985,10 @@
           </div>
         </div>
 
-        <div class="gallery-card" data-category="khangchien" onclick="openLightbox('img/ChuaBiet/IMG_6240.jpg', 'Đại thắng 30/4/1975 & Sám hối McNamara', 'Ảnh xe tăng tiến vào Dinh Độc Lập 30/4/1975, bên dưới là lời thú nhận ‘Chúng tôi đã sai lầm, sai lầm khủng khiếp’ của McNamara.')">
+        <div class="gallery-card" data-category="khangchien" data-lightbox data-lightbox-src="img/ChuaBiet/IMG_6240.jpg" data-lightbox-title="Đại thắng 30/4/1975 &amp; Sám hối McNamara" data-lightbox-desc="Ảnh xe tăng tiến vào Dinh Độc Lập 30/4/1975, bên dưới là lời thú nhận ‘Chúng tôi đã sai lầm, sai lầm khủng khiếp’ của McNamara.">
           <div class="gallery-card-imgwrap">
             <span class="gallery-card-category">Kháng Chiến (1954–1975)</span>
-            <img src="img/ChuaBiet/IMG_6240.jpg" alt="Đại thắng 30/4/1975 & Sám hối McNamara" loading="lazy">
+            <img decoding="async" src="img/ChuaBiet/IMG_6240.jpg" alt="Đại thắng 30/4/1975 & Sám hối McNamara" loading="lazy">
           </div>
           <div class="gallery-card-info">
             <h4 class="gallery-card-title">Đại thắng 30/4/1975 & Sám hối McNamara</h4>
@@ -2420,10 +997,10 @@
         </div>
 
         <!-- CHẤT ĐỘC DA CAM -->
-        <div class="gallery-card" data-category="dacam" onclick="openLightbox('img/ChatDocMauDaCam/IMG_6182.jpg', 'Chiến dịch Khai quang Ranch Hand', 'Ảnh máy bay C-123 phun rải chất độc hóa học xuống cánh rừng, kèm bảng giới thiệu Chiến dịch Ranch Hand.')">
+        <div class="gallery-card" data-category="dacam" data-lightbox data-lightbox-src="img/ChatDocMauDaCam/IMG_6182.jpg" data-lightbox-title="Chiến dịch Khai quang Ranch Hand" data-lightbox-desc="Ảnh máy bay C-123 phun rải chất độc hóa học xuống cánh rừng, kèm bảng giới thiệu Chiến dịch Ranch Hand.">
           <div class="gallery-card-imgwrap">
             <span class="gallery-card-category">Chất Độc Da Cam</span>
-            <img src="img/ChatDocMauDaCam/IMG_6182.jpg" alt="Máy bay C-123 rải chất độc hóa học" loading="lazy">
+            <img decoding="async" src="img/ChatDocMauDaCam/IMG_6182.jpg" alt="Máy bay C-123 rải chất độc hóa học" loading="lazy">
           </div>
           <div class="gallery-card-info">
             <h4 class="gallery-card-title">Chiến dịch Khai quang Ranch Hand</h4>
@@ -2431,10 +1008,10 @@
           </div>
         </div>
 
-        <div class="gallery-card" data-category="dacam" onclick="openLightbox('img/ChatDocMauDaCam/IMG_6183.jpg', 'Máy bay UC-123B rải chất khai quang', 'Trong Chiến dịch Ranch Hand, máy bay UC-123B rải chất khai quang xuống các khu rừng miền Nam Việt Nam.')">
+        <div class="gallery-card" data-category="dacam" data-lightbox data-lightbox-src="img/ChatDocMauDaCam/IMG_6183.jpg" data-lightbox-title="Máy bay UC-123B rải chất khai quang" data-lightbox-desc="Trong Chiến dịch Ranch Hand, máy bay UC-123B rải chất khai quang xuống các khu rừng miền Nam Việt Nam.">
           <div class="gallery-card-imgwrap">
             <span class="gallery-card-category">Chất Độc Da Cam</span>
-            <img src="img/ChatDocMauDaCam/IMG_6183.jpg" alt="Máy bay UC-123B rải chất khai quang" loading="lazy">
+            <img decoding="async" src="img/ChatDocMauDaCam/IMG_6183.jpg" alt="Máy bay UC-123B rải chất khai quang" loading="lazy">
           </div>
           <div class="gallery-card-info">
             <h4 class="gallery-card-title">Máy bay UC-123B rải chất khai quang</h4>
@@ -2442,10 +1019,10 @@
           </div>
         </div>
 
-        <div class="gallery-card" data-category="dacam" onclick="openLightbox('img/ChatDocMauDaCam/IMG_6184.jpg', 'Di chứng qua các thế hệ', 'Tường trưng bày chân dung tám nạn nhân da cam, ghi tên và năm sinh, cho thấy dị tật bẩm sinh qua nhiều thế hệ.')">
+        <div class="gallery-card" data-category="dacam" data-lightbox data-lightbox-src="img/ChatDocMauDaCam/IMG_6184.jpg" data-lightbox-title="Di chứng qua các thế hệ" data-lightbox-desc="Tường trưng bày chân dung tám nạn nhân da cam, ghi tên và năm sinh, cho thấy dị tật bẩm sinh qua nhiều thế hệ.">
           <div class="gallery-card-imgwrap">
             <span class="gallery-card-category">Chất Độc Da Cam</span>
-            <img src="img/ChatDocMauDaCam/IMG_6184.jpg" alt="Nạn nhân Da cam" loading="lazy">
+            <img decoding="async" src="img/ChatDocMauDaCam/IMG_6184.jpg" alt="Nạn nhân Da cam" loading="lazy">
           </div>
           <div class="gallery-card-info">
             <h4 class="gallery-card-title">Di chứng qua các thế hệ</h4>
@@ -2453,10 +1030,10 @@
           </div>
         </div>
 
-        <div class="gallery-card" data-category="dacam" onclick="openLightbox('img/ChatDocMauDaCam/IMG_6189.jpg', 'Hành trình Hàn gắn & Tẩy độc', 'Trích phát biểu của Tổng thống Obama (24/5/2016) về hợp tác tẩy độc dioxin tại Đà Nẵng và Biên Hòa.')">
+        <div class="gallery-card" data-category="dacam" data-lightbox data-lightbox-src="img/ChatDocMauDaCam/IMG_6189.jpg" data-lightbox-title="Hành trình Hàn gắn &amp; Tẩy độc" data-lightbox-desc="Trích phát biểu của Tổng thống Obama (24/5/2016) về hợp tác tẩy độc dioxin tại Đà Nẵng và Biên Hòa.">
           <div class="gallery-card-imgwrap">
             <span class="gallery-card-category">Chất Độc Da Cam</span>
-            <img src="img/ChatDocMauDaCam/IMG_6189.jpg" alt="Hợp tác tẩy độc dioxin" loading="lazy">
+            <img decoding="async" src="img/ChatDocMauDaCam/IMG_6189.jpg" alt="Hợp tác tẩy độc dioxin" loading="lazy">
           </div>
           <div class="gallery-card-info">
             <h4 class="gallery-card-title">Hành trình Hàn gắn & Tẩy độc</h4>
@@ -2465,10 +1042,10 @@
         </div>
 
         <!-- HIỆP ĐỊNH PARIS & BÀ NGUYỄN THỊ BÌNH -->
-        <div class="gallery-card" data-category="paris" onclick="openLightbox('img/PhongNguyenThiBinh/IMG_6135.jpg', 'Bản lĩnh Madame Nguyễn Thị Bình', 'Chân dung bà Nguyễn Thị Bình bên những dòng hồi tưởng về phong trào đoàn kết quốc tế và cuộc đàm phán Paris.')">
+        <div class="gallery-card" data-category="paris" data-lightbox data-lightbox-src="img/PhongNguyenThiBinh/IMG_6135.jpg" data-lightbox-title="Bản lĩnh Madame Nguyễn Thị Bình" data-lightbox-desc="Chân dung bà Nguyễn Thị Bình bên những dòng hồi tưởng về phong trào đoàn kết quốc tế và cuộc đàm phán Paris.">
           <div class="gallery-card-imgwrap">
             <span class="gallery-card-category">Hiệp Định Paris</span>
-            <img src="img/PhongNguyenThiBinh/IMG_6135.jpg" alt="Chân dung Nguyễn Thị Bình" loading="lazy">
+            <img decoding="async" src="img/PhongNguyenThiBinh/IMG_6135.jpg" alt="Chân dung Nguyễn Thị Bình" loading="lazy">
           </div>
           <div class="gallery-card-info">
             <h4 class="gallery-card-title">Bản lĩnh Madame Nguyễn Thị Bình</h4>
@@ -2476,10 +1053,10 @@
           </div>
         </div>
 
-        <div class="gallery-card" data-category="paris" onclick="openLightbox('img/PhongNguyenThiBinh/IMG_6181.jpg', 'Lễ Ký kết Hiệp Định Paris 1973', 'Panel tưởng niệm Nguyễn Thị Bình với ảnh lễ ký Hiệp định Paris và ảnh hội nghị đoàn đàm phán.')">
+        <div class="gallery-card" data-category="paris" data-lightbox data-lightbox-src="img/PhongNguyenThiBinh/IMG_6181.jpg" data-lightbox-title="Lễ Ký kết Hiệp Định Paris 1973" data-lightbox-desc="Panel tưởng niệm Nguyễn Thị Bình với ảnh lễ ký Hiệp định Paris và ảnh hội nghị đoàn đàm phán.">
           <div class="gallery-card-imgwrap">
             <span class="gallery-card-category">Hiệp Định Paris</span>
-            <img src="img/PhongNguyenThiBinh/IMG_6181.jpg" alt="Lễ ký Hiệp định Paris" loading="lazy">
+            <img decoding="async" src="img/PhongNguyenThiBinh/IMG_6181.jpg" alt="Lễ ký Hiệp định Paris" loading="lazy">
           </div>
           <div class="gallery-card-info">
             <h4 class="gallery-card-title">Lễ Ký kết Hiệp Định Paris 1973</h4>
@@ -2487,10 +1064,10 @@
           </div>
         </div>
 
-        <div class="gallery-card" data-category="paris" onclick="openLightbox('img/PhongNguyenThiBinh/IMG_6136.jpg', 'Nguyễn Thị Bình thăm Ấn Độ (1971)', 'Bà Nguyễn Thị Bình gặp Thủ tướng Indira Gandhi trong chuyến thăm Ấn Độ năm 1971.')">
+        <div class="gallery-card" data-category="paris" data-lightbox data-lightbox-src="img/PhongNguyenThiBinh/IMG_6136.jpg" data-lightbox-title="Nguyễn Thị Bình thăm Ấn Độ (1971)" data-lightbox-desc="Bà Nguyễn Thị Bình gặp Thủ tướng Indira Gandhi trong chuyến thăm Ấn Độ năm 1971.">
           <div class="gallery-card-imgwrap">
             <span class="gallery-card-category">Hiệp Định Paris</span>
-            <img src="img/PhongNguyenThiBinh/IMG_6136.jpg" alt="Nguyễn Thị Bình thăm Ấn Độ" loading="lazy">
+            <img decoding="async" src="img/PhongNguyenThiBinh/IMG_6136.jpg" alt="Nguyễn Thị Bình thăm Ấn Độ" loading="lazy">
           </div>
           <div class="gallery-card-info">
             <h4 class="gallery-card-title">Nguyễn Thị Bình thăm Ấn Độ (1971)</h4>
@@ -2498,10 +1075,10 @@
           </div>
         </div>
 
-        <div class="gallery-card" data-category="paris" onclick="openLightbox('img/PhongNguyenThiBinh/IMG_6176.jpg', 'Cảm xúc ngày thống nhất (5/1975)', 'Trích hồi tưởng của bà Nguyễn Thị Bình về những ngày tháng 5/1975 tại Sài Gòn.')">
+        <div class="gallery-card" data-category="paris" data-lightbox data-lightbox-src="img/PhongNguyenThiBinh/IMG_6176.jpg" data-lightbox-title="Cảm xúc ngày thống nhất (5/1975)" data-lightbox-desc="Trích hồi tưởng của bà Nguyễn Thị Bình về những ngày tháng 5/1975 tại Sài Gòn.">
           <div class="gallery-card-imgwrap">
             <span class="gallery-card-category">Hiệp Định Paris</span>
-            <img src="img/PhongNguyenThiBinh/IMG_6176.jpg" alt="Cảm xúc ngày thống nhất" loading="lazy">
+            <img decoding="async" src="img/PhongNguyenThiBinh/IMG_6176.jpg" alt="Cảm xúc ngày thống nhất" loading="lazy">
           </div>
           <div class="gallery-card-info">
             <h4 class="gallery-card-title">Cảm xúc ngày thống nhất (5/1975)</h4>
@@ -2510,10 +1087,10 @@
         </div>
 
         <!-- ĐƯỜNG 1C HUYỀN THOẠI -->
-        <div class="gallery-card" data-category="duong1c" onclick="openLightbox('img/ThoiThanhXuanTrenTuyenDuong1C%20HuyenThoai/IMG_6243.jpg', 'Không gian Trưng bày Đường 1C', 'Không gian trưng bày Đường 1C: bếp lửa, chõ nấu ăn và ảnh tư liệu về tuyến vận tải qua đầm lầy Đồng Tháp Mười.')">
+        <div class="gallery-card" data-category="duong1c" data-lightbox data-lightbox-src="img/ThoiThanhXuanTrenTuyenDuong1C%20HuyenThoai/IMG_6243.jpg" data-lightbox-title="Không gian Trưng bày Đường 1C" data-lightbox-desc="Không gian trưng bày Đường 1C: bếp lửa, chõ nấu ăn và ảnh tư liệu về tuyến vận tải qua đầm lầy Đồng Tháp Mười.">
           <div class="gallery-card-imgwrap">
             <span class="gallery-card-category">Đường 1C Huyền Thoại</span>
-            <img src="img/ThoiThanhXuanTrenTuyenDuong1C%20HuyenThoai/IMG_6243.jpg" alt="Trưng bày Đường 1C" loading="lazy">
+            <img decoding="async" src="img/ThoiThanhXuanTrenTuyenDuong1C%20HuyenThoai/IMG_6243.jpg" alt="Trưng bày Đường 1C" loading="lazy">
           </div>
           <div class="gallery-card-info">
             <h4 class="gallery-card-title">Không gian Trưng bày Đường 1C</h4>
@@ -2521,10 +1098,10 @@
           </div>
         </div>
 
-        <div class="gallery-card" data-category="duong1c" onclick="openLightbox('img/ThoiThanhXuanTrenTuyenDuong1C%20HuyenThoai/IMG_6248.jpg', 'Thanh niên Xung phong vận chuyển trên tuyến 1C', 'Ảnh tư liệu TNXP Tây Nam Bộ vận chuyển hàng hóa, vũ khí bằng thuyền và xe đạp thồ trên tuyến 1C.')">
+        <div class="gallery-card" data-category="duong1c" data-lightbox data-lightbox-src="img/ThoiThanhXuanTrenTuyenDuong1C%20HuyenThoai/IMG_6248.jpg" data-lightbox-title="Thanh niên Xung phong vận chuyển trên tuyến 1C" data-lightbox-desc="Ảnh tư liệu TNXP Tây Nam Bộ vận chuyển hàng hóa, vũ khí bằng thuyền và xe đạp thồ trên tuyến 1C.">
           <div class="gallery-card-imgwrap">
             <span class="gallery-card-category">Đường 1C Huyền Thoại</span>
-            <img src="img/ThoiThanhXuanTrenTuyenDuong1C%20HuyenThoai/IMG_6248.jpg" alt="TNXP vận chuyển trên tuyến 1C" loading="lazy">
+            <img decoding="async" src="img/ThoiThanhXuanTrenTuyenDuong1C%20HuyenThoai/IMG_6248.jpg" alt="TNXP vận chuyển trên tuyến 1C" loading="lazy">
           </div>
           <div class="gallery-card-info">
             <h4 class="gallery-card-title">Thanh niên Xung phong vận chuyển trên tuyến 1C</h4>
@@ -2532,10 +1109,10 @@
           </div>
         </div>
 
-        <div class="gallery-card" data-category="duong1c" onclick="openLightbox('img/ThoiThanhXuanTrenTuyenDuong1C%20HuyenThoai/IMG_6253.jpg', 'Đường 1C & Đoàn 195 (19/5/1966)', 'Bảng giới thiệu tuyến vận tải 1C và Đoàn 195 thành lập ngày 19/5/1966 tại Kampot, Campuchia, nối liền chi viện cho chiến trường Tây Nam Bộ.')">
+        <div class="gallery-card" data-category="duong1c" data-lightbox data-lightbox-src="img/ThoiThanhXuanTrenTuyenDuong1C%20HuyenThoai/IMG_6253.jpg" data-lightbox-title="Đường 1C &amp; Đoàn 195 (19/5/1966)" data-lightbox-desc="Bảng giới thiệu tuyến vận tải 1C và Đoàn 195 thành lập ngày 19/5/1966 tại Kampot, Campuchia, nối liền chi viện cho chiến trường Tây Nam Bộ.">
           <div class="gallery-card-imgwrap">
             <span class="gallery-card-category">Đường 1C Huyền Thoại</span>
-            <img src="img/ThoiThanhXuanTrenTuyenDuong1C%20HuyenThoai/IMG_6253.jpg" alt="Đường 1C và Đoàn 195" loading="lazy">
+            <img decoding="async" src="img/ThoiThanhXuanTrenTuyenDuong1C%20HuyenThoai/IMG_6253.jpg" alt="Đường 1C và Đoàn 195" loading="lazy">
           </div>
           <div class="gallery-card-info">
             <h4 class="gallery-card-title">Đường 1C & Đoàn 195 (19/5/1966)</h4>
@@ -2544,10 +1121,10 @@
         </div>
 
         <!-- QUỐC TẾ ỦNG HỘ VIỆT NAM -->
-        <div class="gallery-card" data-category="quocte" onclick="openLightbox('img/TheGioiUngHoVN%20KhangChien/IMG_6268.jpg', 'Bảng trưng bày ‘Thế giới ủng hộ Việt Nam’', 'Bảng trưng bày ‘Thế giới ủng hộ Việt Nam kháng chiến chống Mỹ 1954–1975’ với tủ hiện vật và ánh sáng sân khấu.')">
+        <div class="gallery-card" data-category="quocte" data-lightbox data-lightbox-src="img/TheGioiUngHoVN%20KhangChien/IMG_6268.jpg" data-lightbox-title="Bảng trưng bày ‘Thế giới ủng hộ Việt Nam’" data-lightbox-desc="Bảng trưng bày ‘Thế giới ủng hộ Việt Nam kháng chiến chống Mỹ 1954–1975’ với tủ hiện vật và ánh sáng sân khấu.">
           <div class="gallery-card-imgwrap">
             <span class="gallery-card-category">Quốc Tế Ủng Hộ VN</span>
-            <img src="img/TheGioiUngHoVN%20KhangChien/IMG_6268.jpg" alt="Áp phích quốc tế" loading="lazy">
+            <img decoding="async" src="img/TheGioiUngHoVN%20KhangChien/IMG_6268.jpg" alt="Áp phích quốc tế" loading="lazy">
           </div>
           <div class="gallery-card-info">
             <h4 class="gallery-card-title">Bảng trưng bày ‘Thế giới ủng hộ Việt Nam’</h4>
@@ -2555,10 +1132,10 @@
           </div>
         </div>
 
-        <div class="gallery-card" data-category="quocte" onclick="openLightbox('img/TheGioiUngHoVN%20KhangChien/IMG_6272.jpg', 'Mít tinh ủng hộ Việt Nam tại Prague (1/5/1966)', 'Nhân dân Tiệp Khắc xuống đường ủng hộ Việt Nam, khẩu hiệu ‘Hòa bình cho nhân dân Việt Nam’.')">
+        <div class="gallery-card" data-category="quocte" data-lightbox data-lightbox-src="img/TheGioiUngHoVN%20KhangChien/IMG_6272.jpg" data-lightbox-title="Mít tinh ủng hộ Việt Nam tại Prague (1/5/1966)" data-lightbox-desc="Nhân dân Tiệp Khắc xuống đường ủng hộ Việt Nam, khẩu hiệu ‘Hòa bình cho nhân dân Việt Nam’.">
           <div class="gallery-card-imgwrap">
             <span class="gallery-card-category">Quốc Tế Ủng Hộ VN</span>
-            <img src="img/TheGioiUngHoVN%20KhangChien/IMG_6272.jpg" alt="Mít tinh tại Prague" loading="lazy">
+            <img decoding="async" src="img/TheGioiUngHoVN%20KhangChien/IMG_6272.jpg" alt="Mít tinh tại Prague" loading="lazy">
           </div>
           <div class="gallery-card-info">
             <h4 class="gallery-card-title">Mít tinh ủng hộ Việt Nam tại Prague (1/5/1966)</h4>
@@ -2566,10 +1143,10 @@
           </div>
         </div>
 
-        <div class="gallery-card" data-category="quocte" onclick="openLightbox('img/TheGioiUngHoVN%20KhangChien/IMG_6278.jpg', 'Vụ bắn súng tại Đại học Kent State (1970)', 'Bốn sinh viên Mỹ bị lính Cảnh vệ Quốc gia bắn chết khi biểu tình phản đối chiến tranh Việt Nam.')">
+        <div class="gallery-card" data-category="quocte" data-lightbox data-lightbox-src="img/TheGioiUngHoVN%20KhangChien/IMG_6278.jpg" data-lightbox-title="Vụ bắn súng tại Đại học Kent State (1970)" data-lightbox-desc="Bốn sinh viên Mỹ bị lính Cảnh vệ Quốc gia bắn chết khi biểu tình phản đối chiến tranh Việt Nam.">
           <div class="gallery-card-imgwrap">
             <span class="gallery-card-category">Quốc Tế Ủng Hộ VN</span>
-            <img src="img/TheGioiUngHoVN%20KhangChien/IMG_6278.jpg" alt="Vụ bắn súng Kent State" loading="lazy">
+            <img decoding="async" src="img/TheGioiUngHoVN%20KhangChien/IMG_6278.jpg" alt="Vụ bắn súng Kent State" loading="lazy">
           </div>
           <div class="gallery-card-info">
             <h4 class="gallery-card-title">Vụ bắn súng tại Đại học Kent State (1970)</h4>
@@ -2578,10 +1155,10 @@
         </div>
 
         <!-- PHÒNG HỒI NIỆM REQUIEM -->
-        <div class="gallery-card" data-category="hoiniem" onclick="openLightbox('img/PhongHoiNiem/IMG_6190.jpg', 'Phòng Hồi Niệm (Requiem)', 'Không gian tròn của Phòng Hồi Niệm với sắp đặt ánh sáng và những bức ảnh phóng viên chiến trường treo lơ lửng.')">
+        <div class="gallery-card" data-category="hoiniem" data-lightbox data-lightbox-src="img/PhongHoiNiem/IMG_6190.jpg" data-lightbox-title="Phòng Hồi Niệm (Requiem)" data-lightbox-desc="Không gian tròn của Phòng Hồi Niệm với sắp đặt ánh sáng và những bức ảnh phóng viên chiến trường treo lơ lửng.">
           <div class="gallery-card-imgwrap">
             <span class="gallery-card-category">Phòng Hồi Niệm</span>
-            <img src="img/PhongHoiNiem/IMG_6190.jpg" alt="Phòng Hồi Niệm" loading="lazy">
+            <img decoding="async" src="img/PhongHoiNiem/IMG_6190.jpg" alt="Phòng Hồi Niệm" loading="lazy">
           </div>
           <div class="gallery-card-info">
             <h4 class="gallery-card-title">Phòng Hồi Niệm (Requiem)</h4>
@@ -2589,10 +1166,10 @@
           </div>
         </div>
 
-        <div class="gallery-card" data-category="hoiniem" onclick="openLightbox('img/PhongHoiNiem/IMG_6191.jpg', 'Bảng ảnh phong trào đấu tranh năm 1950', 'Bảng ảnh lớn với số ‘1950’ ở trung tâm, gồm sáu bức ảnh tư liệu về chiến tranh Đông Dương.')">
+        <div class="gallery-card" data-category="hoiniem" data-lightbox data-lightbox-src="img/PhongHoiNiem/IMG_6191.jpg" data-lightbox-title="Bảng ảnh phong trào đấu tranh năm 1950" data-lightbox-desc="Bảng ảnh lớn với số ‘1950’ ở trung tâm, gồm sáu bức ảnh tư liệu về chiến tranh Đông Dương.">
           <div class="gallery-card-imgwrap">
             <span class="gallery-card-category">Phòng Hồi Niệm</span>
-            <img src="img/PhongHoiNiem/IMG_6191.jpg" alt="Ống kính lịch sử" loading="lazy">
+            <img decoding="async" src="img/PhongHoiNiem/IMG_6191.jpg" alt="Ống kính lịch sử" loading="lazy">
           </div>
           <div class="gallery-card-info">
             <h4 class="gallery-card-title">Bảng ảnh phong trào đấu tranh năm 1950</h4>
@@ -2789,293 +1366,13 @@
     </div>
   </footer>
 
-  <!-- ═══════════════════════════════════════════════════════════════
-       INTERACTIVE LIGHTBOX MODAL
-       ═══════════════════════════════════════════════════════════════ -->
-  <div class="lightbox-modal" id="lightboxModal" role="dialog" aria-modal="true" aria-label="Xem ảnh phóng to">
-    <button class="lightbox-close-btn" id="lightboxClose" aria-label="Đóng (ESC)">✕</button>
-    <button class="lightbox-nav-btn lightbox-prev-btn" id="lightboxPrev" aria-label="Ảnh trước (←)">❮</button>
-    <button class="lightbox-nav-btn lightbox-next-btn" id="lightboxNext" aria-label="Ảnh sau (→)">❯</button>
-    <div class="lightbox-content">
-      <div class="lightbox-img-wrapper">
-        <img id="lightboxImg" src="" alt="Ảnh tư liệu bảo tàng">
-      </div>
-      <div class="lightbox-caption-box">
-        <h3 class="lightbox-title" id="lightboxTitle"></h3>
-        <p class="lightbox-desc" id="lightboxDesc"></p>
-      </div>
-    </div>
-  </div>
-
-  <button class="back-to-top" id="backToTop" aria-label="Về đầu trang">
+    <button class="back-to-top" id="backToTop" aria-label="Về đầu trang">
     <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"
       stroke-linecap="round" stroke-linejoin="round">
       <polyline points="18 15 12 9 6 15" />
     </svg>
   </button>
 
-  <script>
-    // ─── HERO PHOTO SWITCHER ──────────────────────────────────────
-    window.switchHeroPhoto = function(src, title, sub, btn) {
-      const mainImg = document.getElementById('heroMainPhoto');
-      const titleEl = document.getElementById('heroPhotoCaptionTitle');
-      const subEl = document.getElementById('heroPhotoCaptionSub');
-      gsap.to(mainImg, { opacity: 0, duration: 0.25, onComplete: () => {
-        mainImg.src = src;
-        titleEl.textContent = title;
-        subEl.textContent = sub;
-        gsap.to(mainImg, { opacity: 1, duration: 0.35 });
-      }});
-      document.querySelectorAll('.hero-thumb-btn').forEach(b => b.classList.remove('active'));
-      if (btn) btn.classList.add('active');
-      const frame = document.querySelector('.hero-photo-frame');
-      if (frame) frame.onclick = () => window.openLightbox(src, title, sub);
-    };
-
-    // ─── LIGHTBOX MODAL & GALLERY ────────────────────────────────
-    let currentGalleryItems = [];
-    let currentLightboxIndex = -1;
-
-    function buildGalleryList() {
-      currentGalleryItems = [];
-      document.querySelectorAll('.gallery-card, .diary-photo-item').forEach(el => {
-        const img = el.querySelector('img');
-        if (img) {
-          const onclickAttr = el.getAttribute('onclick') || '';
-          const match = onclickAttr.match(/openLightbox\('([^']+)',\s*'([^']*)',\s*'([^']*)'\)/);
-          if (match) {
-            currentGalleryItems.push({
-              src: match[1],
-              title: match[2],
-              desc: match[3]
-            });
-          }
-        }
-      });
-    }
-
-    window.openLightbox = function(src, title, desc) {
-      if (currentGalleryItems.length === 0) buildGalleryList();
-      currentLightboxIndex = currentGalleryItems.findIndex(item => item.src === src);
-      if (currentLightboxIndex === -1) {
-        currentGalleryItems.push({ src, title, desc });
-        currentLightboxIndex = currentGalleryItems.length - 1;
-      } else {
-        currentGalleryItems[currentLightboxIndex].title = title;
-        currentGalleryItems[currentLightboxIndex].desc = desc;
-      }
-      updateLightboxDisplay();
-      const modal = document.getElementById('lightboxModal');
-      modal.classList.add('active');
-      document.body.style.overflow = 'hidden';
-    };
-
-    function updateLightboxDisplay() {
-      if (currentLightboxIndex < 0 || currentLightboxIndex >= currentGalleryItems.length) return;
-      const item = currentGalleryItems[currentLightboxIndex];
-      const img = document.getElementById('lightboxImg');
-      const title = document.getElementById('lightboxTitle');
-      const desc = document.getElementById('lightboxDesc');
-      img.src = item.src;
-      title.textContent = item.title;
-      desc.textContent = item.desc;
-    }
-
-    function closeLightbox() {
-      const modal = document.getElementById('lightboxModal');
-      modal.classList.remove('active');
-      document.body.style.overflow = '';
-    }
-
-    function nextLightbox() {
-      if (currentGalleryItems.length === 0) return;
-      currentLightboxIndex = (currentLightboxIndex + 1) % currentGalleryItems.length;
-      updateLightboxDisplay();
-    }
-
-    function prevLightbox() {
-      if (currentGalleryItems.length === 0) return;
-      currentLightboxIndex = (currentLightboxIndex - 1 + currentGalleryItems.length) % currentGalleryItems.length;
-      updateLightboxDisplay();
-    }
-
-    // ─── GALLERY FILTERING ───────────────────────────────────────
-    window.filterGallery = function(category, btn) {
-      document.querySelectorAll('.gallery-filter-btn').forEach(b => b.classList.remove('active'));
-      if (btn) btn.classList.add('active');
-
-      const cards = document.querySelectorAll('#galleryGrid .gallery-card');
-      cards.forEach(card => {
-        const cat = card.getAttribute('data-category');
-        if (category === 'all' || cat === category) {
-          gsap.to(card, {
-            opacity: 1,
-            scale: 1,
-            duration: 0.4,
-            ease: 'power2.out',
-            onStart: () => card.style.display = 'flex'
-          });
-        } else {
-          gsap.to(card, {
-            opacity: 0,
-            scale: 0.9,
-            duration: 0.3,
-            ease: 'power2.in',
-            onComplete: () => card.style.display = 'none'
-          });
-        }
-      });
-    };
-
-    document.addEventListener('DOMContentLoaded', () => {
-      document.getElementById('lightboxClose').addEventListener('click', closeLightbox);
-      document.getElementById('lightboxNext').addEventListener('click', nextLightbox);
-      document.getElementById('lightboxPrev').addEventListener('click', prevLightbox);
-      document.getElementById('lightboxModal').addEventListener('click', (e) => {
-        if (e.target.id === 'lightboxModal') closeLightbox();
-      });
-
-      document.addEventListener('keydown', (e) => {
-        const modal = document.getElementById('lightboxModal');
-        if (!modal.classList.contains('active')) return;
-        if (e.key === 'Escape') closeLightbox();
-        if (e.key === 'ArrowRight') nextLightbox();
-        if (e.key === 'ArrowLeft') prevLightbox();
-      });
-      // ─── CANVAS PARTICLES ──────────────────────────────────────
-      const canvas = document.getElementById('particle-canvas');
-      const ctx = canvas.getContext('2d');
-      let W, H;
-      function resize() { W = canvas.width = window.innerWidth; H = canvas.height = window.innerHeight; }
-      resize();
-      window.addEventListener('resize', resize);
-
-      const colors = ['#D4AF37', '#8B0000', '#C41E3A', '#457B9D'];
-      const particles = [];
-      for (let i = 0; i < 85; i++) {
-        particles.push({
-          x: Math.random() * W, y: Math.random() * H,
-          vx: (Math.random() - 0.5) * 0.35, vy: (Math.random() - 0.5) * 0.35,
-          r: Math.random() * 2 + 0.8,
-          c: colors[Math.floor(Math.random() * colors.length)]
-        });
-      }
-
-      function loop() {
-        ctx.clearRect(0, 0, W, H);
-        for (let i = 0; i < particles.length; i++) {
-          const p = particles[i];
-          p.x += p.vx; p.y += p.vy;
-          if (p.x < 0) p.x = W; if (p.x > W) p.x = 0;
-          if (p.y < 0) p.y = H; if (p.y > H) p.y = 0;
-
-          ctx.beginPath();
-          ctx.arc(p.x, p.y, p.r, 0, Math.PI * 2);
-          ctx.fillStyle = p.c;
-          ctx.globalAlpha = 0.5;
-          ctx.fill();
-
-          for (let j = i + 1; j < particles.length; j++) {
-            const q = particles[j];
-            const dx = p.x - q.x, dy = p.y - q.y;
-            const d = Math.sqrt(dx * dx + dy * dy);
-            if (d < 120) {
-              ctx.beginPath();
-              ctx.moveTo(p.x, p.y);
-              ctx.lineTo(q.x, q.y);
-              ctx.strokeStyle = 'rgba(212, 175, 55, ' + (0.08 * (1 - d / 120)) + ')';
-              ctx.lineWidth = 0.5;
-              ctx.stroke();
-            }
-          }
-        }
-        requestAnimationFrame(loop);
-      }
-      loop();
-
-      // ─── SCROLL & NAVBAR ───────────────────────────────────────
-      const nav = document.getElementById('main-nav');
-      const navProgress = document.getElementById('navProgress');
-      const backToTop = document.getElementById('backToTop');
-
-      window.addEventListener('scroll', () => {
-        const s = window.scrollY;
-        const max = document.documentElement.scrollHeight - window.innerHeight;
-        navProgress.style.width = (s / max * 100) + '%';
-        nav.classList.toggle('scrolled', s > 60);
-        backToTop.classList.toggle('visible', s > 500);
-      }, { passive: true });
-
-      // Mobile menu
-      document.getElementById('navToggle').addEventListener('click', () => {
-        document.getElementById('navLinks').classList.toggle('open');
-      });
-
-      // Back to top
-      backToTop.addEventListener('click', () => {
-        gsap.to(window, { scrollTo: 0, duration: 1.2, ease: 'power3.inOut' });
-      });
-
-      // Hero CTA
-      document.getElementById('heroBtn').addEventListener('click', (e) => {
-        e.preventDefault();
-        gsap.to(window, { scrollTo: '#team', duration: 1.2, ease: 'power3.inOut' });
-      });
-
-      // Reveal observer
-      if ('IntersectionObserver' in window) {
-        const obs = new IntersectionObserver((entries) => {
-          entries.forEach(e => {
-            if (e.isIntersecting) {
-              e.target.classList.add('visible');
-              obs.unobserve(e.target);
-            }
-          });
-        }, { threshold: 0, rootMargin: '0px 0px -40px 0px' });
-        document.querySelectorAll('.reveal').forEach(el => obs.observe(el));
-      } else {
-        document.querySelectorAll('.reveal').forEach(el => el.classList.add('visible'));
-      }
-
-      // 3D Parallax Tilt
-      function addTilt(selector, maxTilt = 6, perspective = 800) {
-        document.querySelectorAll(selector).forEach(card => {
-          card.addEventListener('mousemove', (e) => {
-            const rect = card.getBoundingClientRect();
-            const x = (e.clientX - rect.left) / rect.width - 0.5;
-            const y = (e.clientY - rect.top) / rect.height - 0.5;
-            gsap.to(card, {
-              rotateY: x * maxTilt,
-              rotateX: -y * maxTilt,
-              transformPerspective: perspective,
-              duration: 0.35,
-              ease: 'power2.out'
-            });
-          });
-          card.addEventListener('mouseleave', () => {
-            gsap.to(card, { rotateY: 0, rotateX: 0, duration: 0.5, ease: 'power2.out' });
-          });
-        });
-      }
-
-      addTilt('.team-card', 6, 800);
-      addTilt('.diary-card', 4, 1000);
-      addTilt('.reflection-box', 5, 800);
-
-      // Smooth anchor scrolling
-      document.querySelectorAll('a[href^="#"]').forEach(a => {
-        a.addEventListener('click', (e) => {
-          const target = document.querySelector(a.getAttribute('href'));
-          if (target) {
-            e.preventDefault();
-            gsap.to(window, { scrollTo: target, duration: 1, ease: 'power3.inOut' });
-            document.getElementById('navLinks').classList.remove('open');
-          }
-        });
-      });
-    });
-  </script>
-
-</body>
+  </body>
 
 </html>
