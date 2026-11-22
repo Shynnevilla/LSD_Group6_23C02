@@ -623,7 +623,6 @@ section {
 
 .highlight-card:hover {
   border-color: rgba(116, 198, 157, 0.35);
-  transform: translateY(-6px);
   box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
 }
 
@@ -1221,6 +1220,13 @@ footer .footer-ref {
 .stagger.visible > *:nth-child(3) { transition-delay: 0.2s; opacity: 1; transform: none; }
 .stagger.visible > *:nth-child(4) { transition-delay: 0.3s; opacity: 1; transform: none; }
 .stagger.visible > *:nth-child(5) { transition-delay: 0.4s; opacity: 1; transform: none; }
+
+/* Highlight cards: GSAP owns the tilt; keep the stagger delay off the transform */
+.highlight-grid.stagger.visible > .highlight-card {
+  transition: border-color 0.4s ease, box-shadow 0.4s ease, background 0.4s ease;
+  transition-delay: 0s;
+  will-change: transform;
+}
 
 /* ═══════════════════════════════════════════════════════════════
    MOBILE NAV TOGGLE
@@ -2078,6 +2084,7 @@ document.addEventListener('DOMContentLoaded', () => {
   
   // ─── HOVER PARALLAX ON HIGHLIGHT CARDS ─────────────────────
   document.querySelectorAll('.highlight-card').forEach(card => {
+    gsap.set(card, { transformPerspective: 800, transformOrigin: 'center center', rotateX: 0, rotateY: 0, y: 0 });
     card.addEventListener('mousemove', (e) => {
       const rect = card.getBoundingClientRect();
       const x = (e.clientX - rect.left) / rect.width - 0.5;
@@ -2087,6 +2094,7 @@ document.addEventListener('DOMContentLoaded', () => {
         rotateY: x * 6,
         rotateX: -y * 6,
         transformPerspective: 800,
+        overwrite: 'auto',
         duration: 0.4,
         ease: 'power2.out'
       });
@@ -2096,6 +2104,7 @@ document.addEventListener('DOMContentLoaded', () => {
       gsap.to(card, {
         rotateY: 0,
         rotateX: 0,
+        overwrite: 'auto',
         duration: 0.6,
         ease: 'power2.out'
       });
