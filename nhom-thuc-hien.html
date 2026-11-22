@@ -1202,8 +1202,8 @@
 
     .lightbox-close-btn {
       position: absolute;
-      top: -48px;
-      right: 0;
+      top: 16px;
+      right: 16px;
       background: rgba(255, 255, 255, 0.12);
       border: 1px solid rgba(255, 255, 255, 0.25);
       color: #fff;
@@ -1250,13 +1250,13 @@
       transform: translateY(-50%) scale(1.1);
     }
 
-    .lightbox-prev-btn { left: -75px; }
-    .lightbox-next-btn { right: -75px; }
+    .lightbox-prev-btn { left: 16px; }
+    .lightbox-next-btn { right: 16px; }
 
     @media (max-width: 900px) {
-      .lightbox-prev-btn { left: 10px; }
-      .lightbox-next-btn { right: 10px; }
-      .lightbox-close-btn { top: -45px; right: 10px; }
+      .lightbox-prev-btn { left: 8px; }
+      .lightbox-next-btn { right: 8px; }
+      .lightbox-close-btn { top: 8px; right: 8px; }
     }
 
     /* ═══════════════════════════════════════════════════════════════
@@ -2813,6 +2813,8 @@
       }});
       document.querySelectorAll('.hero-thumb-btn').forEach(b => b.classList.remove('active'));
       if (btn) btn.classList.add('active');
+      const frame = document.querySelector('.hero-photo-frame');
+      if (frame) frame.onclick = () => window.openLightbox(src, title, sub);
     };
 
     // ─── LIGHTBOX MODAL & GALLERY ────────────────────────────────
