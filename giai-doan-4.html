@@ -623,7 +623,6 @@ section {
 
 .highlight-card:hover {
   border-color: rgba(116, 198, 157, 0.35);
-  transform: translateY(-6px);
   box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
 }
 
@@ -1222,6 +1221,13 @@ footer .footer-ref {
 .stagger.visible > *:nth-child(4) { transition-delay: 0.3s; opacity: 1; transform: none; }
 .stagger.visible > *:nth-child(5) { transition-delay: 0.4s; opacity: 1; transform: none; }
 
+/* Highlight cards: GSAP owns the tilt; keep the stagger delay off the transform */
+.highlight-grid.stagger.visible > .highlight-card {
+  transition: border-color 0.4s ease, box-shadow 0.4s ease, background 0.4s ease;
+  transition-delay: 0s;
+  will-change: transform;
+}
+
 /* ═══════════════════════════════════════════════════════════════
    MOBILE NAV TOGGLE
    ═══════════════════════════════════════════════════════════════ */
@@ -1278,6 +1284,7 @@ footer .footer-ref {
 }
 
 </style>
+<link rel="stylesheet" href="lightbox.css">
 </head>
 <body>
 
@@ -1537,7 +1544,7 @@ footer .footer-ref {
           <div class="timeline-year">2026</div>
           <div class="timeline-heading">Tổng kết 40 năm Đổi mới & Đại hội XIV — Kỷ nguyên vươn mình</div>
           <div class="timeline-text">
-            Tròn <strong>40 năm Đổi mới (1986–2026)</strong>: Từ một quốc gia khủng hoảng kinh tế, GDP chỉ 4,5 tỷ USD, 
+            Tròn <strong>40 năm Đổi mới (1986–2026)</strong>: Từ một quốc gia khủng hoảng kinh tế, GDP còn ở mức rất thấp, 
             Việt Nam đã vươn lên thành nền kinh tế <strong>vượt mốc 500 tỷ USD</strong>, thu nhập trung bình cao, 
             là mắt xích quan trọng trong chuỗi cung ứng toàn cầu. 
             Đại hội XIV (1/2026) đề ra tầm nhìn đưa đất nước bước vào <strong>kỷ nguyên vươn mình của dân tộc</strong>.
@@ -1654,7 +1661,7 @@ footer .footer-ref {
         <div class="highlight-card-subtitle">40 năm Đổi mới & Tầm nhìn</div>
         <div class="highlight-card-title">Kỷ nguyên vươn mình<br>2030 → 2045</div>
         <div class="highlight-card-text">
-          <strong>40 năm Đổi mới (1986–2026)</strong> là hành trang vững chắc: GDP từ 4,5 tỷ USD lên hơn 500 tỷ USD, 
+          <strong>40 năm Đổi mới (1986–2026)</strong> là hành trang vững chắc: GDP từ mức rất thấp lên hơn 500 tỷ USD, 
           hội nhập quốc tế sâu rộng, quan hệ Đối tác chiến lược toàn diện với tất cả cường quốc.
         </div>
         <div class="vision-timeline">
@@ -1698,7 +1705,7 @@ footer .footer-ref {
       <div class="stat-card">
         <div class="stat-number" data-target="500" data-suffix="+">0</div>
         <div class="stat-unit">Tỷ USD</div>
-        <div class="stat-desc">Quy mô GDP năm 2025, từ 4,5 tỷ USD năm 1986</div>
+        <div class="stat-desc">Quy mô GDP năm 2025, từ mức khởi đầu rất thấp năm 1986</div>
       </div>
       <div class="stat-card">
         <div class="stat-number" data-target="40" data-suffix="">0</div>
@@ -1759,10 +1766,10 @@ footer .footer-ref {
                 </p>
                 <div class="museum-photo-strip">
                   <div class="museum-photo-thumb">
-                    <img src="img/ChatDocMauDaCam/IMG_6187.jpg" alt="Tẩy độc Da cam thời bình" loading="lazy">
+                    <img src="img/ChatDocMauDaCam/IMG_6189.jpg" alt="Hợp tác tẩy độc dioxin" loading="lazy">
                   </div>
                   <div class="museum-photo-thumb">
-                    <img src="img/ChatDocMauDaCam/IMG_6188.jpg" alt="Chung tay xoa dịu nỗi đau" loading="lazy">
+                    <img src="img/ChatDocMauDaCam/IMG_6188.jpg" alt="Chân dung nạn nhân và gia đình da cam" loading="lazy">
                   </div>
                 </div>
               </div>
@@ -1776,10 +1783,10 @@ footer .footer-ref {
                 </p>
                 <div class="museum-photo-strip">
                   <div class="museum-photo-thumb">
-                    <img src="img/PhongNguyenThiBinh/IMG_6176.jpg" alt="Madame Bình trong thời kỳ Đổi mới" loading="lazy">
+                    <img src="img/PhongNguyenThiBinh/IMG_6176.jpg" alt="Cảm xúc ngày thống nhất (5/1975)" loading="lazy">
                   </div>
                   <div class="museum-photo-thumb">
-                    <img src="img/TheGioiUngHoVN%20KhangChien/IMG_6278.jpg" alt="Thông điệp hòa giải quốc tế" loading="lazy">
+                    <img src="img/TheGioiUngHoVN%20KhangChien/IMG_6278.jpg" alt="Vụ bắn súng tại Đại học Kent State (1970)" loading="lazy">
                   </div>
                   <div class="museum-photo-thumb">
                     <img src="img/Anh%20Nhom/IMG_6128.jpg" alt="12 thành viên Nhóm 6 HCMUS bên gian trưng bày vũ khí quân sự" loading="lazy">
@@ -2078,6 +2085,7 @@ document.addEventListener('DOMContentLoaded', () => {
   
   // ─── HOVER PARALLAX ON HIGHLIGHT CARDS ─────────────────────
   document.querySelectorAll('.highlight-card').forEach(card => {
+    gsap.set(card, { transformPerspective: 800, transformOrigin: 'center center', rotateX: 0, rotateY: 0, y: 0 });
     card.addEventListener('mousemove', (e) => {
       const rect = card.getBoundingClientRect();
       const x = (e.clientX - rect.left) / rect.width - 0.5;
@@ -2087,6 +2095,7 @@ document.addEventListener('DOMContentLoaded', () => {
         rotateY: x * 6,
         rotateX: -y * 6,
         transformPerspective: 800,
+        overwrite: 'auto',
         duration: 0.4,
         ease: 'power2.out'
       });
@@ -2096,6 +2105,7 @@ document.addEventListener('DOMContentLoaded', () => {
       gsap.to(card, {
         rotateY: 0,
         rotateX: 0,
+        overwrite: 'auto',
         duration: 0.6,
         ease: 'power2.out'
       });
@@ -2138,5 +2148,6 @@ document.addEventListener('DOMContentLoaded', () => {
 });
 </script>
 
+<script src="lightbox.js"></script>
 </body>
 </html>

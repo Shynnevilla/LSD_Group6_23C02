@@ -626,7 +626,6 @@ section {
 
 .highlight-card:hover {
   border-color: rgba(168, 218, 220, 0.35);
-  transform: translateY(-6px);
   box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
 }
 
@@ -1230,6 +1229,13 @@ footer .footer-ref {
 .stagger.visible > *:nth-child(4) { transition-delay: 0.3s; opacity: 1; transform: none; }
 .stagger.visible > *:nth-child(5) { transition-delay: 0.4s; opacity: 1; transform: none; }
 
+/* Highlight cards: GSAP owns the tilt; keep the stagger delay off the transform */
+.highlight-grid.stagger.visible > .highlight-card {
+  transition: border-color 0.4s ease, box-shadow 0.4s ease, background 0.4s ease;
+  transition-delay: 0s;
+  will-change: transform;
+}
+
 /* ═══════════════════════════════════════════════════════════════
    MOBILE NAV TOGGLE
    ═══════════════════════════════════════════════════════════════ */
@@ -1285,6 +1291,7 @@ footer .footer-ref {
   transform: translateX(-50%) translateY(0);
 }
 </style>
+<link rel="stylesheet" href="lightbox.css">
 </head>
 <body>
 
@@ -1382,7 +1389,7 @@ footer .footer-ref {
             nhân dân Nam Bộ anh dũng mở đầu cuộc kháng chiến bảo vệ nền độc lập.
           </div>
           <div class="timeline-expanded-content">
-            <div class="detail-item"><span class="detail-bullet"></span><span><strong>Thế hiểm nghèo thù trong giặc ngoài:</strong> Nạn đói Ất Dậu cướp đi sinh mạng hơn 2 triệu người; hơn 95% dân số mù chữ; quốc khố trống rỗng chỉ còn 1,23 triệu đồng (hơn một nửa là tiền rách). Từ vĩ tuyến 16 trở ra Bắc, hơn 20 vạn quân Tưởng Giới Thạch tràn vào kéo theo bọn tay sai phản động Việt Quốc, Việt Cách; từ vĩ tuyến 16 trở vào Nam, hơn 1 vạn quân Anh đổ bộ tiếp tay cho quân viễn chinh Pháp tái chiếm; ngoài ra còn 6 vạn quân phát xít Nhật chờ giải giáp.</span></div>
+            <div class="detail-item"><span class="detail-bullet"></span><span><strong>Thế hiểm nghèo thù trong giặc ngoài:</strong> Nạn đói Ất Dậu cướp đi sinh mạng hơn 2 triệu người; 95% dân số mù chữ; quốc khố trống rỗng chỉ còn 1,23 triệu đồng (hơn một nửa là tiền rách). Từ vĩ tuyến 16 trở ra Bắc, hơn 20 vạn quân Tưởng Giới Thạch tràn vào kéo theo bọn tay sai phản động Việt Quốc, Việt Cách; từ vĩ tuyến 16 trở vào Nam, hơn 1 vạn quân Anh đổ bộ tiếp tay cho quân viễn chinh Pháp tái chiếm; ngoài ra còn 6 vạn quân phát xít Nhật chờ giải giáp.</span></div>
             <div class="detail-item"><span class="detail-bullet"></span><span><strong>Chỉ thị "Kháng chiến kiến quốc" (25/11/1945):</strong> Ban Thường vụ Trung ương Đảng ra chỉ thị mang tính cương lĩnh hành động, xác định rõ: Kẻ thù chính của dân tộc lúc này là thực dân Pháp xâm lược; nhiệm vụ trọng tâm hàng đầu là củng cố chính quyền cách mạng, chống thực dân Pháp xâm lược, bài trừ nội phản và cải thiện đời sống nhân dân.</span></div>
             <div class="detail-item"><span class="detail-bullet"></span><span><strong>Những quyết sách thần kỳ của Chính phủ Cụ Hồ:</strong> Phát động phong trào "Hũ gạo cứu đói", "Ngày đồng tâm" và "Tăng gia sản xuất ngay! Tăng gia sản xuất nữa!"; phát động phong trào "Tuần lễ Vàng" và "Quỹ Độc lập" quyên góp được 370 kg vàng và 20 triệu đồng; thành lập Nha Bình dân học vụ xóa mù chữ cho hơn 2,5 triệu người chỉ sau một năm. Ngày 6/1/1946, tổ chức Tổng tuyển cử toàn quốc bầu Quốc hội khóa I, ban hành bản <strong>Hiến pháp năm 1946</strong> — bản Hiến pháp dân chủ đầu tiên của nước ta.</span></div>
           </div>
@@ -1448,12 +1455,12 @@ footer .footer-ref {
           <div class="timeline-year">Thu Đông 1947</div>
           <div class="timeline-heading">Chiến dịch Việt Bắc Thu Đông 1947 — Đập tan chiến lược "Đánh nhanh thắng nhanh"</div>
           <div class="timeline-text">
-            Tháng 10/1947, thực dân Pháp huy động hơn 12.000 quân tinh nhuệ, hàng trăm máy bay, tàu chiến mở cuộc hành quân Léa 
+            Tháng 10/1947, thực dân Pháp huy động hơn 10.000 quân tinh nhuệ, 40 máy bay và 40 tàu xuồng mở cuộc hành quân Léa 
             tập kích quy mô lớn vào chiến khu Việt Bắc nhằm tiêu diệt cơ quan đầu não kháng chiến và tiêu diệt bộ đội chủ lực của ta.
           </div>
           <div class="timeline-expanded-content">
             <div class="detail-item"><span class="detail-bullet"></span><span><strong>Thế trận hiểm hóc của giặc Pháp:</strong> Địch mở cuộc hành quân với hai gọng kìm khổng lồ bao vây căn cứ địa: gọng kìm phía Đông theo Đường số 4 do binh đoàn Beaufré chỉ huy; gọng kìm phía Tây theo sông Hồng, sông Lô do binh đoàn Communal chỉ huy; kết hợp nhảy dù chiếm Bắc Kạn, Chợ Đồn, Chợ Mới hòng bắt sống Chủ tịch Hồ Chí Minh và cơ quan đầu não.</span></div>
-            <div class="detail-item"><span class="detail-bullet"></span><span><strong>Những đòn sấm sét của quân dân ta:</strong> Ban Thường vụ Trung ương Đảng ra chỉ thị lịch sử <em>"Phải phá tan cuộc tiến công mùa đông của giặc Pháp"</em>. Bộ đội ta phục kích bẻ gãy gọng kìm sông Lô trong trận thủy chiến Đoan Hùng (bắn chìm hàng chục tàu chiến địch), phục kích chặt đứt gọng kìm đường bộ tại đèo Bông Lau trên Đường số 4, loại khỏi vòng chiến hơn 3.300 tên địch, bắn rơi 16 máy bay.</span></div>
+            <div class="detail-item"><span class="detail-bullet"></span><span><strong>Những đòn sấm sét của quân dân ta:</strong> Ban Thường vụ Trung ương Đảng ra chỉ thị lịch sử <em>"Phải phá tan cuộc tiến công mùa đông của giặc Pháp"</em>. Bộ đội ta phục kích bẻ gãy gọng kìm sông Lô trong trận thủy chiến Đoan Hùng (bắn chìm hàng chục tàu chiến địch), phục kích chặt đứt gọng kìm đường bộ tại đèo Bông Lau trên Đường số 4, loại khỏi vòng chiến đấu trên 7.200 quân địch, bắn rơi 18 máy bay, đánh chìm 54 tàu xuồng.</span></div>
             <div class="detail-item"><span class="detail-bullet"></span><span><strong>Ý nghĩa bước ngoặt chiến lược:</strong> Cơ quan đầu não kháng chiến và các cơ quan Trung ương được bảo vệ tuyệt đối an toàn. Chiến dịch Việt Bắc đã làm phá sản hoàn toàn chiến lược "đánh nhanh, thắng nhanh" của thực dân Pháp, buộc địch phải chuyển sang chiến lược "đánh lâu dài", chuyển hướng dùng người Việt đánh người Việt, lấy chiến tranh nuôi chiến tranh.</span></div>
           </div>
           <div class="read-more-hint">
@@ -1729,7 +1736,7 @@ footer .footer-ref {
                     <img src="img/ChuaBiet/IMG_6222.jpg" alt="Bác Hồ đọc Tuyên ngôn Độc lập Ba Đình & Quốc hội Khóa I" loading="lazy">
                   </div>
                   <div class="museum-photo-thumb">
-                    <img src="img/ChuaBiet/IMG_6224.jpg" alt="Tư liệu phong trào kháng chiến" loading="lazy">
+                    <img src="img/ChuaBiet/IMG_6224.jpg" alt="Lễ thành lập Mặt trận Dân tộc Giải phóng (20/12/1960)" loading="lazy">
                   </div>
                 </div>
               </div>
@@ -1740,18 +1747,18 @@ footer .footer-ref {
                 <p>
                   <strong>Phong trào đấu tranh chính trị đô thị Sài Gòn – Chợ Lớn (1950):</strong><br>
                   Tư liệu về cuộc bãi khóa ngày <strong>9/1/1950</strong> của hơn 2.000 học sinh, sinh viên trường Pétrus Ký, Gia Long... đòi thả các bạn bị bắt, đòi mở lại trường học. 
-                  Thực dân Pháp đàn áp dã man khiến anh học sinh 19 tuổi <strong>Trần Văn Ơn</strong> hy sinh anh dũng. Đám tang Trần Văn Ơn ngày 12/1/1950 biến thành cuộc biểu tình khổng lồ của hơn 30 vạn người dân Sài Gòn; ngày 9/1 từ đó được chọn làm <em>Ngày truyền thống Học sinh - Sinh viên Việt Nam</em>.<br>
+                  Thực dân Pháp đàn áp dã man khiến anh học sinh 19 tuổi <strong>Trần Văn Ơn</strong> hy sinh anh dũng. Đám tang Trần Văn Ơn ngày 12/1/1950 biến thành cuộc biểu tình khổng lồ của hơn 5 vạn người dân Sài Gòn; ngày 9/1 từ đó được chọn làm <em>Ngày truyền thống Học sinh - Sinh viên Việt Nam</em>.<br>
                   Tiếp đó, ngày <strong>19/3/1950</strong>, hơn 50 vạn đồng bào Sài Gòn – Chợ Lớn dưới sự dẫn đầu của Luật sư Nguyễn Hữu Thọ đã xuống đường rầm rộ phản đối 2 tàu chiến Mỹ (Anderson và Stickell) cập cảng Sài Gòn can thiệp quân sự, buộc tàu chiến Mỹ phải nhổ neo rút lui. Ngày 19/3 trở thành <em>Ngày Toàn quốc chống Mỹ</em> đầu tiên của nhân dân ta.
                 </p>
                 <div class="museum-photo-strip">
                   <div class="museum-photo-thumb">
-                    <img src="img/TheGioiUngHoVN%20KhangChien/IMG_6268.jpg" alt="Tài liệu phong trào quốc tế" loading="lazy">
+                    <img src="img/TheGioiUngHoVN%20KhangChien/IMG_6268.jpg" alt="Bảng trưng bày 'Thế giới ủng hộ Việt Nam'" loading="lazy">
                   </div>
                   <div class="museum-photo-thumb">
-                    <img src="img/TheGioiUngHoVN%20KhangChien/IMG_6269.jpg" alt="Áp phích đoàn kết chống can thiệp" loading="lazy">
+                    <img src="img/TheGioiUngHoVN%20KhangChien/IMG_6269.jpg" alt="Bảng trưng bày phong trào ủng hộ Việt Nam tại châu Âu" loading="lazy">
                   </div>
                   <div class="museum-photo-thumb">
-                    <img src="img/NhaTuConDaoP2/IMG_6091.jpg" alt="Phong trào đấu tranh trong lao tù" loading="lazy">
+                    <img src="img/PhongHoiNiem/IMG_6191.jpg" alt="Bảng ảnh phong trào đấu tranh năm 1950" loading="lazy">
                   </div>
                 </div>
               </div>
@@ -1771,7 +1778,7 @@ footer .footer-ref {
                     <img src="img/ChuaBiet/IMG_6228.jpg" alt="Hội nghị Giơnevơ & Ngày 16/5/1955 quân Pháp rút hết khỏi VN" loading="lazy">
                   </div>
                   <div class="museum-photo-thumb">
-                    <img src="img/NhaTuConDaoP2/IMG_6095.jpg" alt="Chiến sĩ Điện Biên trong ngục tù" loading="lazy">
+                    <img src="img/NhaTuConDaoP2/IMG_6095.jpg" alt="Bảng trưng bày Nhà tù Phú Quốc" loading="lazy">
                   </div>
                 </div>
               </div>
@@ -2065,6 +2072,7 @@ document.addEventListener('DOMContentLoaded', () => {
   
   // ─── HOVER PARALLAX ON HIGHLIGHT CARDS ─────────────────────
   document.querySelectorAll('.highlight-card').forEach(card => {
+    gsap.set(card, { transformPerspective: 800, transformOrigin: 'center center', rotateX: 0, rotateY: 0, y: 0 });
     card.addEventListener('mousemove', (e) => {
       const rect = card.getBoundingClientRect();
       const x = (e.clientX - rect.left) / rect.width - 0.5;
@@ -2074,6 +2082,7 @@ document.addEventListener('DOMContentLoaded', () => {
         rotateY: x * 6,
         rotateX: -y * 6,
         transformPerspective: 800,
+        overwrite: 'auto',
         duration: 0.4,
         ease: 'power2.out'
       });
@@ -2083,6 +2092,7 @@ document.addEventListener('DOMContentLoaded', () => {
       gsap.to(card, {
         rotateY: 0,
         rotateX: 0,
+        overwrite: 'auto',
         duration: 0.6,
         ease: 'power2.out'
       });
@@ -2125,5 +2135,6 @@ document.addEventListener('DOMContentLoaded', () => {
 });
 </script>
 
+<script src="lightbox.js"></script>
 </body>
 </html>
